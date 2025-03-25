@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+  --primary-color: #00a1e3;
+  --primary-light: #e6f7ff;
+  --primary-dark: #006591;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Definición de componentes reutilizables */
+.btn-primary {
+  @apply bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full transition-colors duration-200;
+}
+
+.btn-secondary {
+  @apply bg-blue-100 text-blue-600 px-4 py-2 rounded-full transition-colors duration-200;
+}
+
+.btn-outline {
+  @apply border border-blue-500 text-blue-500 hover:bg-blue-50 px-6 py-2 rounded-full transition-colors duration-200;
+}
+
+.input-search {
+  @apply w-full p-4 outline-none text-gray-700 bg-white rounded-full;
+}
