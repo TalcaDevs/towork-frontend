@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
           Iniciar Sesión
         </Link>
         <Link 
-          to="/comenzar" 
+          to="/signup" 
           className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full transition-colors duration-200 flex items-center"
         >
           Comenzar

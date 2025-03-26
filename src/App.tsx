@@ -1,16 +1,11 @@
 import "./App.css";
-import Navbar from "../src/components/Navbar";
-import HeroSection from "./components/sections/Herosection";
+import { useRoutes } from 'react-router-dom';
+import { routes } from './routes/routes';
 
 function App() {
-  return (
-    <>
-      <div className="min-h-screen">
-        <Navbar />
-        <HeroSection />
-      </div>
-    </>
-  );
+  const element = useRoutes(routes);
+
+  return element;
 }
 
 export default App;
