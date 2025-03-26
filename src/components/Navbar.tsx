@@ -10,7 +10,7 @@ const NavItem: React.FC<NavItemProps> = ({ to, label }) => {
   return (
     <Link 
       to={to} 
-      className="text-gray-600 hover:text-blue-500 transition-colors duration-200 px-4 py-2"
+      className="text-black hover:text-blue-500 transition-colors duration-200 px-4 py-2"
     >
       {label}
     </Link>
@@ -19,9 +19,9 @@ const NavItem: React.FC<NavItemProps> = ({ to, label }) => {
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="flex items-center justify-between px-8 py-4 bg-black">
+    <nav className="flex items-center justify-evenly px-8 py-4 bg-[#f6f7f9] sticky top-0">
       <div className="flex items-center">
-        <Link to="/" className="text-2xl font-bold text-blue-500">
+        <Link to="/" className="text-2xl font-bold text-black">
           ToWork
         </Link>
       </div>
@@ -36,12 +36,12 @@ const Navbar: React.FC = () => {
       </div>
       
       <div className="flex items-center space-x-4">
-        <Link to="/iniciar-sesion" className="text-gray-600 hover:text-blue-500 transition-colors">
+        <Link to="/iniciar-sesion" className="text-black hover:text-blue-500 transition-colors">
           Iniciar Sesión
         </Link>
         <Link 
           to="/comenzar" 
-          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full transition-colors duration-200 flex items-center"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full transition-colors duration-200 flex items-center"
         >
           Comenzar
           <svg 

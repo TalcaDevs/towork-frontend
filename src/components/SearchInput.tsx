@@ -32,7 +32,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
       />
       <button 
         type="submit"
-        className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full transition-colors duration-200 flex items-center"
+        className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-full transition-colors duration-200 flex items-center"
       >
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
