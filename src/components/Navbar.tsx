@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
 
       <div className="flex items-center space-x-4">
         <Link
-          to="/iniciar-sesion"
+          to="/signin"
           className="text-black hover:text-blue-500 transition-colors"
         >
           Iniciar Sesión

@@ -1,12 +1,13 @@
 import React from "react";
 import { CardSectionProps } from "../../interfaces/cards.interface";
 import Cards from "../Cards";
+import Title from "../Title";
 
 const CardSection: React.FC<CardSectionProps> = ({ title, cards }) => {
   return (
     <section className="bg-[#f6f7f9] py-8">
       <div className="container mx-auto px-20">
-        <h2 className="text-6xl font-bold mb-6 text-center">{title}</h2>
+        <Title title={title} />
         <div className="overflow-x-auto pb-4">
           <div className="flex gap-6 min-w-max">
             {cards.map((card) => (
