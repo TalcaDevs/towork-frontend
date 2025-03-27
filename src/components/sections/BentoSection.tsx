@@ -6,13 +6,6 @@ import PackageIcon from "../../assets/icons/PackageIcon";
 import FileTextIcon from "../../assets/icons/FileTextIcon";
 import PrinterIcon from "../../assets/icons/PrinterIcon";
 
-// Añadiendo la fuente Poppins
-// Nota: En un proyecto real, esto se haría en un archivo global o en _app.tsx/document.tsx
-// Esta es solo una representación para el componente aislado
-const fontStyle = `
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-`;
-
 const JobCategory: React.FC<JobCategoryProps> = ({
   title,
   description,

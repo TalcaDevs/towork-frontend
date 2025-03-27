@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "../Button";
 import SearchInput from "../SearchInput";
 import StarPurple from "../../assets/icons/StarPurpleIcon";
 import StarBlue from "../../assets/icons/StarBlueIcon";
