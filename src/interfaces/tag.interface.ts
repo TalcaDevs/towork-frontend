@@ -1,3 +1,4 @@
 export interface TagProps {
-    label: string;
-  }
+  label: string;
+  delay?: number;
+}

@@ -3,7 +3,10 @@ import React from 'react';
 import Home from '../pages/Home';
 import SignUp from '../pages/SignUp';
 import SignIn from '../pages/SignIn';
+import AuthGuard from '../middlewares/AuthGuard';
+import NotFound from '../pages/404';
 
+// Public routes accessible to all users
 export const routes: RouteObject[] = [
   {
     path: '/',
@@ -17,8 +20,20 @@ export const routes: RouteObject[] = [
     path: '/signin',
     element: React.createElement(SignIn)
   },
+  
+  // Protected route with AuthGuard
   {
     path: '/profile',
-    element: React.createElement(React.lazy(() => import('../pages/Profile')))
+    element: React.createElement(
+      AuthGuard, 
+      null, 
+      React.createElement(React.lazy(() => import('../pages/Profile')))
+    )
+  },
+  
+  // 404 fallback (optional)
+  {
+    path: '*',
+    element: React.createElement(NotFound)
   }
 ];

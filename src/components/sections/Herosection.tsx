@@ -1,97 +1,208 @@
 import React from "react";
+import { motion } from "framer-motion";
 import SearchInput from "../SearchInput";
 import StarPurple from "../../assets/icons/StarPurpleIcon";
 import StarBlue from "../../assets/icons/StarBlueIcon";
 
 interface PopularJobCategoryProps {
   label: string;
+  index: number;
 }
 
-const PopularJobCategory: React.FC<PopularJobCategoryProps> = ({ label }) => {
+const PopularJobCategory: React.FC<PopularJobCategoryProps> = ({ label, index }) => {
   return (
-    <div className="bg-blue-100 rounded-full border-2 border-blue-200 text-black px-4 py-2 text-sm cursor-pointer">
+    <motion.div 
+      className="bg-blue-100 rounded-full border-2 border-blue-200 text-black px-4 py-2 text-sm font-medium hover:bg-blue-200 transition-colors cursor-pointer"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ 
+        duration: 0.4, 
+        delay: 0.8 + (index * 0.1),
+        ease: "easeOut" 
+      }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
       {label}
-    </div>
+    </motion.div>
   );
 };
 
 const HeroSection: React.FC = () => {
-  return (
-    <div className="min-h-screen bg-[#f6f7f9]">
-      <div className="w-[calc(100%-100px)] mx-auto">
-        <div className="bg-blue-100 rounded-md px-50 py-10">
-          <div className="flex flex-col lg:flex-row">
-            <div className="lg:w-1/2 flex flex-col justify-center">
-              <div className="mb-8">
-                <button className="text-black bg-blue-100 rounded-full border-2 border-blue-200 px-4 py-2 text-sm cursor-pointer font-bold ">
-                  Comienza Gratis
-                </button>
-              </div>
+  const categories = [
+    "Tecnología", 
+    "Comercio Electrónico", 
+    "Salud y Bienestar", 
+    "Desarrollo"
+  ];
 
-              <h1 className="text-6xl font-bold mb-8">
+  return (
+    <section className="bg-[#f6f7f9] py-12 md:py-16 lg:py-20 overflow-hidden">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
+        <motion.div 
+          className="bg-blue-100 rounded-2xl px-6 py-10 md:p-12 lg:p-16 shadow-md"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ 
+            duration: 0.5,
+            ease: "easeOut"
+          }}
+        >
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            <div className="w-full lg:w-1/2 flex flex-col justify-center">
+              <motion.div 
+                className="mb-6"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2, duration: 0.4 }}
+              >
+                <motion.button 
+                  className="text-black bg-white rounded-full border-2 border-blue-200 px-4 py-2 text-sm font-bold hover:bg-blue-50 transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Comienza Gratis
+                </motion.button>
+              </motion.div>
+
+              <motion.h1 
+                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 lg:mb-8 leading-tight"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+              >
                 Modernizando la
                 <div className="flex items-center space-x-2 my-2">
-                  <span className="text-blue-500 relative">
+                  <motion.span 
+                    className="text-blue-500 relative"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.5 }}
+                  >
                     Búsqueda
-                    <span className="absolute -left-4 -top-4">
+                    <motion.span 
+                      className="absolute -left-4 -top-4 hidden sm:block"
+                      animate={{ 
+                        rotate: [0, 10, 0, -10, 0],
+                        scale: [1, 1.1, 1, 1.1, 1]
+                      }}
+                      transition={{ 
+                        repeat: Infinity,
+                        duration: 5,
+                        ease: "easeInOut"
+                      }}
+                    >
                       <StarBlue />
-                    </span>
-                  </span>
+                    </motion.span>
+                  </motion.span>
                   <span>de Empleo</span>
                 </div>
-                <span className="text-indigo-400">Profesional</span>
-                <span className="inline-block ml-2">
+                <motion.span 
+                  className="text-indigo-400"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                >
+                  Profesional
+                </motion.span>
+                <motion.span 
+                  className="inline-block ml-2"
+                  animate={{ 
+                    rotate: [0, -10, 0, 10, 0],
+                    scale: [1, 1.1, 1, 1.1, 1]
+                  }}
+                  transition={{ 
+                    repeat: Infinity,
+                    duration: 5,
+                    ease: "easeInOut",
+                    delay: 0.5
+                  }}
+                >
                   <StarPurple />
-                </span>
-              </h1>
+                </motion.span>
+              </motion.h1>
 
-              <p className="text-gray-700 mb-8 text-lg">
-                12.548 Empleos Publicados! La forma más rápida y conforme a la
+              <motion.p 
+                className="text-gray-700 mb-8 text-base md:text-lg"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
+              >
+                <span className="font-semibold">12.548 Empleos Publicados!</span> La forma más rápida y conforme a la
                 ley para descubrir, contratar y gestionar talento freelance.
-              </p>
+              </motion.p>
 
-              <div className="mb-8">
+              <motion.div 
+                className="mb-8 w-full max-w-xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.5 }}
+              >
                 <SearchInput
                   placeholder="Busca tu trabajo ideal..."
                   buttonText="Buscar"
                   onSearch={(query) => {
                     console.log("Búsqueda realizada:", query);
-                    // Aquí iría la lógica de búsqueda cuando se implemente
                   }}
                 />
-              </div>
+              </motion.div>
 
-              <div>
-                <p className="bg-blue-100 mb-3">Categorías Populares:</p>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+              >
+                <p className="text-gray-700 font-medium mb-3">Categorías Populares:</p>
                 <div className="flex flex-wrap gap-2">
-                  <PopularJobCategory label="Tecnología" />
-                  <PopularJobCategory label="Comercio Electrónico" />
-                  <PopularJobCategory label="Salud y Bienestar" />
-                  <PopularJobCategory label="Desarrollo" />
+                  {categories.map((category, index) => (
+                    <PopularJobCategory 
+                      key={index} 
+                      label={category} 
+                      index={index}
+                    />
+                  ))}
                 </div>
-              </div>
+              </motion.div>
             </div>
 
-            <div className="lg:w-1/2 flex justify-center items-center mt-10 lg:mt-0">
-              <div className="relative">
-                <div className="w-full h-full">
+            <div className="w-full lg:w-1/2 flex justify-center items-center">
+              <div className="relative max-w-md mx-auto">
+                <motion.div 
+                  className="w-full h-full"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
+                >
                   <img
                     src="/professional.svg"
                     alt="Profesional buscando trabajo"
-                    className="w-full h-auto"
+                    className="w-full h-auto object-contain"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src = "images/img_hero.png";
                     }}
                   />
-                </div>
+                </motion.div>
 
-                {/* Íconos flotantes similares a la imagen original */}
-                <div className="absolute top-10 right-10">
-                  <div className="bg-white p-2 rounded-full shadow-md">
+                {/* Floating icons with animation */}
+                <motion.div 
+                  className="absolute top-10 right-10 hidden md:block"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{
+                    opacity: 1,
+                    y: [0, -10, 0],
+                  }}
+                  transition={{
+                    delay: 0.8,
+                    duration: 3,
+                    ease: "easeInOut",
+                    repeat: Infinity,
+                  }}
+                >
+                  <div className="bg-white p-3 rounded-full shadow-lg">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-8 w-8 text-yellow-500"
+                      className="h-8 w-8 text-blue-500"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -101,33 +212,38 @@ const HeroSection: React.FC = () => {
                       <line x1="21" y1="21" x2="16.65" y2="16.65" />
                     </svg>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="absolute bottom-10 right-0">
-                  <div className="bg-white p-2 rounded-full shadow-md">
+                <motion.div 
+                  className="absolute bottom-10 right-0 hidden md:block"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 4,
+                    ease: "easeInOut",
+                    delay: 0.5
+                  }}
+                >
+                  <div className="bg-white p-3 rounded-full shadow-lg">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-8 w-8"
+                      className="h-8 w-8 text-indigo-500"
                       viewBox="0 0 24 24"
                       fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
                     >
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"
-                        fill="#DB4437"
-                      />
-                      <path
-                        d="M12 5C10.11 5 8.5 5.67 7.31 6.81L4.5 4V9H9.5L7.14 6.64C8 5.92 9 5.5 10 5.5C13 5.5 15.5 8 15.5 11H16C16 7.13 12.87 4 9 4H8.5L11 1.5L8.5 1L4.5 5H4L7.5 8.5L11 5H12Z"
-                        fill="#4285F4"
-                      />
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                     </svg>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 
