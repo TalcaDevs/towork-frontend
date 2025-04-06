@@ -5,15 +5,20 @@ import { featuredCards } from '../data/mockCards';
 
 function Home() {
   return (
-    <>
-      <div className="min-h-screen">
+    <div className="flex flex-col min-h-screen bg-[#f6f7f9]">
+      <main className="flex-grow">
+        {/* Hero Section */}
         <HeroSection />
+        
+        {/* Job Categories Section */}
         <BentoSection />
-        <main className="">
-          <CardSection title="Artículos destacados" cards={featuredCards} />
-        </main>
-      </div>
-    </>
+        
+        {/* Featured Articles Section */}
+        <CardSection title="Artículos destacados" cards={featuredCards} />
+        
+       
+      </main>
+    </div>
   );
 }
 
