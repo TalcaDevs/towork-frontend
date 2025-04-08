@@ -3,7 +3,7 @@ import { SignInCredentials, AuthResponse, AuthTokens } from "../interfaces/auth.
 export class AuthService {
   private static readonly ACCESS_TOKEN_KEY = "access";
   private static readonly REFRESH_TOKEN_KEY = "refresh";
-  private static readonly API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+  private static readonly API_URL = import.meta.env.VITE_API_URL || "";
 
   public static async signIn(
     credentials: SignInCredentials
@@ -12,28 +12,6 @@ export class AuthService {
       console.log('AuthService.signIn called with:', credentials);
       console.log('Using API URL:', this.API_URL);
       
-      // For development environment, simulate successful login
-      if (import.meta.env.VITE_ENV === 'development' || !this.API_URL.includes('127.0.0.1')) {
-        console.log('Development mode: simulating successful login');
-        
-        // Mock login response for development
-        const mockResponse: Required<AuthResponse> = {
-          access: "mock_access_token_" + Date.now(),
-          refresh: "mock_refresh_token_" + Date.now(),
-          message: "Inicio de sesión exitoso (simulado)"
-        };
-        
-        // Store the mock tokens
-        this.setTokens({
-          access: mockResponse.access,
-          refresh: mockResponse.refresh
-        });
-        
-        console.log('Mock tokens stored:', mockResponse);
-        return mockResponse;
-      }
-      
-      // Production code with real API call
       const response = await fetch(`${this.API_URL}/users/signin/`, {
         method: "POST",
         headers: {
@@ -106,13 +84,7 @@ export class AuthService {
     try {
       console.log('Attempting to refresh token');
       
-      // For development, always return true
-      if (import.meta.env.VITE_ENV === 'development') {
-        console.log('Development mode: simulating successful token refresh');
-        return true;
-      }
-      
-      const response = await fetch(`${this.API_URL}/users/refresh-token/`, {
+      const response = await fetch(`${this.API_URL}/users/token/refresh/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

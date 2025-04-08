@@ -21,7 +21,6 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
         console.log('Initial auth check:', isAuth);
         
         if (isAuth) {
-          // Tokens exist, try to refresh the token to ensure it's still valid
           const refreshSuccess = await AuthService.refreshToken();
           console.log('Token refresh result:', refreshSuccess);
           setIsAuthenticated(refreshSuccess);
