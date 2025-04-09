@@ -3,7 +3,7 @@ import { SignInCredentials, AuthResponse, AuthTokens } from "../interfaces/auth.
 export class AuthService {
   private static readonly ACCESS_TOKEN_KEY = "access";
   private static readonly REFRESH_TOKEN_KEY = "refresh";
-  private static readonly API_URL = import.meta.env.VITE_API_URL || "";
+  private static readonly API_URL = import.meta.env.VITE_API_URL || "http://184.73.49.129:8000";
 
   public static async signIn(
     credentials: SignInCredentials
@@ -39,6 +39,74 @@ export class AuthService {
       return {
         message: "Error al conectar con el servidor",
       };
+    }
+  }
+
+  public static async signUp(userData: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+  }): Promise<AuthResponse> {
+    try {
+      console.log('AuthService.signUp called with:', userData);
+      
+      const response = await fetch(`${this.API_URL}/users/signup/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "*/*"
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data: AuthResponse = await response.json();
+      console.log('API signup response:', data);
+
+      if (data.access && data.refresh) {
+        this.setTokens({
+          access: data.access,
+          refresh: data.refresh,
+        });
+        console.log('Tokens stored successfully after signup');
+      } else {
+        console.warn('No tokens in signup response');
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Signup error:", error);
+      return {
+        message: "Error al conectar con el servidor",
+      };
+    }
+  }
+
+  public static async saveProfile(profileData: any): Promise<any> {
+    try {
+      console.log('AuthService.saveProfile called with:', profileData);
+      
+      const tokens = this.getTokens();
+      if (!tokens) {
+        throw new Error('No auth tokens available');
+      }
+      
+      const response = await fetch(`${this.API_URL}/users/save-profile/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${tokens.access}`
+        },
+        body: JSON.stringify(profileData),
+      });
+
+      const data = await response.json();
+      console.log('API save profile response:', data);
+
+      return data;
+    } catch (error) {
+      console.error("Save profile error:", error);
+      throw error;
     }
   }
 
