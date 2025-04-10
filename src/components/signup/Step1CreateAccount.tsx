@@ -3,17 +3,9 @@ import { motion } from 'framer-motion';
 import Input from '../Input';
 import Button from '../Button';
 import AuthService from '../../services/AuthService';
-
-interface Step1Props {
-  userData: any;
-  updateUserData: (data: any) => void;
-  nextStep: () => void;
-  loading: boolean;
-  error: string | null;
-  setLoading: (loading: boolean) => void;
-  setError: (error: string | null) => void;
-  setSuccess: (success: string | null) => void;
-}
+import { Step1Props, RegistrationFormErrors } from '../../interfaces/signup.interface';
+import { validateRegistrationForm } from "../../utils/validation";
+import { containerVariants, itemVariants, errorVariants } from '../../utils/animation';
 
 const Step1CreateAccount: React.FC<Step1Props> = ({ 
   userData, 
@@ -25,141 +17,83 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
   setError, 
   setSuccess 
 }) => {
-  // Local form validation
-  const [formErrors, setFormErrors] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    password: '',
-    password_confirm: ''
-  });
-  
+  // Estado para confirmación de contraseña
   const [passwordConfirm, setPasswordConfirm] = useState('');
   
-  // Handle form input changes
+  // Estado para errores de validación del formulario
+  const [formErrors, setFormErrors] = useState<RegistrationFormErrors>({});
+  
+  // Manejar cambios en los inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     
-    // Update the userData in parent component
+    // Actualizar datos en el componente padre
     updateUserData({ [name]: value });
     
-    // Clear error for this field when user types
-    if (formErrors[name as keyof typeof formErrors]) {
+    // Limpiar error para este campo cuando el usuario escribe
+    if (formErrors[name as keyof RegistrationFormErrors]) {
       setFormErrors({
         ...formErrors,
-        [name]: ''
+        [name]: undefined
       });
     }
   };
   
-  // Handle password confirmation changes
+  // Manejar cambio de confirmación de contraseña
   const handlePasswordConfirmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordConfirm(e.target.value);
     
-    // Clear error when user types
+    // Limpiar error cuando el usuario escribe
     if (formErrors.password_confirm) {
       setFormErrors({
         ...formErrors,
-        password_confirm: ''
+        password_confirm: undefined
       });
     }
   };
   
-  // Validate form before submission
-  const validateForm = () => {
-    let valid = true;
-    const newErrors = { ...formErrors };
-    
-    // Validate first name
-    if (!userData.first_name.trim()) {
-      newErrors.first_name = 'El nombre es requerido';
-      valid = false;
-    }
-    
-    // Validate last name
-    if (!userData.last_name.trim()) {
-      newErrors.last_name = 'El apellido es requerido';
-      valid = false;
-    }
-    
-    // Validate email
-    if (!userData.email.trim()) {
-      newErrors.email = 'El email es requerido';
-      valid = false;
-    } else if (!/\S+@\S+\.\S+/.test(userData.email)) {
-      newErrors.email = 'El email no es válido';
-      valid = false;
-    }
-    
-    // Validate password
-    if (!userData.password) {
-      newErrors.password = 'La contraseña es requerida';
-      valid = false;
-    } else if (userData.password.length < 8) {
-      newErrors.password = 'La contraseña debe tener al menos 8 caracteres';
-      valid = false;
-    }
-    
-    // Validate password confirmation
-    if (userData.password !== passwordConfirm) {
-      newErrors.password_confirm = 'Las contraseñas no coinciden';
-      valid = false;
-    }
-    
-    setFormErrors(newErrors);
-    return valid;
-  };
-  
-  // Handle form submission
+  // Manejar envío del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Reset error state
+    // Limpiar errores previos
     setError(null);
     
-    // Validate form
-    if (!validateForm()) {
+    // Validar formulario
+    const validation = validateRegistrationForm(
+      userData.first_name,
+      userData.last_name,
+      userData.email,
+      userData.password,
+      passwordConfirm
+    );
+    
+    // Si hay errores de validación, mostrarlos y detener el proceso
+    if (!validation.isValid) {
+      setFormErrors(validation.errors);
       return;
     }
     
     setLoading(true);
     
     try {
-      // Call the API to create an account
-      const response = await fetch('http://184.73.49.129:8000/users/signup/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'accept': '*/*'
-        },
-        body: JSON.stringify({
-          first_name: userData.first_name,
-          last_name: userData.last_name,
-          email: userData.email,
-          password: userData.password
-        })
+      // Llamar al servicio de registro
+      const response = await AuthService.signUp({
+        first_name: userData.first_name,
+        last_name: userData.last_name,
+        email: userData.email,
+        password: userData.password
       });
       
-      const data = await response.json();
-      
-      if (response.ok) {
-        // Store tokens in localStorage
-        if (data.access && data.refresh) {
-          AuthService.setTokens({
-            access: data.access,
-            refresh: data.refresh
-          });
-        }
+      if (response.access && response.refresh) {
+        // Mostrar mensaje de éxito
+        setSuccess(response.message || 'Cuenta creada exitosamente');
         
-        // Show success message
-        setSuccess(data.message || 'Cuenta creada exitosamente');
-        
-        // Proceed to next step
+        // Avanzar al siguiente paso
         nextStep();
       } else {
-        // Handle server validation errors
-        const errorMessage = data.message || data.detail || 'Error al crear la cuenta';
-        setError(errorMessage);
+        // Mostrar error del servidor
+        setError(response.message || 'Error al crear la cuenta');
       }
     } catch (error) {
       console.error('Signup error:', error);
@@ -169,33 +103,17 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
     }
   };
   
-  // Animation variants
-  const formVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-  
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-  
   return (
     <motion.form 
       onSubmit={handleSubmit}
       className="flex-1 flex flex-col"
-      variants={formVariants}
+      variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       <div className="space-y-5 flex-1">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* First Name */}
+          {/* Nombre */}
           <motion.div variants={itemVariants}>
             <Input
               id="first_name"
@@ -211,7 +129,7 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
             />
           </motion.div>
           
-          {/* Last Name */}
+          {/* Apellido */}
           <motion.div variants={itemVariants}>
             <Input
               id="last_name"
@@ -248,7 +166,7 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
           />
         </motion.div>
         
-        {/* Password */}
+        {/* Contraseña */}
         <motion.div variants={itemVariants}>
           <Input
             id="password"
@@ -268,7 +186,7 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
           />
         </motion.div>
         
-        {/* Password Confirmation */}
+        {/* Confirmación de contraseña */}
         <motion.div variants={itemVariants}>
           <Input
             id="password_confirm"
@@ -289,13 +207,11 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
         </motion.div>
       </div>
       
-      {/* Error message */}
+      {/* Mensaje de error */}
       {error && (
         <motion.div 
           className="mt-4 p-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          {...errorVariants}
         >
           <div className="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -306,7 +222,7 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
         </motion.div>
       )}
       
-      {/* Submit button */}
+      {/* Botón de envío */}
       <motion.div 
         className="mt-8"
         variants={itemVariants}

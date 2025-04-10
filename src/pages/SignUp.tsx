@@ -1,81 +1,85 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import Input from "../components/Input";
-import Button from "../components/Button";
 import FeatureShowcase from "../components/sections/ShowcaseSection";
 import Logo from "../assets/icons/Logo";
-import ArrowRightIcon from "../assets/icons/ArrowRightIcon";
-import AuthService from "../services/AuthService";
+import { UserRegistrationData } from "../interfaces/signup.interface";
+import { containerVariants, itemVariants } from "../utils/animation";
 
-// Step components
+// Componentes de los pasos
 import Step1CreateAccount from "../components/signup/Step1CreateAccount";
 import Step2FillInfo from "../components/signup/Step2FillInfo";
 import Step3ChooseTemplate from "../components/signup/Step3ChooseTemplate";
 import Step4Confirmation from "../components/signup/Step4Confirmation";
+import StepsIndicator from "../components/signup/steps/StepsIndicator";
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   
-  // Registration data
-  const [userData, setUserData] = useState({
-    // Basic account data
+  // Datos de registro
+  const [userData, setUserData] = useState<UserRegistrationData>({
+    // Datos básicos (paso 1)
     first_name: "",
     last_name: "",
     email: "",
     password: "",
     
-    // Profile data
+    // Datos de perfil (paso 2)
     foto_perfil: "",
     descripcion: "",
     telefono: "",
     ubicacion: "",
     linkedin: "",
     id_portafolio_web: "",
+    
+    // Colecciones de datos
     educacion: [],
     experiencia: [],
     certificaciones: [],
     proyectos: [],
     skills: [],
-    idiomas: []
+    idiomas: [],
+    
+    // Plantilla seleccionada (paso 3)
+    templateId: ""
   });
 
-  // Messages and errors
+  // Estados para mensajes y carga
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Handle data updates from steps
-  const updateUserData = (data: any) => {
+  // Actualizar datos del usuario
+  const updateUserData = (data: Partial<UserRegistrationData>) => {
     setUserData(prevData => ({
       ...prevData,
       ...data
     }));
   };
 
-  // Progress to next step
+  // Avanzar al siguiente paso
   const nextStep = () => {
     if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
   };
 
-  // Go back to previous step
+  // Volver al paso anterior
   const prevStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
   };
 
-  // Skip step (for optional info)
+  // Saltar paso (para información opcional)
   const skipStep = () => {
     if (currentStep === 2) {
       nextStep();
     }
   };
 
-  // Render the current step
+  // Renderizar el paso actual
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -134,50 +138,6 @@ const SignUp: React.FC = () => {
     }
   };
 
-  // Steps progress indicator component
-  const StepsIndicator = () => {
-    return (
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          {[1, 2, 3, 4].map((step) => (
-            <div key={step} className="flex flex-col items-center">
-              <div 
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  step === currentStep
-                    ? "bg-blue-500 text-white"
-                    : step < currentStep
-                    ? "bg-green-500 text-white"
-                    : "bg-gray-200 text-gray-600"
-                }`}
-              >
-                {step < currentStep ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                ) : (
-                  step
-                )}
-              </div>
-              <div className="text-xs mt-2 text-gray-600 font-medium">
-                {step === 1 && "Crear cuenta"}
-                {step === 2 && "Información"}
-                {step === 3 && "Plantilla"}
-                {step === 4 && "Finalizar"}
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="relative flex mt-2">
-          <div className="w-full bg-gray-200 h-1 absolute top-0"></div>
-          <div 
-            className="bg-blue-500 h-1 absolute top-0 transition-all duration-300"
-            style={{ width: `${(currentStep - 1) * 33.33}%` }}
-          ></div>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <motion.div 
       className="w-full min-h-[calc(100vh-80px)] py-8 lg:py-12 bg-gray-50"
@@ -197,36 +157,27 @@ const SignUp: React.FC = () => {
             {/* Header with logo */}
             <motion.div 
               className="mb-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
             >
               <motion.div 
                 className="w-10 h-10 mb-6"
-                initial={{ scale: 0.5, rotate: -10 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ 
-                  duration: 0.5,
-                  type: "spring", 
-                  stiffness: 260, 
-                  damping: 20 
-                }}
+                variants={itemVariants}
                 whileHover={{ rotate: 5, scale: 1.1 }}
               >
                 <Logo />
               </motion.div>
               <motion.h1 
                 className="text-3xl font-bold text-slate-900 mb-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
+                variants={itemVariants}
               >
                 Registro Paso {currentStep}
               </motion.h1>
             </motion.div>
 
             {/* Steps progress indicator */}
-            <StepsIndicator />
+            <StepsIndicator currentStep={currentStep} />
 
             {/* Current step content */}
             {renderStep()}
