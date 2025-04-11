@@ -70,8 +70,19 @@ export const containerVariants = {
   // Animación para señalar error
   export const errorVariants = {
     initial: { opacity: 0, y: -10 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.3 }
+    animate: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        type: "tween" // Cambiado de "spring" a "tween"
+      }
+    },
+    exit: { 
+      opacity: 0,
+      transition: {
+        type: "tween" // Cambiado de "spring" a "tween"
+      }
+    }
   };
   
   // Animación para íconos de carga (spinner)

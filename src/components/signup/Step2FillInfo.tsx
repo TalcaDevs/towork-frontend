@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Button from '../Button';
 import { Step2Props, LanguageItem } from '../../interfaces/signup.interface';
-import { containerVariants, itemVariants, errorVariants } from '../../utils/animation';
+import { containerVariants, itemVariants } from '../../utils/animation';
 import BasicInfoForm from './forms/BasicInfoForm';
 import EducationForm from './forms/EducationForm';
 import ExperienceForm from './forms/ExperienceForm';
@@ -11,6 +11,8 @@ import CertificationsForm from './forms/CertificationsForm';
 import ProjectsForm from './forms/ProjectsForm';
 import AuthService from '../../services/AuthService';
 import LanguagesForm from './forms/LanguagesForm';
+import { validateProfileForm, ProfileFormErrors } from '../../utils/validation';
+import RequiredFieldsInfo from '../signup/forms/RequiredFieldInfo';
 
 const Step2FillInfo: React.FC<Step2Props> = ({ 
   userData, 
@@ -24,20 +26,47 @@ const Step2FillInfo: React.FC<Step2Props> = ({
   setError, 
   setSuccess 
 }) => {
+  // Estado para errores de formulario
+  const [formErrors, setFormErrors] = useState<ProfileFormErrors>({});
+
   // Manejar cambios en los inputs básicos
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     updateUserData({ [name]: value });
+    
+    // Limpiar error cuando el usuario modifica un campo
+    if (formErrors[name as keyof ProfileFormErrors]) {
+      setFormErrors(prev => ({
+        ...prev,
+        [name]: undefined
+      }));
+    }
   };
   
   // Actualizar educación
   const updateEducation = (education: any[]) => {
     updateUserData({ educacion: education });
+    
+    // Limpiar error de educación si se agregó una entrada
+    if (education.length > 0 && formErrors.educacion) {
+      setFormErrors(prev => ({
+        ...prev,
+        educacion: undefined
+      }));
+    }
   };
   
   // Actualizar experiencia
   const updateExperience = (experience: any[]) => {
     updateUserData({ experiencia: experience });
+    
+    // Limpiar error de experiencia si se agregó una entrada
+    if (experience.length > 0 && formErrors.experiencia) {
+      setFormErrors(prev => ({
+        ...prev,
+        experiencia: undefined
+      }));
+    }
   };
   
   // Actualizar habilidades
@@ -55,16 +84,68 @@ const Step2FillInfo: React.FC<Step2Props> = ({
     updateUserData({ proyectos: projects });
   };
 
+  // Actualizar idiomas
   const updateLanguages = (languages: LanguageItem[]) => {
-    console.log('Actualizando idiomas:', languages); // Para depuración
     updateUserData({ idiomas: languages });
+  };
+
+  // Función para verificar si hay cambios en el formulario
+  const hasFormChanges = () => {
+    return Boolean(
+      userData.descripcion || 
+      userData.telefono || 
+      userData.ubicacion || 
+      userData.linkedin || 
+      userData.id_portafolio_web ||
+      (userData.skills && userData.skills.length > 0) ||
+      (userData.educacion && userData.educacion.length > 0) ||
+      (userData.experiencia && userData.experiencia.length > 0) ||
+      (userData.certificaciones && userData.certificaciones.length > 0) ||
+      (userData.proyectos && userData.proyectos.length > 0) ||
+      (userData.idiomas && userData.idiomas.length > 0)
+    );
+  };
+  
+  // Manejar salto de paso
+  const handleSkip = () => {
+    // Si hay cambios, confirmamos que el usuario quiere saltar
+    if (hasFormChanges()) {
+      const confirmSkip = window.confirm(
+        "Has comenzado a llenar información. Si saltas este paso, los datos no se guardarán. ¿Estás seguro de que deseas continuar?"
+      );
+      
+      if (confirmSkip) {
+        skipStep();
+      }
+    } else {
+      // Si no hay cambios, simplemente salta
+      skipStep();
+    }
   };
   
   // Manejar envío del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    
+    // Limpiar errores previos
     setError(null);
+    setFormErrors({});
+    
+    // Validar el formulario
+    const validation = validateProfileForm(userData);
+    
+    // Si hay errores de validación, mostrarlos y detener el envío
+    if (!validation.isValid) {
+      setFormErrors(validation.errors);
+      setError("Por favor completa todos los campos requeridos antes de continuar");
+      
+      // Hacer scroll hacia arriba para mostrar el mensaje de error
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    
+    // Si pasa la validación, proceder con el envío
+    setLoading(true);
     
     try {
       const response = await AuthService.saveProfile({
@@ -87,6 +168,11 @@ const Step2FillInfo: React.FC<Step2Props> = ({
         setSuccess(response.message || 'Perfil actualizado exitosamente');
         nextStep();
       } else {
+        // Manejar errores del servidor
+        if (response.errors && typeof response.errors === 'object') {
+          // Si el servidor devuelve errores específicos para campos
+          setFormErrors(response.errors);
+        }
         setError(response.message || response.error || 'Error al actualizar el perfil');
       }
     } catch (error) {
@@ -108,7 +194,31 @@ const Step2FillInfo: React.FC<Step2Props> = ({
         <motion.p variants={itemVariants} className="text-gray-600 mb-2">
           Esta información nos ayudará a personalizar tu experiencia y mostrar tu perfil a reclutadores interesados. Puedes saltarte este paso y completarlo más tarde desde tu perfil.
         </motion.p>
+        
+        {/* Componente para mostrar info sobre campos requeridos */}
+        <RequiredFieldsInfo />
       </div>
+      
+      {/* Mensaje de error general */}
+      {error && (
+        <motion.div 
+          className="mb-6 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 rounded"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <p className="text-sm">{error}</p>
+            </div>
+          </div>
+        </motion.div>
+      )}
       
       <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-y-auto">
         <div className="space-y-6 overflow-y-auto max-h-[65vh] pr-2 pb-6">
@@ -121,19 +231,28 @@ const Step2FillInfo: React.FC<Step2Props> = ({
               linkedin: userData.linkedin || '',
               id_portafolio_web: userData.id_portafolio_web || ''
             }} 
-            handleChange={handleChange} 
+            handleChange={handleChange}
+            errors={{
+              descripcion: formErrors.descripcion,
+              telefono: formErrors.telefono,
+              ubicacion: formErrors.ubicacion,
+              linkedin: formErrors.linkedin,
+              id_portafolio_web: formErrors.id_portafolio_web
+            }}
           />
           
           {/* Educación */}
           <EducationForm 
             educationItems={userData.educacion} 
-            updateEducation={updateEducation} 
+            updateEducation={updateEducation}
+            error={formErrors.educacion}
           />
           
           {/* Experiencia */}
           <ExperienceForm 
             experienceItems={userData.experiencia} 
-            updateExperience={updateExperience} 
+            updateExperience={updateExperience}
+            error={formErrors.experiencia}
           />
           
           {/* Certificaciones */}
@@ -151,30 +270,16 @@ const Step2FillInfo: React.FC<Step2Props> = ({
           {/* Habilidades */}
           <SkillsForm 
             skills={userData.skills} 
-            updateSkills={updateSkills} 
+            updateSkills={updateSkills}
+            error={formErrors.skills}
           />
 
+          {/* Idiomas */}
           <LanguagesForm
             languages={userData.idiomas || []}
             updateLanguages={updateLanguages}
           />
-
         </div>
-        
-        {/* Mensaje de error */}
-        {error && (
-          <motion.div 
-            className="mt-4 p-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm"
-            {...errorVariants}
-          >
-            <div className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              {error}
-            </div>
-          </motion.div>
-        )}
         
         {/* Botones de acción */}
         <motion.div 
@@ -194,7 +299,7 @@ const Step2FillInfo: React.FC<Step2Props> = ({
             <Button 
               type="button" 
               variant="secondary" 
-              onClick={skipStep}
+              onClick={handleSkip}
             >
               Saltar por ahora
             </Button>

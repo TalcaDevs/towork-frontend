@@ -64,7 +64,6 @@ const Input: React.FC<InputProps> = ({
               viewBox="0 0 20 20" 
               fill="currentColor"
               initial={{ scale: 0 }}
-              animate={{ scale: 1, rotate: [0, 15, 0] }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
             >
               <path 

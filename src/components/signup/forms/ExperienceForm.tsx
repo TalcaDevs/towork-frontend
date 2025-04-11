@@ -8,6 +8,7 @@ import { ExperienceItem } from '../../../interfaces/signup.interface';
 interface ExperienceFormProps {
   experienceItems: ExperienceItem[];
   updateExperience: (experience: ExperienceItem[]) => void;
+  error?: string; // Propiedad opcional para manejar errores
 }
 
 const ExperienceForm: React.FC<ExperienceFormProps> = ({ 

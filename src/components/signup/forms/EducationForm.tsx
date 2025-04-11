@@ -7,12 +7,13 @@ import { EducationItem } from '../../../interfaces/signup.interface';
 
 interface EducationFormProps {
   educationItems: EducationItem[];
-  updateEducation: (education: EducationItem[]) => void;
+  updateEducation: (education: any[]) => void;
+  error?: string; // Añade esta propiedad opcional
 }
 
 const EducationForm: React.FC<EducationFormProps> = ({ 
   educationItems = [],
-  updateEducation
+  updateEducation,
 }) => {
   // Estado local para el nuevo ítem de educación
   const [newEducation, setNewEducation] = useState<EducationItem>({
