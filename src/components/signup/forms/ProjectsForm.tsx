@@ -30,7 +30,6 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
     imagen_proyecto: ''
   });
   
-  // Estado para manejar la edición
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -41,7 +40,6 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
     visible: { opacity: 1, y: 0 }
   };
   
-  // Manejadores
   const handleProjectChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setNewProject({
@@ -49,7 +47,6 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
       [name]: value
     });
     
-    // Limpiar errores cuando el usuario corrige
     if (errors[name]) {
       setErrors(prev => {
         const newErrors = { ...prev };
@@ -90,12 +87,10 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
     if (!validateForm()) return;
     
     if (isEditing && editIndex !== null) {
-      // Actualizar un ítem existente
       const updatedItems = [...projects];
       updatedItems[editIndex] = newProject;
       updateProjects(updatedItems);
       
-      // Resetear el estado de edición
       setIsEditing(false);
       setEditIndex(null);
     } else {
@@ -215,7 +210,6 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
         </div>
       )}
       
-      {/* Formulario para añadir proyecto */}
       <div className="space-y-3 bg-gray-50 p-4 rounded-lg">
         <h4 className="text-sm font-medium text-gray-700">
           {isEditing ? 'Editar Proyecto' : 'Agregar Nuevo Proyecto'}

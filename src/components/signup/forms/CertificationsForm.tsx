@@ -21,7 +21,6 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
   certifications = [],
   updateCertifications
 }) => {
-  // Estado local para la nueva certificación
   const [newCertification, setNewCertification] = useState<Certification>({
     nombre: '',
     institucion: '',
@@ -29,7 +28,6 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
     url_certificado: ''
   });
   
-  // Estado para manejar la edición
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -40,7 +38,6 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
     visible: { opacity: 1, y: 0 }
   };
   
-  // Manejadores
   const handleCertificationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewCertification({
@@ -48,7 +45,6 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
       [name]: value
     });
     
-    // Limpiar errores cuando el usuario corrige
     if (errors[name]) {
       setErrors(prev => {
         const newErrors = { ...prev };

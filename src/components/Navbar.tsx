@@ -24,7 +24,6 @@ const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Track scroll position to change navbar style
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -40,7 +39,6 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
-  // Handle window resize to close mobile menu on larger screens
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -54,7 +52,6 @@ const Navbar: React.FC = () => {
     };
   }, []);
 
-  // Navigation links data
   const navLinks = [
     { to: "/", label: "Inicio" },
     { to: "/encontrar-trabajos", label: "Encontrar Trabajos" },
@@ -89,7 +86,6 @@ const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* Action Buttons */}
           <div className="hidden md:flex items-center space-x-4">
             <Link
               to="/signin"

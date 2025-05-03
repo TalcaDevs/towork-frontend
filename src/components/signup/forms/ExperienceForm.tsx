@@ -8,14 +8,13 @@ import { ExperienceItem } from '../../../interfaces/signup.interface';
 interface ExperienceFormProps {
   experienceItems: ExperienceItem[];
   updateExperience: (experience: ExperienceItem[]) => void;
-  error?: string; // Propiedad opcional para manejar errores
+  error?: string; 
 }
 
 const ExperienceForm: React.FC<ExperienceFormProps> = ({ 
   experienceItems = [],
   updateExperience
 }) => {
-  // Estado local para el nuevo ítem de experiencia
   const [newExperience, setNewExperience] = useState<ExperienceItem>({
     empresa: '',
     puesto: '',
@@ -24,7 +23,6 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
     fecha_fin: ''
   });
   
-  // Estado para manejar la edición
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -35,7 +33,6 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
     visible: { opacity: 1, y: 0 }
   };
   
-  // Manejadores
   const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setNewExperience({
@@ -43,7 +40,6 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
       [name]: value
     });
     
-    // Limpiar errores cuando el usuario corrige
     if (errors[name]) {
       setErrors(prev => {
         const newErrors = { ...prev };
@@ -53,7 +49,6 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
     }
   };
   
-  // Validar el formulario
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
     
@@ -83,23 +78,19 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
     if (!validateForm()) return;
     
     if (isEditing && editIndex !== null) {
-      // Actualizar un ítem existente
       const updatedItems = [...experienceItems];
       updatedItems[editIndex] = newExperience;
       updateExperience(updatedItems);
       
-      // Resetear el estado de edición
       setIsEditing(false);
       setEditIndex(null);
     } else {
-      // Añadir un nuevo ítem
       if (newExperience.empresa && newExperience.puesto) {
         const updatedExperience = [...experienceItems, newExperience];
         updateExperience(updatedExperience);
       }
     }
     
-    // Reset form
     setNewExperience({
       empresa: '',
       puesto: '',

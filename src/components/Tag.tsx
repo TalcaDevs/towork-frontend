@@ -18,7 +18,7 @@ const Tag: React.FC<AnimatedTagProps> = ({ label, delay = 0 }) => {
       }}
       whileHover={{ 
         scale: 1.05, 
-        backgroundColor: "#DBEAFE", // lighter blue on hover
+        backgroundColor: "#DBEAFE",
         transition: { duration: 0.2 } 
       }}
       whileTap={{ scale: 0.95 }}

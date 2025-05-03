@@ -16,7 +16,6 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
     const checkAuth = async () => {
       console.log('AuthGuard: Checking authentication...');
       try {
-        // First check if there are tokens in localStorage
         const isAuth = AuthService.isAuthenticated();
         console.log('Initial auth check:', isAuth);
         
@@ -40,7 +39,6 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   }, []);
 
   if (isChecking) {
-    // Display a loading spinner while checking authentication
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-50">
         <motion.div
@@ -61,11 +59,9 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
 
   if (!isAuthenticated) {
     console.log('User not authenticated, redirecting to login');
-    // Redirect to login page if not authenticated, preserving the intended location
     return <Navigate to="/signin" state={{ from: location }} replace />;
   }
 
-  // Render children if authenticated
   console.log('User is authenticated, rendering protected content');
   return <>{children}</>;
 };

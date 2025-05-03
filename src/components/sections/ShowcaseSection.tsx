@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const FeatureShowcase: React.FC = () => {
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { 
@@ -19,7 +18,6 @@ const FeatureShowcase: React.FC = () => {
     visible: { opacity: 1, y: 0 }
   };
 
-  // Features to showcase
   const features = [
     {
       title: "Encuentra tu trabajo ideal",
@@ -52,7 +50,6 @@ const FeatureShowcase: React.FC = () => {
 
   return (
     <div className="h-full w-full bg-gradient-to-br from-slate-800 to-slate-900 relative p-8 md:p-12 flex flex-col justify-between overflow-hidden">
-      {/* Background image with overlay */}
       <div className="absolute inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1565328240088-1cdad16d123a?q=80&w=1000&auto=format&fit=crop" 
@@ -62,9 +59,7 @@ const FeatureShowcase: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-slate-800/80 to-slate-900/90"></div>
       </div>
 
-      {/* Content */}
       <div className="relative z-10 flex flex-col justify-between h-full">
-        {/* Header */}
         <motion.div 
           className="mb-12"
           initial={{ opacity: 0, y: -20 }}
@@ -89,7 +84,6 @@ const FeatureShowcase: React.FC = () => {
           </motion.p>
         </motion.div>
 
-        {/* Features list */}
         <motion.ul 
           className="space-y-6 mb-8"
           variants={containerVariants}
@@ -116,7 +110,6 @@ const FeatureShowcase: React.FC = () => {
           ))}
         </motion.ul>
 
-        {/* Testimonial */}
         <motion.div 
           className="bg-slate-700/50 rounded-lg p-4 border border-slate-600"
           initial={{ opacity: 0, y: 20 }}
@@ -139,7 +132,6 @@ const FeatureShowcase: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Decorative elements */}
         <motion.div 
           className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32"
           animate={{ 

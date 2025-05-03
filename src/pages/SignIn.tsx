@@ -19,19 +19,16 @@ const SignIn: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.1 }}
         >
-          {/* Left section - Sign in form */}
           <div className="w-full md:w-2/5 p-6 md:p-8 lg:p-10 flex flex-col">
             <WelcomeSection />
             <SignInForm />
           </div>
 
-          {/* Right section - Feature showcase */}
           <div className="hidden md:block md:w-3/5">
             <FeatureShowcase />
           </div>
         </motion.div>
         
-        {/* Trust badges */}
         <motion.div 
           className="mt-8 text-center max-w-5xl mx-auto"
           initial={{ opacity: 0, y: 20 }}

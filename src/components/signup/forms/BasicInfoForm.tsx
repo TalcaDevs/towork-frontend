@@ -25,7 +25,6 @@ const BasicInfoForm: React.FC<BasicInfoFormProps> = ({ userData, handleChange, e
   return (
     <motion.div variants={itemVariants} className="border-b border-gray-200 pb-6">
       <h3 className="text-lg font-semibold text-gray-800 mb-4">Información Básica</h3>
-      
       <div className="space-y-4">
         <div>
           <label htmlFor="descripcion" className="block text-sm font-medium text-gray-700 mb-1">
@@ -53,10 +52,11 @@ const BasicInfoForm: React.FC<BasicInfoFormProps> = ({ userData, handleChange, e
             name="telefono"
             type="tel"
             label="Teléfono"
-            placeholder="+52 123 456 7890"
+            placeholder="+569 23 456 789"
             value={userData.telefono}
             onChange={handleChange}
             error={errors.telefono}
+            required={true}
           />
         </div>
         
@@ -72,9 +72,6 @@ const BasicInfoForm: React.FC<BasicInfoFormProps> = ({ userData, handleChange, e
             error={errors.ubicacion}
             required={true}
           />
-          {errors.ubicacion && (
-            <p className="mt-1 text-sm text-red-500">{errors.ubicacion}</p>
-          )}
         </div>
         
         <div>

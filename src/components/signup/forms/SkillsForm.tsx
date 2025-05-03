@@ -12,12 +12,10 @@ interface SkillsFormProps {
 const SkillsForm: React.FC<SkillsFormProps> = ({ skills = [], updateSkills, error }) => {
   const [skillInput, setSkillInput] = useState('');
   
-  // Manejar cambio en el input de habilidad
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSkillInput(e.target.value);
   };
   
-  // Añadir habilidad
   const addSkill = () => {
     const trimmedSkill = skillInput.trim();
     
@@ -27,7 +25,6 @@ const SkillsForm: React.FC<SkillsFormProps> = ({ skills = [], updateSkills, erro
     }
   };
   
-  // Añadir habilidad con Enter
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -35,7 +32,6 @@ const SkillsForm: React.FC<SkillsFormProps> = ({ skills = [], updateSkills, erro
     }
   };
   
-  // Eliminar habilidad
   const removeSkill = (skill: string) => {
     updateSkills(skills.filter(item => item !== skill));
   };
@@ -80,7 +76,6 @@ const SkillsForm: React.FC<SkillsFormProps> = ({ skills = [], updateSkills, erro
           onChange={handleInputChange}
           onKeyPress={handleKeyPress}
           className="flex-grow"
-          // Eliminamos la prop error aquí para que no muestre el mensaje de error
         />
         <button
           type="button"

@@ -15,7 +15,6 @@ const SignInForm: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Get intended destination from location state (if redirected from protected route)
   const from = location.state?.from?.pathname || '/profile';
 
   const handleSubmit = async (e: React.FormEvent) => {

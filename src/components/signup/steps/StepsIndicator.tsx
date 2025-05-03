@@ -7,7 +7,6 @@ interface StepsIndicatorProps {
 }
 
 const StepsIndicator: React.FC<StepsIndicatorProps> = ({ currentStep }) => {
-  // Define nombres de los pasos
   const stepNames = [
     'Crear cuenta',
     'Información',

@@ -26,15 +26,12 @@ const Step2FillInfo: React.FC<Step2Props> = ({
   setError, 
   setSuccess 
 }) => {
-  // Estado para errores de formulario
   const [formErrors, setFormErrors] = useState<ProfileFormErrors>({});
 
-  // Manejar cambios en los inputs básicos
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     updateUserData({ [name]: value });
     
-    // Limpiar error cuando el usuario modifica un campo
     if (formErrors[name as keyof ProfileFormErrors]) {
       setFormErrors(prev => ({
         ...prev,
@@ -43,11 +40,9 @@ const Step2FillInfo: React.FC<Step2Props> = ({
     }
   };
   
-  // Actualizar educación
   const updateEducation = (education: any[]) => {
     updateUserData({ educacion: education });
     
-    // Limpiar error de educación si se agregó una entrada
     if (education.length > 0 && formErrors.educacion) {
       setFormErrors(prev => ({
         ...prev,
@@ -56,11 +51,9 @@ const Step2FillInfo: React.FC<Step2Props> = ({
     }
   };
   
-  // Actualizar experiencia
   const updateExperience = (experience: any[]) => {
     updateUserData({ experiencia: experience });
     
-    // Limpiar error de experiencia si se agregó una entrada
     if (experience.length > 0 && formErrors.experiencia) {
       setFormErrors(prev => ({
         ...prev,
@@ -69,27 +62,22 @@ const Step2FillInfo: React.FC<Step2Props> = ({
     }
   };
   
-  // Actualizar habilidades
   const updateSkills = (skills: string[]) => {
     updateUserData({ skills });
   };
   
-  // Actualizar certificaciones
   const updateCertifications = (certifications: any[]) => {
     updateUserData({ certificaciones: certifications });
   };
   
-  // Actualizar proyectos
   const updateProjects = (projects: any[]) => {
     updateUserData({ proyectos: projects });
   };
 
-  // Actualizar idiomas
   const updateLanguages = (languages: LanguageItem[]) => {
     updateUserData({ idiomas: languages });
   };
 
-  // Función para verificar si hay cambios en el formulario
   const hasFormChanges = () => {
     return Boolean(
       userData.descripcion || 
@@ -106,9 +94,7 @@ const Step2FillInfo: React.FC<Step2Props> = ({
     );
   };
   
-  // Manejar salto de paso
   const handleSkip = () => {
-    // Si hay cambios, confirmamos que el usuario quiere saltar
     if (hasFormChanges()) {
       const confirmSkip = window.confirm(
         "Has comenzado a llenar información. Si saltas este paso, los datos no se guardarán. ¿Estás seguro de que deseas continuar?"
@@ -118,33 +104,26 @@ const Step2FillInfo: React.FC<Step2Props> = ({
         skipStep();
       }
     } else {
-      // Si no hay cambios, simplemente salta
       skipStep();
     }
   };
   
-  // Manejar envío del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Limpiar errores previos
     setError(null);
     setFormErrors({});
     
-    // Validar el formulario
     const validation = validateProfileForm(userData);
     
-    // Si hay errores de validación, mostrarlos y detener el envío
     if (!validation.isValid) {
       setFormErrors(validation.errors);
       setError("Por favor completa todos los campos requeridos antes de continuar");
       
-      // Hacer scroll hacia arriba para mostrar el mensaje de error
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
     
-    // Si pasa la validación, proceder con el envío
     setLoading(true);
     
     try {
@@ -168,9 +147,7 @@ const Step2FillInfo: React.FC<Step2Props> = ({
         setSuccess(response.message || 'Perfil actualizado exitosamente');
         nextStep();
       } else {
-        // Manejar errores del servidor
         if (response.errors && typeof response.errors === 'object') {
-          // Si el servidor devuelve errores específicos para campos
           setFormErrors(response.errors);
         }
         setError(response.message || response.error || 'Error al actualizar el perfil');
@@ -195,11 +172,9 @@ const Step2FillInfo: React.FC<Step2Props> = ({
           Esta información nos ayudará a personalizar tu experiencia y mostrar tu perfil a reclutadores interesados. Puedes saltarte este paso y completarlo más tarde desde tu perfil.
         </motion.p>
         
-        {/* Componente para mostrar info sobre campos requeridos */}
         <RequiredFieldsInfo />
       </div>
       
-      {/* Mensaje de error general */}
       {error && (
         <motion.div 
           className="mb-6 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 rounded"
@@ -222,7 +197,6 @@ const Step2FillInfo: React.FC<Step2Props> = ({
       
       <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-y-auto">
         <div className="space-y-6 overflow-y-auto max-h-[65vh] pr-2 pb-6">
-          {/* Información básica */}
           <BasicInfoForm 
             userData={{
               descripcion: userData.descripcion || '',
@@ -241,47 +215,40 @@ const Step2FillInfo: React.FC<Step2Props> = ({
             }}
           />
           
-          {/* Educación */}
           <EducationForm 
             educationItems={userData.educacion} 
             updateEducation={updateEducation}
             error={formErrors.educacion}
           />
           
-          {/* Experiencia */}
           <ExperienceForm 
             experienceItems={userData.experiencia} 
             updateExperience={updateExperience}
             error={formErrors.experiencia}
           />
           
-          {/* Certificaciones */}
           <CertificationsForm
             certifications={userData.certificaciones || []}
             updateCertifications={updateCertifications}
           />
           
-          {/* Proyectos */}
           <ProjectsForm
             projects={userData.proyectos || []}
             updateProjects={updateProjects}
           />
           
-          {/* Habilidades */}
           <SkillsForm 
             skills={userData.skills} 
             updateSkills={updateSkills}
             error={formErrors.skills}
           />
 
-          {/* Idiomas */}
           <LanguagesForm
             languages={userData.idiomas || []}
             updateLanguages={updateLanguages}
           />
         </div>
         
-        {/* Botones de acción */}
         <motion.div 
           className="mt-6 flex justify-between"
           variants={itemVariants}

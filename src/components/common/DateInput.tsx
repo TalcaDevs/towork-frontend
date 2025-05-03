@@ -23,12 +23,10 @@ const DateInput: React.FC<DateInputProps> = ({
   error,
   className = ''
 }) => {
-  // Validar formato YYYY-MM-DD al perder el foco
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const dateValue = e.target.value;
     
     if (dateValue && !/^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
-      // Aquí podrías mostrar un error directamente o llamar a una función
       console.log('Formato de fecha incorrecto, debe ser YYYY-MM-DD');
     }
   };

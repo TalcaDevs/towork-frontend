@@ -1,14 +1,9 @@
-/**
- * Interfaces básicas para los datos de registro
- */
 export interface UserRegistrationData {
-    // Datos básicos (paso 1)
     first_name: string;
     last_name: string;
     email: string;
     password: string;
     
-    // Datos de perfil (paso 2)
     foto_perfil?: string;
     descripcion?: string;
     telefono?: string;
@@ -16,7 +11,6 @@ export interface UserRegistrationData {
     linkedin?: string;
     id_portafolio_web?: string;
     
-    // Colecciones de datos
     educacion: EducationItem[];
     experiencia: ExperienceItem[];
     certificaciones: CertificationItem[];
@@ -24,11 +18,10 @@ export interface UserRegistrationData {
     skills: string[];
     idiomas: LanguageItem[];
     
-    // Plantilla seleccionada (paso 3)
     templateId?: string;
   }
   
-  // Educación
+  
   export interface EducationItem {
     institucion: string;
     titulo: string;
@@ -36,7 +29,6 @@ export interface UserRegistrationData {
     fecha_fin?: string;
   }
   
-  // Experiencia laboral
   export interface ExperienceItem {
     empresa: string;
     puesto: string;
@@ -45,7 +37,6 @@ export interface UserRegistrationData {
     fecha_fin?: string;
   }
   
-  // Certificaciones
   export interface CertificationItem {
     nombre: string;
     institucion: string;
@@ -53,7 +44,6 @@ export interface UserRegistrationData {
     url_certificado?: string;
   }
   
-  // Proyectos
   export interface ProjectItem {
     titulo: string;
     descripcion: string;
@@ -62,7 +52,6 @@ export interface UserRegistrationData {
     imagen_proyecto?: string;
   }
   
-  // Idiomas
   export interface LanguageItem {
     language: {
       nombre: string;
@@ -70,7 +59,6 @@ export interface UserRegistrationData {
     nivel: string;
   }
   
-  // Plantilla
   export interface TemplateOption {
     id: string;
     name: string;
@@ -78,7 +66,6 @@ export interface UserRegistrationData {
     imageUrl: string;
   }
   
-  // Props compartidas entre componentes de pasos
   export interface BaseStepProps {
     userData: UserRegistrationData;
     updateUserData: (data: Partial<UserRegistrationData>) => void;
@@ -91,7 +78,7 @@ export interface UserRegistrationData {
     setSuccess: (success: string | null) => void;
   }
   
-  // Interfaces para errores de validación
+
   export interface RegistrationFormErrors {
     first_name?: string;
     last_name?: string;
@@ -108,7 +95,6 @@ export interface UserRegistrationData {
     id_portafolio_web?: string;
   }
   
-  // Props específicas para cada paso
   export interface Step1Props extends BaseStepProps {}
   
   export interface Step2Props extends BaseStepProps {

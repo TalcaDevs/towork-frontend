@@ -17,7 +17,6 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
-  // Instead of using motion.input directly, we'll wrap a regular input with motion.div
   return (
     <div className="w-full">
       {label && (

@@ -13,7 +13,6 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
   languages = [],
   updateLanguages
 }) => {
-  // Estado local para el nuevo idioma
   const [newLanguage, setNewLanguage] = useState<LanguageItem>({
     language: {
       nombre: ''
@@ -32,7 +31,6 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
     visible: { opacity: 1, y: 0 }
   };
   
-  // Niveles de idioma predefinidos
   const languageLevels = [
     'Principiante',
     'Básico',
@@ -89,23 +87,19 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
     if (!validateForm()) return;
     
     if (isEditing && editIndex !== null) {
-      // Actualizar un ítem existente
       const updatedItems = [...languages];
       updatedItems[editIndex] = newLanguage;
       updateLanguages(updatedItems);
       
-      // Resetear el estado de edición
       setIsEditing(false);
       setEditIndex(null);
     } else {
-      // Añadir un nuevo ítem
       if (newLanguage.language.nombre && newLanguage.nivel) {
         const updatedLanguages = [...languages, newLanguage];
         updateLanguages(updatedLanguages);
       }
     }
     
-    // Reset form
     setNewLanguage({
       language: {
         nombre: ''
@@ -177,7 +171,6 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
         </div>
       )}
       
-      {/* Formulario para añadir idioma */}
       <div className="space-y-3 bg-gray-50 p-4 rounded-lg">
         <h4 className="text-sm font-medium text-gray-700">
           {isEditing ? 'Editar Idioma' : 'Agregar Nuevo Idioma'}

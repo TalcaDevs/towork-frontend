@@ -6,7 +6,6 @@ import Logo from "../assets/icons/Logo";
 import { UserRegistrationData } from "../interfaces/signup.interface";
 import { containerVariants, itemVariants } from "../utils/animation";
 
-// Componentes de los pasos
 import Step1CreateAccount from "../components/signup/Step1CreateAccount";
 import Step2FillInfo from "../components/signup/Step2FillInfo";
 import Step3ChooseTemplate from "../components/signup/Step3ChooseTemplate";
@@ -17,15 +16,12 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   
-  // Datos de registro
   const [userData, setUserData] = useState<UserRegistrationData>({
-    // Datos básicos (paso 1)
     first_name: "",
     last_name: "",
     email: "",
     password: "",
     
-    // Datos de perfil (paso 2)
     foto_perfil: "",
     descripcion: "",
     telefono: "",
@@ -33,7 +29,6 @@ const SignUp: React.FC = () => {
     linkedin: "",
     id_portafolio_web: "",
     
-    // Colecciones de datos
     educacion: [],
     experiencia: [],
     certificaciones: [],
@@ -41,16 +36,13 @@ const SignUp: React.FC = () => {
     skills: [],
     idiomas: [],
     
-    // Plantilla seleccionada (paso 3)
     templateId: ""
   });
 
-  // Estados para mensajes y carga
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Actualizar datos del usuario
   const updateUserData = (data: Partial<UserRegistrationData>) => {
     setUserData(prevData => ({
       ...prevData,
@@ -58,28 +50,24 @@ const SignUp: React.FC = () => {
     }));
   };
 
-  // Avanzar al siguiente paso
   const nextStep = () => {
     if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
   };
 
-  // Volver al paso anterior
   const prevStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
   };
 
-  // Saltar paso (para información opcional)
   const skipStep = () => {
     if (currentStep === 2) {
       nextStep();
     }
   };
 
-  // Renderizar el paso actual
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -152,9 +140,7 @@ const SignUp: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.1 }}
         >
-          {/* Left section - Registration form */}
           <div className="w-full md:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col">
-            {/* Header with logo */}
             <motion.div 
               className="mb-8"
               variants={containerVariants}
@@ -176,20 +162,16 @@ const SignUp: React.FC = () => {
               </motion.h1>
             </motion.div>
 
-            {/* Steps progress indicator */}
             <StepsIndicator currentStep={currentStep} />
 
-            {/* Current step content */}
             {renderStep()}
           </div>
 
-          {/* Right section - Feature showcase (hidden on mobile) */}
           <div className="hidden md:block md:w-2/5">
             <FeatureShowcase />
           </div>
         </motion.div>
         
-        {/* Trust badges (only show on first step) */}
         {currentStep === 1 && (
           <motion.div 
             className="mt-8 text-center max-w-5xl mx-auto"

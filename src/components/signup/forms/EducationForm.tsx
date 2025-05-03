@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import Input from '../../Input';
 import Button from '../../Button';
 import DateInput from '../../common/DateInput';
 import { EducationItem } from '../../../interfaces/signup.interface';
 
+interface EducationErrors {
+  institucion?: string;
+  titulo?: string;
+  fecha_inicio?: string;
+  fecha_fin?: string;
+}
+
 interface EducationFormProps {
   educationItems: EducationItem[];
   updateEducation: (education: any[]) => void;
-  error?: string; // Añade esta propiedad opcional
+  error?: string;
 }
 
 const EducationForm: React.FC<EducationFormProps> = ({ 
   educationItems = [],
   updateEducation,
+  error,
 }) => {
-  // Estado local para el nuevo ítem de educación
   const [newEducation, setNewEducation] = useState<EducationItem>({
     institucion: '',
     titulo: '',
@@ -23,18 +29,10 @@ const EducationForm: React.FC<EducationFormProps> = ({
     fecha_fin: ''
   });
   
-  // Estado para manejar la edición
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<EducationErrors>({});
   
-  // Animación
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-  
-  // Manejadores
   const handleEducationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewEducation({
@@ -42,12 +40,10 @@ const EducationForm: React.FC<EducationFormProps> = ({
       [name]: value
     });
     
-    // Limpiar errores cuando el usuario corrige
-    if (errors[name]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[name];
-        return newErrors;
+    if (errors[name as keyof EducationErrors]) {
+      setErrors({
+        ...errors,
+        [name]: undefined
       });
     }
   };
@@ -82,12 +78,10 @@ const EducationForm: React.FC<EducationFormProps> = ({
     if (!validateForm()) return;
     
     if (isEditing && editIndex !== null) {
-      // Actualizar un ítem existente
       const updatedItems = [...educationItems];
       updatedItems[editIndex] = newEducation;
       updateEducation(updatedItems);
       
-      // Resetear el estado de edición
       setIsEditing(false);
       setEditIndex(null);
     } else {
@@ -98,7 +92,6 @@ const EducationForm: React.FC<EducationFormProps> = ({
       }
     }
     
-    // Reset form
     setNewEducation({
       institucion: '',
       titulo: '',
@@ -131,10 +124,15 @@ const EducationForm: React.FC<EducationFormProps> = ({
   };
   
   return (
-    <motion.div variants={itemVariants} className="border-b border-gray-200 pb-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Educación</h3>
+    <div className="border-b border-gray-200 pb-6">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">
+        Educación <span className="text-blue-500">*</span>
+      </h3>
+
+      {error && (
+        <p className="mb-4 text-sm text-red-500">{error}</p>
+      )}
       
-      {/* Lista de educación */}
       {educationItems.length > 0 && (
         <div className="mb-4 space-y-3">
           {educationItems.map((edu, index) => (
@@ -173,44 +171,35 @@ const EducationForm: React.FC<EducationFormProps> = ({
         </div>
       )}
       
-      {/* Formulario para añadir educación */}
       <div className="space-y-3 bg-gray-50 p-4 rounded-lg">
         <h4 className="text-sm font-medium text-gray-700">
           {isEditing ? 'Editar Educación' : 'Agregar Nueva Educación'}
         </h4>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Input
-              id="institucion"
-              name="institucion"
-              type="text"
-              label="Institución"
-              placeholder="Universidad o centro educativo"
-              value={newEducation.institucion}
-              onChange={handleEducationChange}
-              error={errors.institucion}
-            />
-            {errors.institucion && (
-              <p className="text-red-500 text-xs mt-1">{errors.institucion}</p>
-            )}
-          </div>
+          <Input
+            id="institucion"
+            name="institucion"
+            type="text"
+            label="Institución"
+            placeholder="Universidad o centro educativo"
+            value={newEducation.institucion}
+            onChange={handleEducationChange}
+            error={errors.institucion}
+            required={true}
+          />
           
-          <div>
-            <Input
-              id="titulo"
-              name="titulo"
-              type="text"
-              label="Título"
-              placeholder="Grado obtenido"
-              value={newEducation.titulo}
-              onChange={handleEducationChange}
-              error={errors.titulo}
-            />
-            {errors.titulo && (
-              <p className="text-red-500 text-xs mt-1">{errors.titulo}</p>
-            )}
-          </div>
+          <Input
+            id="titulo"
+            name="titulo"
+            type="text"
+            label="Título"
+            placeholder="Grado obtenido"
+            value={newEducation.titulo}
+            onChange={handleEducationChange}
+            error={errors.titulo}
+            required={true}
+          />
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -228,7 +217,7 @@ const EducationForm: React.FC<EducationFormProps> = ({
           <DateInput
             id="fecha_fin"
             name="fecha_fin"
-            label="Fecha de fin (o dejar en blanco si es actual)"
+            label="Fecha de fin"
             placeholder="YYYY-MM-DD"
             value={newEducation.fecha_fin || ''}
             onChange={handleEducationChange}
@@ -257,7 +246,7 @@ const EducationForm: React.FC<EducationFormProps> = ({
           </Button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

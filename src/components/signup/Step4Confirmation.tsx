@@ -11,7 +11,6 @@ const Step4Confirmation: React.FC<Step4Props> = ({
   error, 
   success 
 }) => {
-  // Redirect to profile after a delay
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/profile');
@@ -27,7 +26,6 @@ const Step4Confirmation: React.FC<Step4Props> = ({
       initial="hidden"
       animate="visible"
     >
-      {/* Success icon */}
       <motion.div 
         className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-6"
         variants={scaleVariants}
@@ -51,7 +49,6 @@ const Step4Confirmation: React.FC<Step4Props> = ({
         Te avisaremos cuando publiquemos tu portafolio CV. Mientras tanto, puedes completar o editar tu perfil.
       </motion.p>
       
-      {/* Success message if any */}
       {success && (
         <motion.div 
           className="mb-6 p-3 bg-green-50 border border-green-100 text-green-600 rounded-lg text-sm w-full max-w-md"
@@ -66,7 +63,6 @@ const Step4Confirmation: React.FC<Step4Props> = ({
         </motion.div>
       )}
       
-      {/* Error message if any */}
       {error && (
         <motion.div 
           className="mb-6 p-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm w-full max-w-md"
@@ -81,7 +77,6 @@ const Step4Confirmation: React.FC<Step4Props> = ({
         </motion.div>
       )}
       
-      {/* Redirect message */}
       <motion.div 
         className="text-gray-500 text-sm mb-8"
         variants={itemVariants}
@@ -89,7 +84,6 @@ const Step4Confirmation: React.FC<Step4Props> = ({
         Serás redirigido a tu perfil en 5 segundos...
       </motion.div>
       
-      {/* Action button */}
       <motion.div variants={itemVariants}>
         <Button 
           type="button" 
@@ -99,7 +93,6 @@ const Step4Confirmation: React.FC<Step4Props> = ({
         </Button>
       </motion.div>
       
-      {/* User info summary */}
       <ProfileSummary userData={userData} />
     </motion.div>
   );

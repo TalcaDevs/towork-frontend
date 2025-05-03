@@ -27,7 +27,6 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    // Example of using setUserData to update user data dynamically
     setUserData((prevData) => ({
       ...prevData,
       name: 'Nuevo Usuario',
@@ -37,11 +36,8 @@ const Profile = () => {
 
   const navigate = useNavigate();
 
-  // Fetch user data (simulated)
   useEffect(() => {
-    // In a real app, fetch user data from API here
-    // For now we'll just use the mock data
-    console.log('Profile mounted, would fetch user data here');
+    console.log('Perfil cargado:', userData);
   }, []);
 
   const handleLogout = () => {
@@ -78,7 +74,6 @@ const Profile = () => {
           initial="hidden"
           animate="visible"
         >
-          {/* Header with user info */}
           <motion.div 
             className="bg-white rounded-xl shadow-md overflow-hidden mb-6"
             variants={itemVariants}
@@ -135,7 +130,6 @@ const Profile = () => {
             </div>
           </motion.div>
 
-          {/* Dashboard stats */}
           <motion.div 
             className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
             variants={itemVariants}

@@ -22,7 +22,6 @@ const Cards: React.FC<ExtendedCardProps> = ({
 }) => {
   const placeholderImageUrl = "https://placehold.co/600x400/e2e8f0/1e293b?text=ToWork";
 
-  // Animation variants for image hover effect
   const imageVariants = {
     hover: {
       scale: 1.05,
@@ -30,7 +29,6 @@ const Cards: React.FC<ExtendedCardProps> = ({
     }
   };
 
-  // Animation variants for content
   const contentVariants = {
     hover: {
       y: -5,

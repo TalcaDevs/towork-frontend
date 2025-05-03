@@ -7,9 +7,7 @@ import Logo from "../assets/icons/Logo";
 const Footer: React.FC = () => {
   return (
     <footer className="mt-auto">
-      {/* Main footer with rounded top corners and slate-900 color */}
       <div className="bg-slate-900 text-white pt-16 pb-12 mx-4 sm:mx-8 lg:mx-12 mt-8 rounded-t-2xl shadow-lg">
-        {/* Contact section with matching button style */}
         <div className="container mx-auto px-4 mb-12">
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-6 mb-10">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">Contáctanos</h2>
@@ -40,7 +38,6 @@ const Footer: React.FC = () => {
         {/* Main footer sections */}
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-            {/* Column 1 - Company Information */}
             <div>
               <div className="flex items-center mb-6">
                 <Logo className="w-10 h-10 mr-3" />
@@ -50,7 +47,6 @@ const Footer: React.FC = () => {
                 La plataforma líder para encontrar tu trabajo ideal. Conectamos profesionales talentosos con las mejores oportunidades laborales.
               </p>
               <div className="flex space-x-3">
-                {/* Social media icons with consistent styling */}
                 <a
                   href="#"
                   className="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 flex items-center justify-center transition-all hover:scale-110"
@@ -96,7 +92,6 @@ const Footer: React.FC = () => {
               </div>
             </div>
 
-            {/* Column 2 - Servicios */}
             <div>
               <h3 className="text-xl font-semibold mb-6 text-white">
                 Servicios
@@ -141,7 +136,6 @@ const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* Column 3 - Enlaces Útiles */}
             <div>
               <h3 className="text-xl font-semibold mb-6 text-white">Enlaces Útiles</h3>
               <ul className="space-y-4">
@@ -230,7 +224,6 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Copyright section with a lighter style */}
       <div className="bg-white py-4 text-center">
         <div className="container mx-auto px-4">
           <p className="text-gray-600">

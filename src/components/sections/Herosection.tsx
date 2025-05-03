@@ -184,7 +184,6 @@ const HeroSection: React.FC = () => {
                   />
                 </motion.div>
 
-                {/* Floating icons with animation */}
                 <motion.div 
                   className="absolute top-10 right-10 hidden md:block"
                   initial={{ opacity: 0, y: -20 }}

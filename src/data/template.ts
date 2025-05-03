@@ -1,8 +1,5 @@
 import { TemplateOption } from '../interfaces/signup.interface';
 
-/**
- * Opciones de plantillas para el perfil/CV 
- */
 export const templateOptions: TemplateOption[] = [
   {
     id: 'modern',

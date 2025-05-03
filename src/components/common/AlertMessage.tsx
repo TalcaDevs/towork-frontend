@@ -15,7 +15,6 @@ const AlertMessage: React.FC<AlertMessageProps> = ({
   message,
   className = ''
 }) => {
-  // Configuraciones de estilo según el tipo
   const styles = {
     success: {
       bg: 'bg-green-50',

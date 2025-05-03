@@ -63,7 +63,6 @@ const CardSection: React.FC<CardSectionProps> = ({ title, cards }) => {
             </motion.button>
           </div>
           
-          {/* Cards container with horizontal scroll */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -98,7 +97,6 @@ const CardSection: React.FC<CardSectionProps> = ({ title, cards }) => {
                 </motion.div>
               ))}
               
-              {/* Show more card */}
               <motion.div 
                 className="snap-start flex-shrink-0 w-80 sm:w-80 md:w-96 flex items-center justify-center"
                 initial={{ opacity: 0, x: 50 }}
@@ -131,7 +129,6 @@ const CardSection: React.FC<CardSectionProps> = ({ title, cards }) => {
             </div>
           </motion.div>
           
-          {/* Scroll indicator dots for mobile */}
           <div className="flex justify-center gap-2 mt-6 md:hidden">
             {cards.map((_, index) => (
               <motion.button 

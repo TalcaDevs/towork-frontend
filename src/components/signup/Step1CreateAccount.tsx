@@ -17,20 +17,15 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
   setError, 
   setSuccess 
 }) => {
-  // Estado para confirmación de contraseña
   const [passwordConfirm, setPasswordConfirm] = useState('');
   
-  // Estado para errores de validación del formulario
   const [formErrors, setFormErrors] = useState<RegistrationFormErrors>({});
   
-  // Manejar cambios en los inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     
-    // Actualizar datos en el componente padre
     updateUserData({ [name]: value });
     
-    // Limpiar error para este campo cuando el usuario escribe
     if (formErrors[name as keyof RegistrationFormErrors]) {
       setFormErrors({
         ...formErrors,
@@ -39,11 +34,9 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
     }
   };
   
-  // Manejar cambio de confirmación de contraseña
   const handlePasswordConfirmChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordConfirm(e.target.value);
     
-    // Limpiar error cuando el usuario escribe
     if (formErrors.password_confirm) {
       setFormErrors({
         ...formErrors,
@@ -52,14 +45,11 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
     }
   };
   
-  // Manejar envío del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Limpiar errores previos
     setError(null);
     
-    // Validar formulario
     const validation = validateRegistrationForm(
       userData.first_name,
       userData.last_name,
@@ -68,7 +58,6 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
       passwordConfirm
     );
     
-    // Si hay errores de validación, mostrarlos y detener el proceso
     if (!validation.isValid) {
       setFormErrors(validation.errors);
       return;
@@ -77,7 +66,6 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
     setLoading(true);
     
     try {
-      // Llamar al servicio de registro
       const response = await AuthService.signUp({
         first_name: userData.first_name,
         last_name: userData.last_name,
@@ -86,13 +74,10 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
       });
       
       if (response.access && response.refresh) {
-        // Mostrar mensaje de éxito
         setSuccess(response.message || 'Cuenta creada exitosamente');
         
-        // Avanzar al siguiente paso
         nextStep();
       } else {
-        // Mostrar error del servidor
         setError(response.message || 'Error al crear la cuenta');
       }
     } catch (error) {
@@ -113,7 +98,6 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
     >
       <div className="space-y-5 flex-1">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* Nombre */}
           <motion.div variants={itemVariants}>
             <Input
               id="first_name"
@@ -129,7 +113,6 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
             />
           </motion.div>
           
-          {/* Apellido */}
           <motion.div variants={itemVariants}>
             <Input
               id="last_name"
@@ -146,7 +129,6 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
           </motion.div>
         </div>
         
-        {/* Email */}
         <motion.div variants={itemVariants}>
           <Input
             id="email"
@@ -166,7 +148,6 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
           />
         </motion.div>
         
-        {/* Contraseña */}
         <motion.div variants={itemVariants}>
           <Input
             id="password"
@@ -186,7 +167,6 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
           />
         </motion.div>
         
-        {/* Confirmación de contraseña */}
         <motion.div variants={itemVariants}>
           <Input
             id="password_confirm"
@@ -207,7 +187,6 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
         </motion.div>
       </div>
       
-      {/* Mensaje de error */}
       {error && (
         <motion.div 
           className="mt-4 p-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm"
@@ -222,7 +201,6 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
         </motion.div>
       )}
       
-      {/* Botón de envío */}
       <motion.div 
         className="mt-8"
         variants={itemVariants}

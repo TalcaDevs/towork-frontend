@@ -17,19 +17,15 @@ const Step3ChooseTemplate: React.FC<Step3Props> = ({
   setError, 
   setSuccess 
 }) => {
-  // Selected template
   const [selectedTemplate, setSelectedTemplate] = useState(userData.templateId || '');
   
-  // Handle template selection
   const handleSelectTemplate = (templateId: string) => {
     setSelectedTemplate(templateId);
     updateUserData({ templateId });
   };
   
-  // Handle continue button click
   const handleContinue = () => {
     if (selectedTemplate) {
-      // Optional: Send selection to backend
       setSuccess('Plantilla seleccionada con éxito');
       nextStep();
     } else {
@@ -71,7 +67,6 @@ const Step3ChooseTemplate: React.FC<Step3Props> = ({
         </div>
       </div>
       
-      {/* Error message */}
       {error && (
         <motion.div 
           className="mt-4 p-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm"
@@ -86,7 +81,6 @@ const Step3ChooseTemplate: React.FC<Step3Props> = ({
         </motion.div>
       )}
       
-      {/* Action buttons */}
       <motion.div 
         className="mt-auto pt-6 flex justify-between"
         variants={itemVariants}
