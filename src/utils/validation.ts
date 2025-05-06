@@ -59,7 +59,7 @@ export const passwordsMatch = (password: string, confirmPassword: string): boole
 
 
 export const isValidUrl = (url: string): boolean => {
-  if (!url) return true; // Permitir vacío
+  if (!url) return true;
   try {
     new URL(url);
     return true;
@@ -69,7 +69,7 @@ export const isValidUrl = (url: string): boolean => {
 };
 
 export const isValidPhone = (phone: string): boolean => {
-  if (!phone) return true; // Permitir vacío
+  if (!phone) return true;
   const regex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
   return regex.test(phone);
 };
@@ -111,7 +111,7 @@ export const validateRegistrationForm = (
   }
   
   if (!isRequired(password)) {
-    errors.password = 'La contraseña es requerida';
+    errors.password = 'Se requiere una contraseña';
     isValid = false;
   } else if (!hasMinLength(password, 8)) {
     errors.password = 'La contraseña debe tener al menos 8 caracteres';
