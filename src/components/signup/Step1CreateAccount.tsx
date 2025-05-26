@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Input from "../Input";
 import Button from "../Button";
-import AuthService from "../../services/AuthService";
+import { AuthService } from "../../services";
 import {
   Step1Props,
   RegistrationFormErrors,
@@ -13,6 +13,10 @@ import {
   itemVariants,
   errorVariants,
 } from "../../utils/animation";
+import { successMessages } from "../../data/successMessages";
+import { errorMessages } from "../../data/errorMessages";
+import EmailIcon from "../../assets/icons/EmailIcon";
+import LockIcon from "../../assets/icons/LockIcon";
 
 const Step1CreateAccount: React.FC<Step1Props> = ({
   userData,
@@ -83,19 +87,19 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
       });
 
       if (response.access && response.refresh) {
-        setSuccess(response.message || "Cuenta creada exitosamente");
+        setSuccess(response.message || successMessages.accountCreated);
 
         nextStep();
       } else {
         setError(
           response.message ||
-            "El correo ya está en uso o la contraseña no es válida"
+            errorMessages.emailUsed
         );
       }
     } catch (error) {
       console.error("Signup error:", error);
       setError(
-        "Error al conectar con el servidor. Intente nuevamente más tarde."
+        errorMessages.serverError
       );
     } finally {
       setLoading(false);
@@ -117,8 +121,8 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
               id="first_name"
               name="first_name"
               type="text"
-              placeholder="Nombre"
-              label="Nombre"
+              placeholder="Juan "
+              label="Nombres"
               value={userData.first_name}
               onChange={handleChange}
               required
@@ -132,8 +136,8 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
               id="last_name"
               name="last_name"
               type="text"
-              placeholder="Apellido"
-              label="Apellido"
+              placeholder="Pérez"
+              label="Apellidos"
               value={userData.last_name}
               onChange={handleChange}
               required
@@ -157,20 +161,7 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
             error={formErrors.email}
             icon={
               <div className="flex items-center border-r border-blue-500 pr-2 mr-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                  />
-                </svg>
+                <EmailIcon/>
               </div>
             }
           />
@@ -190,20 +181,7 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
             error={formErrors.password}
             icon={
               <div className="flex items-center border-r border-blue-500 pr-2 mr-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
+                <LockIcon />
               </div>
             }
           />
@@ -223,20 +201,7 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
             error={formErrors.password_confirm}
             icon={
               <div className="flex items-center border-r border-blue-500 pr-2 mr-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
-                </svg>
+                <LockIcon />
               </div>
             }
           />
@@ -249,20 +214,6 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
           {...errorVariants}
         >
           <div className="flex items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
             {error}
           </div>
         </motion.div>

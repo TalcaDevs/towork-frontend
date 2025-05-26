@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { NavLinkProps } from "../interfaces/navLink.interface";
-import ArrowRightIcon from "../assets/icons/ArrowRightIcon";
-import Logo from "../assets/icons/Logo";
+import { NavLinkProps } from "../../interfaces/navLink.interface";
+import ArrowRightIcon from "../../assets/icons/ArrowRightIcon";
+import Logo from "../../assets/icons/Logo";
 
 const NavItem: React.FC<NavLinkProps> = ({ to, label }) => {
   const location = useLocation();

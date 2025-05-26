@@ -22,21 +22,21 @@ const SignUp: React.FC = () => {
     email: "",
     password: "",
     
-    foto_perfil: "",
-    descripcion: "",
-    telefono: "",
-    ubicacion: "",
-    linkedin: "",
-    id_portafolio_web: "",
+    profile_photo: "" ,
+    description: ""  ,
+    phone: "" ,
+    location: ""    ,
+    linkedin: ""   ,
+    portfolio_url: "",
     
-    educacion: [],
-    experiencia: [],
-    certificaciones: [],
-    proyectos: [],
+    education : [],
+    experience: [],
+    certifications: [],
+    projects: [],
     skills: [],
-    idiomas: [],
+    languages: [],
     
-    templateId: ""
+    template: 0,
   });
 
   const [loading, setLoading] = useState(false);

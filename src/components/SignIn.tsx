@@ -4,8 +4,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import Input from "../components/Input";
 import Button from "../components/Button";
-import AuthService from "../services/AuthService";
-import { AuthResponse } from "../interfaces/auth.interface";
+import { AuthService } from "../services";
+import { ExtendedAuthResponse } from "../services/interface/api.interface";
+import { successMessages } from "../data/successMessages";
+import { errorMessages } from "../data/errorMessages";
+import EmailIcon from "../assets/icons/EmailIcon";
+import LockIcon from "../assets/icons/LockIcon";
 
 const SignInForm: React.FC = () => {
   const navigate = useNavigate();
@@ -33,25 +37,27 @@ const SignInForm: React.FC = () => {
     setSuccess(null);
 
     try {
-      const response: AuthResponse = await AuthService.signIn(formState);
+      const response: ExtendedAuthResponse = await AuthService.signIn(formState);
 
       if (response.access && response.refresh) {
-        setSuccess(response.message || "Inicio de sesión exitoso");
-        AuthService.setTokens({
-          access: response.access,
-          refresh: response.refresh,
-        });
-
+        setSuccess(response.message || successMessages.loginSuccess);
+        
+        // Los tokens ya se guardan automáticamente en AuthService.signIn()
+        // No necesitas llamar a setTokens() manualmente
+        
         setTimeout(() => navigate(from, { replace: true }), 1000);
       } else {
-        setError(
-          response.message || "Verifique sus credenciales e intente de nuevo"
-        );
+        // Manejar diferentes tipos de error
+        if (response.status === 'pending') {
+          setError(response.message || successMessages.profileReviews);
+        } else {
+          setError(response.message || errorMessages.verifyCredentials);
+        }
       }
     } catch (err) {
       console.error("Login error:", err);
       setError(
-        "Error al conectar con el servidor. Intente de nuevo más tarde."
+        errorMessages.serverError
       );
     } finally {
       setLoading(false);
@@ -80,20 +86,7 @@ const SignInForm: React.FC = () => {
           </label>
           <div className="flex items-center border border-gray-300 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-blue-500">
             <div className="flex items-center border-r border-blue-500 px-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                />
-              </svg>
+              <EmailIcon />
             </div>
             <Input
               id="email"
@@ -132,20 +125,7 @@ const SignInForm: React.FC = () => {
 
           <div className="flex items-center border border-gray-300 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-blue-500">
             <div className="flex items-center border-r border-blue-500 px-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                />
-              </svg>
+              <LockIcon />
             </div>
             <Input
               id="password"
@@ -163,7 +143,11 @@ const SignInForm: React.FC = () => {
 
       {error && (
         <motion.div
-          className="mt-4 p-3 bg-red-50 border border-red-100 text-red-600 rounded-lg text-sm"
+          className={`mt-4 p-3 border rounded-lg text-sm ${
+            error.includes('pendiente') 
+              ? 'bg-yellow-50 border-yellow-100 text-yellow-700' 
+              : 'bg-red-50 border-red-100 text-red-600'
+          }`}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
@@ -180,7 +164,10 @@ const SignInForm: React.FC = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                d={error.includes('pendiente') 
+                  ? "M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  : "M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                }
               />
             </svg>
             {error}

@@ -1,10 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { TagProps } from "../interfaces/tag.interface";
-
-interface AnimatedTagProps extends TagProps {
-  delay?: number;
-}
+import { AnimatedTagProps } from "../interfaces/tag.interface";
 
 const Tag: React.FC<AnimatedTagProps> = ({ label, delay = 0 }) => {
   return (

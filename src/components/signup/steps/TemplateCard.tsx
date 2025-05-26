@@ -1,14 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { TemplateOption } from '../../../interfaces/signup.interface';
+import { TemplateCardProps } from '../../../interfaces/templateCard.interface';
 import { itemVariants } from '../../../utils/animation';
-
-interface TemplateCardProps {
-  template: TemplateOption;
-  isSelected: boolean;
-  onSelect: (templateId: string) => void;
-  index: number;
-}
 
 const TemplateCard: React.FC<TemplateCardProps> = ({
   template,
@@ -35,7 +28,7 @@ const TemplateCard: React.FC<TemplateCardProps> = ({
           className="w-full h-full object-cover"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            target.src = "https://cdn.pixabay.com/photo/2016/11/30/20/44/programming-1873854_1280.png";
+            target.src = "";
           }}
         />
       </div>

@@ -7,7 +7,7 @@ export const containerVariants = {
       }
     }
   };
-  
+
   export const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
@@ -71,8 +71,7 @@ export const containerVariants = {
       }
     }
   };
-  
-  // Animación para íconos de carga (spinner)
+
   export const spinnerVariants = {
     animate: { 
       rotate: 360,
@@ -81,5 +80,19 @@ export const containerVariants = {
         ease: "linear",
         repeat: Infinity
       }
+    }
+  };
+
+  export const imageVariants = {
+    hover: {
+      scale: 1.05,
+      transition: { duration: 0.3 }
+    }
+  };
+
+  export const contentVariants = {
+    hover: {
+      y: -5,
+      transition: { duration: 0.2 }
     }
   };

@@ -26,10 +26,10 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({ userData }) => {
           <p className="font-medium text-gray-800">{userData.email}</p>
         </div>
         
-        {userData.ubicacion && (
+        {userData.location && (
           <div>
             <span className="text-gray-600 text-sm">Ubicación:</span>
-            <p className="font-medium text-gray-800">{userData.ubicacion}</p>
+            <p className="font-medium text-gray-800">{userData.location}</p>
           </div>
         )}
         
@@ -54,10 +54,10 @@ const ProfileSummary: React.FC<ProfileSummaryProps> = ({ userData }) => {
           </div>
         )}
         
-        {userData.templateId && (
+        {userData.template && (
           <div>
             <span className="text-gray-600 text-sm">Plantilla seleccionada:</span>
-            <p className="font-medium text-gray-800 capitalize">{userData.templateId}</p>
+            <p className="font-medium text-gray-800 capitalize">{userData.template}</p>
           </div>
         )}
       </div>

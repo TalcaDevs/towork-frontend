@@ -2,32 +2,19 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Input from '../../Input';
 import Button from '../../Button';
-import { ProjectItem } from '../../../interfaces/signup.interface';
-
-interface Project {
-  titulo: string;
-  descripcion: string;
-  herramientas_usadas: string;
-  url_proyecto: string;
-  imagen_proyecto: string;
-}
-
-interface ProjectsFormProps {
-    projects: ProjectItem[];
-    updateProjects: (projects: ProjectItem[]) => void;
-  }
+import { ProjectItem, ProjectsFormProps } from '../../../interfaces/signup.interface';
 
 const ProjectsForm: React.FC<ProjectsFormProps> = ({ 
   projects = [],
   updateProjects
 }) => {
   // Estado local para el nuevo proyecto
-  const [newProject, setNewProject] = useState<Project>({
-    titulo: '',
-    descripcion: '',
-    herramientas_usadas: '',
-    url_proyecto: '',
-    imagen_proyecto: ''
+  const [newProject, setNewProject] = useState<ProjectItem>({
+    title: '',
+    description: '',
+    tools_used: '',
+    project_url: '',
+    project_image: ''
   });
   
   const [isEditing, setIsEditing] = useState(false);
@@ -60,23 +47,23 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
     
-    if (!newProject.titulo.trim()) {
-      newErrors.titulo = 'El título del proyecto es requerido';
+    if (!newProject.title.trim()) {
+      newErrors.title = 'El título del proyecto es requerido';
     }
     
-    if (!newProject.descripcion.trim()) {
-      newErrors.descripcion = 'La descripción es requerida';
+    if (!newProject.description.trim()) {
+      newErrors.description = 'La descripción es requerida';
     }
     
     // Validar que las URLs tengan un formato correcto si se proporcionan
-    if (newProject.url_proyecto && 
-        !/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(newProject.url_proyecto)) {
-      newErrors.url_proyecto = 'Ingrese una URL válida';
+    if (newProject.project_url && 
+        !/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(newProject.project_url)) {
+      newErrors.project_url = 'Ingrese una URL válida';
     }
     
-    if (newProject.imagen_proyecto && 
-        !/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(newProject.imagen_proyecto)) {
-      newErrors.imagen_proyecto = 'Ingrese una URL válida para la imagen';
+    if (newProject.project_image && 
+        !/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(newProject.project_image)) {
+      newErrors.project_image = 'Ingrese una URL válida para la imagen';
     }
     
     setErrors(newErrors);
@@ -95,7 +82,7 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
       setEditIndex(null);
     } else {
       // Añadir un nuevo ítem
-      if (newProject.titulo && newProject.descripcion) {
+      if (newProject.title && newProject.description) {
         const updatedProjects = [...projects, newProject];
         updateProjects(updatedProjects);
       }
@@ -103,19 +90,19 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
     
     // Reset form
     setNewProject({
-      titulo: '',
-      descripcion: '',
-      herramientas_usadas: '',
-      url_proyecto: '',
-      imagen_proyecto: ''
+      title: '',
+      description: '',
+      tools_used: '',
+      project_url: '',
+      project_image: ''
     });
   };
   
   const editProject = (index: number) => {
     setNewProject({
       ...projects[index],
-      url_proyecto: projects[index].url_proyecto || '',
-      imagen_proyecto: projects[index].imagen_proyecto || ''
+      project_url: projects[index].project_url || '',
+      project_image: projects[index].project_image || ''
     });
     setIsEditing(true);
     setEditIndex(index);
@@ -123,11 +110,11 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
   
   const cancelEdit = () => {
     setNewProject({
-      titulo: '',
-      descripcion: '',
-      herramientas_usadas: '',
-      url_proyecto: '',
-      imagen_proyecto: ''
+      title: '',
+      description: '',
+      tools_used: '',
+      project_url: '',
+      project_image: ''
     });
     setIsEditing(false);
     setEditIndex(null);
@@ -149,15 +136,15 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
           {projects.map((project, index) => (
             <div key={index} className="bg-gray-50 p-3 rounded-lg flex justify-between items-start">
               <div>
-                <h4 className="font-medium text-gray-800">{project.titulo}</h4>
-                <p className="text-gray-700 text-sm my-1">{project.descripcion}</p>
-                {project.herramientas_usadas && (
-                  <p className="text-gray-600 text-xs"><span className="font-medium">Herramientas:</span> {project.herramientas_usadas}</p>
+                <h4 className="font-medium text-gray-800">{project.title}</h4>
+                <p className="text-gray-700 text-sm my-1">{project.description}</p>
+                {project.tools_used && (
+                  <p className="text-gray-600 text-xs"><span className="font-medium">Herramientas:</span> {project.tools_used}</p>
                 )}
                 <div className="flex space-x-4 mt-1">
-                  {project.url_proyecto && (
+                  {project.project_url && (
                     <a 
-                      href={project.url_proyecto} 
+                      href={project.project_url} 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="text-blue-500 text-xs hover:underline flex items-center"
@@ -168,9 +155,9 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
                       Ver proyecto
                     </a>
                   )}
-                  {project.imagen_proyecto && (
+                  {project.project_image && (
                     <a 
-                      href={project.imagen_proyecto} 
+                      href={project.project_image} 
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="text-blue-500 text-xs hover:underline flex items-center"
@@ -217,46 +204,45 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
         
         <div>
           <Input
-            id="titulo"
-            name="titulo"
+            id="title"
+            name="title"
             type="text"
             label="Título del proyecto"
             placeholder="Ej. Sistema de Gestión de Inventario"
-            value={newProject.titulo}
+            value={newProject.title}
             onChange={handleProjectChange}
-            error={errors.titulo}
           />
-          {errors.titulo && (
-            <p className="text-red-500 text-xs mt-1">{errors.titulo}</p>
+          {errors.title && (
+            <p className="text-red-500 text-xs mt-1">{errors.title}</p>
           )}
         </div>
         
         <div>
-          <label htmlFor="descripcion_proyecto" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
             Descripción del proyecto
           </label>
           <textarea
-            id="descripcion_proyecto"
-            name="descripcion"
+            id="description"
+            name="description"
             rows={3}
             className="w-full px-4 py-2 border rounded-lg focus:ring-blue-100 focus:border-blue-500 focus:outline-none focus:ring-2 border-gray-300"
             placeholder="Describe brevemente el proyecto y tus responsabilidades..."
-            value={newProject.descripcion}
+            value={newProject.description}
             onChange={handleProjectChange}
           />
-          {errors.descripcion && (
-            <p className="text-red-500 text-xs mt-1">{errors.descripcion}</p>
+          {errors.description && (
+            <p className="text-red-500 text-xs mt-1">{errors.description}</p>
           )}
         </div>
         
         <div>
           <Input
-            id="herramientas_usadas"
-            name="herramientas_usadas"
+            id="tools_used"
+            name="tools_used"
             type="text"
             label="Herramientas y tecnologías usadas"
             placeholder="Ej. React, Node.js, MongoDB, Docker"
-            value={newProject.herramientas_usadas}
+            value={newProject.tools_used}
             onChange={handleProjectChange}
           />
         </div>
@@ -264,33 +250,33 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <Input
-              id="url_proyecto"
-              name="url_proyecto"
+              id="project_url"
+              name="project_url"
               type="url"
               label="URL del proyecto (opcional)"
               placeholder="https://github.com/usuario/proyecto"
-              value={newProject.url_proyecto}
+              value={newProject.project_url || ''}
               onChange={handleProjectChange}
-              error={errors.url_proyecto}
+              error={errors.project_url}
             />
-            {errors.url_proyecto && (
-              <p className="text-red-500 text-xs mt-1">{errors.url_proyecto}</p>
+            {errors.project_url && (
+              <p className="text-red-500 text-xs mt-1">{errors.project_url}</p>
             )}
           </div>
           
           <div>
             <Input
-              id="imagen_proyecto"
-              name="imagen_proyecto"
+              id="project_image"
+              name="project_image"
               type="url"
               label="URL de imagen del proyecto (opcional)"
               placeholder="https://ejemplo.com/captura.jpg"
-              value={newProject.imagen_proyecto}
+              value={newProject.project_image || ''}
               onChange={handleProjectChange}
-              error={errors.imagen_proyecto}
+              error={errors.project_image}
             />
-            {errors.imagen_proyecto && (
-              <p className="text-red-500 text-xs mt-1">{errors.imagen_proyecto}</p>
+            {errors.project_image && (
+              <p className="text-red-500 text-xs mt-1">{errors.project_image}</p>
             )}
           </div>
         </div>

@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Input from '../../Input';
 import Button from '../../Button';
-import { LanguageItem } from '../../../interfaces/signup.interface';
-
-interface LanguagesFormProps {
-  languages: LanguageItem[];
-  updateLanguages: (languages: LanguageItem[]) => void;
-}
+import { LanguageItem, LanguagesFormProps } from '../../../interfaces/signup.interface';
+import { itemVariants } from '../../../utils/animation';
+import { languageLevels } from '../../../data/constant';
 
 const LanguagesForm: React.FC<LanguagesFormProps> = ({ 
   languages = [],
@@ -15,9 +12,9 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
 }) => {
   const [newLanguage, setNewLanguage] = useState<LanguageItem>({
     language: {
-      nombre: ''
+      name: ''
     },
-    nivel: ''
+    level: ''
   });
   
   // Estado para manejar la edición
@@ -25,35 +22,21 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   
-  // Animación
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-  
-  const languageLevels = [
-    'Principiante',
-    'Básico',
-    'Intermedio',
-    'Avanzado',
-    'Nativo/Bilingüe'
-  ];
-  
   // Manejadores
   const handleLanguageChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
-    if (name === 'nombre') {
+    if (name === 'name') {
       setNewLanguage({
         ...newLanguage,
         language: {
-          nombre: value
+          name: value
         }
       });
-    } else if (name === 'nivel') {
+    } else if (name === 'level') {
       setNewLanguage({
         ...newLanguage,
-        nivel: value
+        level: value
       });
     }
     
@@ -71,12 +54,12 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
     
-    if (!newLanguage.language.nombre.trim()) {
-      newErrors.nombre = 'El nombre del idioma es requerido';
+    if (!newLanguage.language.name.trim()) {
+      newErrors.name = 'El nombre del idioma es requerido';
     }
     
-    if (!newLanguage.nivel) {
-      newErrors.nivel = 'El nivel es requerido';
+    if (!newLanguage.level) {
+      newErrors.level = 'El nivel es requerido';
     }
     
     setErrors(newErrors);
@@ -94,7 +77,7 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
       setIsEditing(false);
       setEditIndex(null);
     } else {
-      if (newLanguage.language.nombre && newLanguage.nivel) {
+      if (newLanguage.language.name && newLanguage.level) {
         const updatedLanguages = [...languages, newLanguage];
         updateLanguages(updatedLanguages);
       }
@@ -102,9 +85,9 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
     
     setNewLanguage({
       language: {
-        nombre: ''
+        name: ''
       },
-      nivel: ''
+      level: ''
     });
   };
   
@@ -117,9 +100,9 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
   const cancelEdit = () => {
     setNewLanguage({
       language: {
-        nombre: ''
+        name: ''
       },
-      nivel: ''
+      level: ''
     });
     setIsEditing(false);
     setEditIndex(null);
@@ -141,8 +124,8 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
           {languages.map((lang, index) => (
             <div key={index} className="bg-gray-50 p-3 rounded-lg flex justify-between items-start">
               <div>
-                <h4 className="font-medium text-gray-800">{lang.language.nombre}</h4>
-                <p className="text-gray-600 text-sm">Nivel: {lang.nivel}</p>
+                <h4 className="font-medium text-gray-800">{lang.language.name}</h4>
+                <p className="text-gray-600 text-sm">Nivel: {lang.level}</p>
               </div>
               <div className="flex space-x-2">
                 <button
@@ -179,31 +162,31 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <Input
-              id="nombre"
-              name="nombre"
+              id="name"
+              name="name"
               type="text"
               label="Idioma"
               placeholder="Ej. Inglés, Francés, Español"
-              value={newLanguage.language.nombre}
+              value={newLanguage.language.name}
               onChange={handleLanguageChange}
-              error={errors.nombre}
+              error={errors.name}
             />
-            {errors.nombre && (
-              <p className="text-red-500 text-xs mt-1">{errors.nombre}</p>
+            {errors.name && (
+              <p className="text-red-500 text-xs mt-1">{errors.name}</p>
             )}
           </div>
           
           <div>
-            <label htmlFor="nivel" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="level" className="block text-sm font-medium text-gray-700 mb-1">
               Nivel <span className="text-red-500">*</span>
             </label>
             <select
-              id="nivel"
-              name="nivel"
-              value={newLanguage.nivel}
+              id="level"
+              name="level"
+              value={newLanguage.level}
               onChange={handleLanguageChange}
               className={`w-full px-3 py-2 border ${
-                errors.nivel ? 'border-red-300' : 'border-gray-300'
+                errors.level ? 'border-red-300' : 'border-gray-300'
               } rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500`}
             >
               <option value="">Selecciona un nivel</option>
@@ -211,8 +194,8 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
                 <option key={level} value={level}>{level}</option>
               ))}
             </select>
-            {errors.nivel && (
-              <p className="text-red-500 text-xs mt-1">{errors.nivel}</p>
+            {errors.level && (
+              <p className="text-red-500 text-xs mt-1">{errors.level}</p>
             )}
           </div>
         </div>

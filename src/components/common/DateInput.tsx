@@ -1,16 +1,5 @@
 import React from 'react';
-
-interface DateInputProps {
-  id: string;
-  name: string;
-  label: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  required?: boolean;
-  placeholder?: string;
-  error?: string;
-  className?: string;
-}
+import { DateInputProps } from '../../interfaces/dateInput.interface';
 
 const DateInput: React.FC<DateInputProps> = ({
   id,

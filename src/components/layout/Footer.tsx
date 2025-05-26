@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import FacebookIcon from "../assets/icons/FacebookIcon";
-import InstagramIcon from "../assets/icons/InstagramIcon";
-import Logo from "../assets/icons/Logo";
+import FacebookIcon from "../../assets/icons/FacebookIcon";
+import InstagramIcon from "../../assets/icons/InstagramIcon";
+import Logo from "../../assets/icons/Logo";
 
 const Footer: React.FC = () => {
   return (
