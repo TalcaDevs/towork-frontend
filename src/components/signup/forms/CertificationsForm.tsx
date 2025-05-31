@@ -3,40 +3,24 @@ import { motion } from 'framer-motion';
 import Input from '../../Input';
 import Button from '../../Button';
 import DateInput from '../../common/DateInput';
-import { CertificationItem } from '../../../interfaces/signup.interface';
-
-interface Certification {
-  nombre: string;
-  institucion: string;
-  fecha_obtencion: string;
-  url_certificado: string;
-}
-
-interface CertificationsFormProps {
-    certifications: CertificationItem[];
-    updateCertifications: (certifications: CertificationItem[]) => void;
-  }
+import { CertificationItem, CertificationsFormProps } from '../../../interfaces/signup.interface';
+import { itemVariants } from '../../../utils/animation';
+import Title from '../../Title';
 
 const CertificationsForm: React.FC<CertificationsFormProps> = ({ 
   certifications = [],
   updateCertifications
 }) => {
-  const [newCertification, setNewCertification] = useState<Certification>({
-    nombre: '',
-    institucion: '',
-    fecha_obtencion: '',
-    url_certificado: ''
+  const [newCertification, setNewCertification] = useState<CertificationItem>({
+    name: '',
+    institution: '',
+    date_obtained: '',
+    certificate_url: ''
   });
   
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  
-  // Animación
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
   
   const handleCertificationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -58,24 +42,24 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
     
-    if (!newCertification.nombre.trim()) {
-      newErrors.nombre = 'El nombre de la certificación es requerido';
+    if (!newCertification.name.trim()) {
+      newErrors.name = 'El nombre de la certificación es requerido';
     }
     
-    if (!newCertification.institucion.trim()) {
-      newErrors.institucion = 'La institución es requerida';
+    if (!newCertification.institution.trim()) {
+      newErrors.institution = 'La institución es requerida';
     }
     
-    if (!newCertification.fecha_obtencion) {
-      newErrors.fecha_obtencion = 'La fecha de obtención es requerida';
-    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(newCertification.fecha_obtencion)) {
-      newErrors.fecha_obtencion = 'El formato debe ser YYYY-MM-DD';
+    if (!newCertification.date_obtained) {
+      newErrors.date_obtained = 'La fecha de obtención es requerida';
+    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(newCertification.date_obtained)) {
+      newErrors.date_obtained = 'El formato debe ser YYYY-MM-DD';
     }
     
     // Validar que la URL tenga un formato correcto si se proporciona
-    if (newCertification.url_certificado && 
-        !/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(newCertification.url_certificado)) {
-      newErrors.url_certificado = 'Ingrese una URL válida';
+    if (newCertification.certificate_url && 
+        !/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(newCertification.certificate_url)) {
+      newErrors.certificate_url = 'Ingrese una URL válida';
     }
     
     setErrors(newErrors);
@@ -96,7 +80,7 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
       setEditIndex(null);
     } else {
       // Añadir un nuevo ítem
-      if (newCertification.nombre && newCertification.institucion) {
+      if (newCertification.name && newCertification.institution) {
         const updatedCertifications = [...certifications, newCertification];
         updateCertifications(updatedCertifications);
       }
@@ -104,17 +88,17 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
     
     // Reset form
     setNewCertification({
-      nombre: '',
-      institucion: '',
-      fecha_obtencion: '',
-      url_certificado: ''
+      name: '',
+      institution: '',
+      date_obtained: '',
+      certificate_url: ''
     });
   };
   
   const editCertification = (index: number) => {
     setNewCertification({
       ...certifications[index],
-      url_certificado: certifications[index].url_certificado || ''
+      certificate_url: certifications[index].certificate_url || ''
     });
     setIsEditing(true);
     setEditIndex(index);
@@ -122,10 +106,10 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
   
   const cancelEdit = () => {
     setNewCertification({
-      nombre: '',
-      institucion: '',
-      fecha_obtencion: '',
-      url_certificado: ''
+      name: '',
+      institution: '',
+      date_obtained: '',
+      certificate_url: ''
     });
     setIsEditing(false);
     setEditIndex(null);
@@ -139,7 +123,7 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
   
   return (
     <motion.div variants={itemVariants} className="border-b border-gray-200 pb-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Certificaciones</h3>
+      <Title title="Certificaciones" size="xs" weight="semibold" textAlign='left' margin='sm' color='secondary'/>
       
       {/* Lista de certificaciones */}
       {certifications.length > 0 && (
@@ -147,12 +131,12 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
           {certifications.map((cert, index) => (
             <div key={index} className="bg-gray-50 p-3 rounded-lg flex justify-between items-start">
               <div>
-                <h4 className="font-medium text-gray-800">{cert.nombre}</h4>
-                <p className="text-gray-600 text-sm">{cert.institucion}</p>
-                <p className="text-gray-500 text-xs">Obtenido el: {cert.fecha_obtencion}</p>
-                {cert.url_certificado && (
+                <h4 className="font-medium text-gray-800">{cert.name}</h4>
+                <p className="text-gray-600 text-sm">{cert.institution}</p>
+                <p className="text-gray-500 text-xs">Obtenido el: {cert.date_obtained}</p>
+                {cert.certificate_url && (
                   <a 
-                    href={cert.url_certificado} 
+                    href={cert.certificate_url} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="text-blue-500 text-xs hover:underline"
@@ -197,62 +181,60 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <Input
-              id="nombre"
-              name="nombre"
+              id="name"
+              name="name"
               type="text"
               label="Nombre de la certificación"
               placeholder="Ej. Scrum Master, AWS Solutions Architect"
-              value={newCertification.nombre}
+              value={newCertification.name}
               onChange={handleCertificationChange}
-              error={errors.nombre}
             />
-            {errors.nombre && (
-              <p className="text-red-500 text-xs mt-1">{errors.nombre}</p>
+            {errors.name && (
+              <p className="text-red-500 text-xs mt-1">{errors.name}</p>
             )}
           </div>
           
           <div>
             <Input
-              id="institucion"
-              name="institucion"
+              id="institution"
+              name="institution"
               type="text"
               label="Institución emisora"
               placeholder="Ej. Microsoft, AWS, Scrum Alliance"
-              value={newCertification.institucion}
+              value={newCertification.institution}
               onChange={handleCertificationChange}
-              error={errors.institucion}
             />
-            {errors.institucion && (
-              <p className="text-red-500 text-xs mt-1">{errors.institucion}</p>
+            {errors.institution && (
+              <p className="text-red-500 text-xs mt-1">{errors.institution}</p>
             )}
           </div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <DateInput
-            id="fecha_obtencion"
-            name="fecha_obtencion"
+            id="date_obtained"
+            name="date_obtained"
             label="Fecha de obtención"
             placeholder="YYYY-MM-DD"
-            value={newCertification.fecha_obtencion}
+            value={newCertification.date_obtained}
             onChange={handleCertificationChange}
             required
-            error={errors.fecha_obtencion}
+            error={errors.date_obtained}
           />
           
           <div>
             <Input
-              id="url_certificado"
-              name="url_certificado"
+              id="certificate_url"
+              name="certificate_url"
               type="url"
               label="URL del certificado (opcional)"
               placeholder="https://credenciales.com/certificado"
-              value={newCertification.url_certificado}
+              value={newCertification.certificate_url || ''}
               onChange={handleCertificationChange}
-              error={errors.url_certificado}
+              error={errors.certificate_url}
             />
-            {errors.url_certificado && (
-              <p className="text-red-500 text-xs mt-1">{errors.url_certificado}</p>
+            {errors.certificate_url && (
+              <p className="text-red-500 text-xs mt-1">{errors.certificate_url}</p>
             )}
           </div>
         </div>

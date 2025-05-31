@@ -14,3 +14,7 @@ export interface CardProps {
     title: string;
     cards: CardProps[];
   }
+
+  export interface ExtendedCardProps extends CardProps {
+  className?: string;
+}

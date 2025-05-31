@@ -1,44 +1,46 @@
 export interface ProfileFormErrors {
-  descripcion?: string;
-  telefono?: string;
-  ubicacion?: string;
+  description?: string;
+  phone?: string;
+  location?: string;
   linkedin?: string;
-  id_portafolio_web?: string;
+  portfolio_url?: string;
   skills?: string;
-  educacion?: string;
-  experiencia?: string;
+  education?: string;
+  experience?: string;
+  certifications?: string;
+  projects?: string;
+  languages?: string;
 }
 
 export const validateProfileForm = (userData: any): { isValid: boolean; errors: ProfileFormErrors } => {
   let isValid = true;
   const errors: ProfileFormErrors = {};
 
-  if (!userData.descripcion || userData.descripcion.trim() === '') {
-    errors.descripcion = 'La descripción profesional es requerida';
+  if (!userData.description || userData.description.trim() === '') {
+    errors.description = 'La descripción profesional es requerida';
     isValid = false;
   }
 
-  if (!userData.ubicacion || userData.ubicacion.trim() === '') {
-    errors.ubicacion = 'La ubicación es requerida';
+  if (!userData.location || userData.location.trim() === '') {
+    errors.location = 'La ubicación es requerida';
     isValid = false;
   }
 
-  if (!userData.telefono || !userData.telefono.trim()) {
-    errors.telefono = 'El teléfono es obligatorio';
+  if (!userData.phone || !userData.phone.trim()) {
+    errors.phone = 'El teléfono es obligatorio';
     isValid = false;
-  } else if (!isValidPhone(userData.telefono)) {
-    errors.telefono = 'El formato del teléfono no es válido';
+  } else if (!isValidPhone(userData.phone)) {
+    errors.phone = 'El formato del teléfono no es válido';
     isValid = false;
   }
 
-  if (!userData.educacion || !Array.isArray(userData.educacion) || userData.educacion.length === 0) {
-    errors.educacion = 'Debes agregar al menos un registro de educación';
+  if (!userData.education || !Array.isArray(userData.education) || userData.education.length === 0) {
+    errors.education = 'Debes agregar al menos un registro de educación';
     isValid = false;
   }
 
   return { isValid, errors };
 };
-
 
 export const isRequired = (value: string): boolean => {
   return value.trim() !== '';
@@ -56,7 +58,6 @@ export const hasMinLength = (value: string, minLength: number): boolean => {
 export const passwordsMatch = (password: string, confirmPassword: string): boolean => {
   return password === confirmPassword;
 };
-
 
 export const isValidUrl = (url: string): boolean => {
   if (!url) return true;
@@ -80,6 +81,7 @@ export interface RegistrationFormErrors {
   email?: string;
   password?: string;
   password_confirm?: string;
+  terms_accepted?: string;
 }
 
 export const validateRegistrationForm = (
@@ -87,7 +89,8 @@ export const validateRegistrationForm = (
   lastName: string,
   email: string,
   password: string, 
-  passwordConfirm: string
+  passwordConfirm: string,
+  terms_accepted?: boolean
 ): { isValid: boolean; errors: RegistrationFormErrors } => {
   let isValid = true;
   const errors: RegistrationFormErrors = {};

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import FeatureShowcase from "../components/sections/ShowcaseSection";
@@ -11,6 +11,7 @@ import Step2FillInfo from "../components/signup/Step2FillInfo";
 import Step3ChooseTemplate from "../components/signup/Step3ChooseTemplate";
 import Step4Confirmation from "../components/signup/Step4Confirmation";
 import StepsIndicator from "../components/signup/steps/StepsIndicator";
+import { TokenService } from "../services";
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -21,22 +22,23 @@ const SignUp: React.FC = () => {
     last_name: "",
     email: "",
     password: "",
+    terms_accepted: false,
     
-    foto_perfil: "",
-    descripcion: "",
-    telefono: "",
-    ubicacion: "",
-    linkedin: "",
-    id_portafolio_web: "",
+    profile_photo: "" ,
+    description: ""  ,
+    phone: "" ,
+    location: ""    ,
+    linkedin: ""   ,
+    portfolio_url: "",
     
-    educacion: [],
-    experiencia: [],
-    certificaciones: [],
-    proyectos: [],
+    education : [],
+    experience: [],
+    certifications: [],
+    projects: [],
     skills: [],
-    idiomas: [],
+    languages: [],
     
-    templateId: ""
+    template: 0,
   });
 
   const [loading, setLoading] = useState(false);
@@ -49,6 +51,12 @@ const SignUp: React.FC = () => {
       ...data
     }));
   };
+
+  useEffect(() => {
+  if (TokenService.getTokens()) {
+    TokenService.clearTokens();
+  }
+}, []);
 
   const nextStep = () => {
     if (currentStep < 4) {

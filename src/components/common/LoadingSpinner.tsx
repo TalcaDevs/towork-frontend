@@ -1,12 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { spinnerVariants } from '../../utils/animation';
+import { LoadingSpinnerProps } from '../../interfaces/common.interface';
 
-interface LoadingSpinnerProps {
-  size?: number;
-  color?: string;
-  text?: string;
-}
+
 
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   size = 5,

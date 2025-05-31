@@ -19,10 +19,10 @@ const RequiredFieldsInfo: React.FC = () => {
           <p className="text-sm font-medium">
             Información importante:
           </p>
-            <p className="text-sm mt-1">
-                Los campos marcados con <span className="text-red-500 font-medium">*</span> son obligatorios para crear tu perfil.
-                Solo se requiere la descripción profesional y la ubicación.
-            </p>
+          <p className="text-sm mt-1">
+            Los campos marcados con <span className="text-red-500 font-medium">*</span> son obligatorios para crear tu perfil.
+            Solo se requiere la descripción profesional y la ubicación.
+          </p>
         </div>
       </div>
     </motion.div>

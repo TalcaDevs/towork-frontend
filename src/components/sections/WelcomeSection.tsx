@@ -1,31 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Logo from '../../assets/icons/Logo';
-
-// Variantes reutilizables
-const fadeIn = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  transition: { duration: 0.5 }
-};
-
-const fadeInUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { delay, duration: 0.5 }
-});
-
-const springLogo = {
-  initial: { scale: 0.5, rotate: -10 },
-  animate: { scale: 1, rotate: 0 },
-  transition: {
-    duration: 0.5,
-    type: 'spring',
-    stiffness: 260,
-    damping: 20
-  },
-  whileHover: { rotate: 5, scale: 1.1 }
-};
+import { fadeIn, fadeInUp, springLogo } from '../../utils/animation';
 
 const WelcomeSection: React.FC = () => {
   return (

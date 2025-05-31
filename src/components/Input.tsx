@@ -1,11 +1,6 @@
-import React, { InputHTMLAttributes, useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
-  label?: string;
-  icon?: React.ReactNode;
-}
+import { InputProps } from '../interfaces/input.interface';
 
 const Input: React.FC<InputProps> = ({ 
   error, 
@@ -22,7 +17,7 @@ const Input: React.FC<InputProps> = ({
       {label && (
         <label htmlFor={props.id} className="block text-sm font-medium text-gray-700 mb-1">
           {label}
-          {required && <span className="text-blue-500 ml-1">*</span>}
+          {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
       

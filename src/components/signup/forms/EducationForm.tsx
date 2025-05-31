@@ -2,44 +2,32 @@ import React, { useState } from 'react';
 import Input from '../../Input';
 import Button from '../../Button';
 import DateInput from '../../common/DateInput';
-import { EducationItem } from '../../../interfaces/signup.interface';
+import { EducationErrors, EducationFormProps, EducationItem } from '../../../interfaces/signup.interface';
+import Title from '../../Title';
 
-interface EducationErrors {
-  institucion?: string;
-  titulo?: string;
-  fecha_inicio?: string;
-  fecha_fin?: string;
-}
-
-interface EducationFormProps {
-  educationItems: EducationItem[];
-  updateEducation: (education: any[]) => void;
-  error?: string;
-}
-
-const EducationForm: React.FC<EducationFormProps> = ({ 
+const EducationForm: React.FC<EducationFormProps> = ({
   educationItems = [],
   updateEducation,
   error,
 }) => {
   const [newEducation, setNewEducation] = useState<EducationItem>({
-    institucion: '',
-    titulo: '',
-    fecha_inicio: '',
-    fecha_fin: ''
+    institution: '',
+    degree: '',
+    start_date: '',
+    end_date: ''
   });
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [errors, setErrors] = useState<EducationErrors>({});
-  
+
   const handleEducationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewEducation({
       ...newEducation,
       [name]: value
     });
-    
+
     if (errors[name as keyof EducationErrors]) {
       setErrors({
         ...errors,
@@ -47,101 +35,109 @@ const EducationForm: React.FC<EducationFormProps> = ({
       });
     }
   };
-  
+
   // Validar el formulario
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
-    
-    if (!newEducation.institucion.trim()) {
-      newErrors.institucion = 'La institución es requerida';
+
+    if (!newEducation.institution.trim()) {
+      newErrors.institution = 'La institución es requerida';
     }
-    
-    if (!newEducation.titulo.trim()) {
-      newErrors.titulo = 'El título es requerido';
+
+    if (!newEducation.degree.trim()) {
+      newErrors.degree = 'El título es requerido';
     }
-    
-    if (!newEducation.fecha_inicio) {
-      newErrors.fecha_inicio = 'La fecha de inicio es requerida';
-    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(newEducation.fecha_inicio)) {
-      newErrors.fecha_inicio = 'El formato debe ser YYYY-MM-DD';
+
+    if (!newEducation.start_date) {
+      newErrors.start_date = 'La fecha de inicio es requerida';
+    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(newEducation.start_date)) {
+      newErrors.start_date = 'El formato debe ser YYYY-MM-DD';
     }
-    
-    if (newEducation.fecha_fin && !/^\d{4}-\d{2}-\d{2}$/.test(newEducation.fecha_fin)) {
-      newErrors.fecha_fin = 'El formato debe ser YYYY-MM-DD';
+
+    if (newEducation.end_date && !/^\d{4}-\d{2}-\d{2}$/.test(newEducation.end_date)) {
+      newErrors.end_date = 'El formato debe ser YYYY-MM-DD';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
+
   const addEducation = () => {
     if (!validateForm()) return;
-    
+
     if (isEditing && editIndex !== null) {
       const updatedItems = [...educationItems];
       updatedItems[editIndex] = newEducation;
       updateEducation(updatedItems);
-      
+
       setIsEditing(false);
       setEditIndex(null);
     } else {
-      // Añadir un nuevo ítem
-      if (newEducation.institucion && newEducation.titulo) {
-        const updatedEducation = [...educationItems, newEducation];
-        updateEducation(updatedEducation);
-      }
+      const alreadyExists = educationItems.some(
+        (item) =>
+          item.institution === newEducation.institution &&
+          item.degree === newEducation.degree &&
+          item.start_date === newEducation.start_date &&
+          item.end_date === newEducation.end_date
+      );
+
+      if (alreadyExists) return;
+
+      const updatedEducation = [...educationItems, newEducation];
+      updateEducation(updatedEducation);
     }
-    
+
     setNewEducation({
-      institucion: '',
-      titulo: '',
-      fecha_inicio: '',
-      fecha_fin: ''
+      institution: '',
+      degree: '',
+      start_date: '',
+      end_date: ''
     });
   };
-  
+
   const editEducation = (index: number) => {
-    setNewEducation(educationItems[index]);
+    setNewEducation({
+      ...educationItems[index],
+      end_date: educationItems[index].end_date || ''
+    });
     setIsEditing(true);
     setEditIndex(index);
   };
-  
+
   const cancelEdit = () => {
     setNewEducation({
-      institucion: '',
-      titulo: '',
-      fecha_inicio: '',
-      fecha_fin: ''
+      institution: '',
+      degree: '',
+      start_date: '',
+      end_date: ''
     });
     setIsEditing(false);
     setEditIndex(null);
     setErrors({});
   };
-  
+
   const removeEducation = (index: number) => {
     const updatedEducation = educationItems.filter((_, i) => i !== index);
     updateEducation(updatedEducation);
   };
-  
+
   return (
     <div className="border-b border-gray-200 pb-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">
-        Educación <span className="text-blue-500">*</span>
-      </h3>
 
+      <Title title="Educación" size="xs" weight="semibold" textAlign='left' margin='sm' color='secondary' />
       {error && (
         <p className="mb-4 text-sm text-red-500">{error}</p>
       )}
-      
+
       {educationItems.length > 0 && (
         <div className="mb-4 space-y-3">
           {educationItems.map((edu, index) => (
             <div key={index} className="bg-gray-50 p-3 rounded-lg flex justify-between items-start">
               <div>
-                <h4 className="font-medium text-gray-800">{edu.titulo}</h4>
-                <p className="text-gray-600 text-sm">{edu.institucion}</p>
+                <h4 className="font-medium text-gray-800">{edu.degree}</h4>
+                <p className="text-gray-600 text-sm">{edu.institution}</p>
                 <p className="text-gray-500 text-xs">
-                  {edu.fecha_inicio} - {edu.fecha_fin || 'Presente'}
+                  {edu.start_date} - {edu.end_date || 'Presente'}
                 </p>
               </div>
               <div className="flex space-x-2">
@@ -170,61 +166,61 @@ const EducationForm: React.FC<EducationFormProps> = ({
           ))}
         </div>
       )}
-      
+
       <div className="space-y-3 bg-gray-50 p-4 rounded-lg">
         <h4 className="text-sm font-medium text-gray-700">
           {isEditing ? 'Editar Educación' : 'Agregar Nueva Educación'}
         </h4>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <Input
-            id="institucion"
-            name="institucion"
+            id="institution"
+            name="institution"
             type="text"
             label="Institución"
             placeholder="Universidad o centro educativo"
-            value={newEducation.institucion}
+            value={newEducation.institution}
             onChange={handleEducationChange}
-            error={errors.institucion}
+            error={errors.institution}
             required={true}
           />
-          
+
           <Input
-            id="titulo"
-            name="titulo"
+            id="degree"
+            name="degree"
             type="text"
             label="Título"
             placeholder="Grado obtenido"
-            value={newEducation.titulo}
+            value={newEducation.degree}
             onChange={handleEducationChange}
-            error={errors.titulo}
+            error={errors.degree}
             required={true}
           />
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <DateInput
-            id="fecha_inicio"
-            name="fecha_inicio"
+            id="start_date"
+            name="start_date"
             label="Fecha de inicio"
             placeholder="YYYY-MM-DD"
-            value={newEducation.fecha_inicio}
+            value={newEducation.start_date}
             onChange={handleEducationChange}
             required
-            error={errors.fecha_inicio}
+            error={errors.start_date}
           />
-          
+
           <DateInput
-            id="fecha_fin"
-            name="fecha_fin"
+            id="end_date"
+            name="end_date"
             label="Fecha de fin"
             placeholder="YYYY-MM-DD"
-            value={newEducation.fecha_fin || ''}
+            value={newEducation.end_date || ''}
             onChange={handleEducationChange}
-            error={errors.fecha_fin}
+            error={errors.end_date}
           />
         </div>
-        
+
         <div className="flex justify-end space-x-3">
           {isEditing && (
             <Button

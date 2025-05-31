@@ -3,35 +3,25 @@ import { motion } from 'framer-motion';
 import Input from '../../Input';
 import Button from '../../Button';
 import DateInput from '../../common/DateInput';
-import { ExperienceItem } from '../../../interfaces/signup.interface';
-
-interface ExperienceFormProps {
-  experienceItems: ExperienceItem[];
-  updateExperience: (experience: ExperienceItem[]) => void;
-  error?: string; 
-}
+import { ExperienceFormProps, ExperienceItem } from '../../../interfaces/signup.interface';
+import { itemVariants } from '../../../utils/animation';
 
 const ExperienceForm: React.FC<ExperienceFormProps> = ({ 
   experienceItems = [],
   updateExperience
 }) => {
   const [newExperience, setNewExperience] = useState<ExperienceItem>({
-    empresa: '',
-    puesto: '',
-    descripcion: '',
-    fecha_inicio: '',
-    fecha_fin: ''
+    company: '',
+    position: '',
+    description: '',
+    start_date: '',
+    end_date: ''
   });
   
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   
-  // Animación
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
   
   const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -52,22 +42,22 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
     
-    if (!newExperience.empresa.trim()) {
-      newErrors.empresa = 'La empresa es requerida';
+    if (!newExperience.company.trim()) {
+      newErrors.company = 'La empresa es requerida';
     }
     
-    if (!newExperience.puesto.trim()) {
-      newErrors.puesto = 'El puesto es requerido';
+    if (!newExperience.position.trim()) {
+      newErrors.position = 'El cargo es requerido';
     }
     
-    if (!newExperience.fecha_inicio) {
-      newErrors.fecha_inicio = 'La fecha de inicio es requerida';
-    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(newExperience.fecha_inicio)) {
-      newErrors.fecha_inicio = 'El formato debe ser YYYY-MM-DD';
+    if (!newExperience.start_date) {
+      newErrors.start_date = 'La fecha de inicio es requerida';
+    } else if (!/^\d{4}-\d{2}-\d{2}$/.test(newExperience.start_date)) {
+      newErrors.start_date = 'El formato debe ser YYYY-MM-DD';
     }
     
-    if (newExperience.fecha_fin && !/^\d{4}-\d{2}-\d{2}$/.test(newExperience.fecha_fin)) {
-      newErrors.fecha_fin = 'El formato debe ser YYYY-MM-DD';
+    if (newExperience.end_date && !/^\d{4}-\d{2}-\d{2}$/.test(newExperience.end_date)) {
+      newErrors.end_date = 'El formato debe ser YYYY-MM-DD';
     }
     
     setErrors(newErrors);
@@ -85,34 +75,38 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
       setIsEditing(false);
       setEditIndex(null);
     } else {
-      if (newExperience.empresa && newExperience.puesto) {
+      if (newExperience.company && newExperience.position) {
         const updatedExperience = [...experienceItems, newExperience];
         updateExperience(updatedExperience);
       }
     }
     
     setNewExperience({
-      empresa: '',
-      puesto: '',
-      descripcion: '',
-      fecha_inicio: '',
-      fecha_fin: ''
+      company: '',
+      position: '',
+      description: '',
+      start_date: '',
+      end_date: ''
     });
   };
   
   const editExperience = (index: number) => {
-    setNewExperience(experienceItems[index]);
+    setNewExperience({
+      ...experienceItems[index],
+      description: experienceItems[index].description || '',
+      end_date: experienceItems[index].end_date || ''
+    });
     setIsEditing(true);
     setEditIndex(index);
   };
   
   const cancelEdit = () => {
     setNewExperience({
-      empresa: '',
-      puesto: '',
-      descripcion: '',
-      fecha_inicio: '',
-      fecha_fin: ''
+      company: '',
+      position: '',
+      description: '',
+      start_date: '',
+      end_date: ''
     });
     setIsEditing(false);
     setEditIndex(null);
@@ -134,13 +128,13 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
           {experienceItems.map((exp, index) => (
             <div key={index} className="bg-gray-50 p-3 rounded-lg flex justify-between items-start">
               <div>
-                <h4 className="font-medium text-gray-800">{exp.puesto}</h4>
-                <p className="text-gray-600 text-sm">{exp.empresa}</p>
+                <h4 className="font-medium text-gray-800">{exp.position}</h4>
+                <p className="text-gray-600 text-sm">{exp.company}</p>
                 <p className="text-gray-500 text-xs">
-                  {exp.fecha_inicio} - {exp.fecha_fin || 'Presente'}
+                  {exp.start_date} - {exp.end_date || 'Presente'}
                 </p>
-                {exp.descripcion && (
-                  <p className="text-gray-700 text-sm mt-1">{exp.descripcion}</p>
+                {exp.description && (
+                  <p className="text-gray-700 text-sm mt-1">{exp.description}</p>
                 )}
               </div>
               <div className="flex space-x-2">
@@ -179,72 +173,70 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
             <Input
-              id="empresa"
-              name="empresa"
+              id="company"
+              name="company"
               type="text"
               label="Empresa"
               placeholder="Nombre de la empresa"
-              value={newExperience.empresa}
+              value={newExperience.company}
               onChange={handleExperienceChange}
-              error={errors.empresa}
             />
-            {errors.empresa && (
-              <p className="text-red-500 text-xs mt-1">{errors.empresa}</p>
+            {errors.company && (
+              <p className="text-red-500 text-xs mt-1">{errors.company}</p>
             )}
           </div>
           
           <div>
             <Input
-              id="puesto"
-              name="puesto"
+              id="position"
+              name="position"
               type="text"
-              label="Puesto"
+              label="Cargo"
               placeholder="Ej. Desarrollador Web"
-              value={newExperience.puesto}
+              value={newExperience.position}
               onChange={handleExperienceChange}
-              error={errors.puesto}
             />
-            {errors.puesto && (
-              <p className="text-red-500 text-xs mt-1">{errors.puesto}</p>
+            {errors.position && (
+              <p className="text-red-500 text-xs mt-1">{errors.position}</p>
             )}
           </div>
         </div>
         
         <div>
-          <label htmlFor="descripcion_exp" className="block text-sm font-medium text-gray-700 mb-1">
-            Descripción del puesto
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+            Descripción del cargo
           </label>
           <textarea
-            id="descripcion_exp"
-            name="descripcion"
+            id="description"
+            name="description"
             rows={2}
             className="w-full px-4 py-2 border rounded-lg focus:ring-blue-100 focus:border-blue-500 focus:outline-none focus:ring-2 border-gray-300"
             placeholder="Describe brevemente tus responsabilidades..."
-            value={newExperience.descripcion}
+            value={newExperience.description || ''}
             onChange={handleExperienceChange}
           />
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <DateInput
-            id="fecha_inicio_exp"
-            name="fecha_inicio"
+            id="start_date"
+            name="start_date"
             label="Fecha de inicio"
             placeholder="YYYY-MM-DD"
-            value={newExperience.fecha_inicio}
+            value={newExperience.start_date}
             onChange={handleExperienceChange}
             required
-            error={errors.fecha_inicio}
+            error={errors.start_date}
           />
           
           <DateInput
-            id="fecha_fin_exp"
-            name="fecha_fin"
+            id="end_date"
+            name="end_date"
             label="Fecha de fin (o dejar en blanco si es actual)"
             placeholder="YYYY-MM-DD"
-            value={newExperience.fecha_fin || ''}
+            value={newExperience.end_date || ''}
             onChange={handleExperienceChange}
-            error={errors.fecha_fin}
+            error={errors.end_date}
           />
         </div>
         

@@ -1,9 +1,5 @@
 import React from "react";
-
-interface IconProps {
-  className?: string;
-  size?: number;
-}
+import { IconProps } from "../../interfaces/icons.interface";
 
 const CurrencyDollarIcon: React.FC<IconProps> = ({
   className = "",
