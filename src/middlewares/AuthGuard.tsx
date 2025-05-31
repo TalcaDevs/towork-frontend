@@ -15,21 +15,26 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       console.log('AuthGuard: Checking authentication...');
-      
+
       try {
-        // Verificar si tiene tokens válidos
         const hasValidTokens = TokenService.isAuthenticated();
         console.log('Initial auth check:', hasValidTokens);
-        
+
         if (hasValidTokens) {
-          // Intentar refrescar tokens para asegurar que siguen siendo válidos
           const refreshSuccess = await TokenService.refreshTokens();
           console.log('Token refresh result:', refreshSuccess);
-          
+
           if (!refreshSuccess) {
             console.log('Token refresh failed, user needs to login again');
             TokenService.clearTokens();
           }
+          
+          if (isAuthenticated && !TokenService.getIsAllowed()) {
+            console.log('Usuario no permitido. Redirigiendo...');
+            TokenService.clearTokens();
+            return <Navigate to="/signin" replace />;
+          }
+
         } else {
           console.log('No valid tokens found, user is not authenticated');
         }

@@ -94,9 +94,6 @@ const Profile = () => {
               })
               .filter((skill: any) => skill !== null) || [];
 
-          if (skills.length === 0) {
-            skills.push("No hay habilidades registradas");
-          }
 
           setUserData({
             firstName: apiData?.first_name || "Usuario",

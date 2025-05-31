@@ -4,7 +4,8 @@ import { NavLinkProps } from "../../interfaces/navLink.interface";
 import ArrowRightIcon from "../../assets/icons/ArrowRightIcon";
 import Logo from "../../assets/icons/Logo";
 import { navLinks } from "../../data/constant";
-import { AuthService }  from "../../services/auth/AuthService";
+import { AuthService } from "../../services/auth/AuthService";
+import { TokenService } from "../../services";
 
 const NavItem: React.FC<NavLinkProps> = ({ to, label }) => {
   const location = useLocation();
@@ -13,9 +14,8 @@ const NavItem: React.FC<NavLinkProps> = ({ to, label }) => {
   return (
     <Link
       to={to}
-      className={`text-gray-700 hover:text-blue-500 transition-colors duration-200 px-3 py-2 text-sm font-medium rounded-md ${
-        isActive ? "text-blue-500 bg-blue-50" : ""
-      }`}
+      className={`text-gray-700 hover:text-blue-500 transition-colors duration-200 px-3 py-2 text-sm font-medium rounded-md ${isActive ? "text-blue-500 bg-blue-50" : ""
+        }`}
     >
       {label}
     </Link>
@@ -27,25 +27,28 @@ const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
-  
+  const [isAllowed, setIsAllowed] = useState(TokenService.getIsAllowed());
+
   const navigate = useNavigate();
   const location = useLocation();
 
   // Verificar autenticación al cargar el componente y cuando cambie la ruta
-useEffect(() => {
-  const checkAuthStatus = () => {
-    const authStatus = AuthService.isAuthenticated();
-    setIsAuthenticated(authStatus);
-  };
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      const authStatus = AuthService.isAuthenticated();
+      const permissionStatus = TokenService.getIsAllowed();
+      setIsAuthenticated(authStatus);
+      setIsAllowed(permissionStatus);
+    };
 
-  checkAuthStatus();
-  
-  const interval = setInterval(checkAuthStatus, 5000);
-  
-  return () => {
-    clearInterval(interval);
-  };
-}, [location.pathname]);
+    checkAuthStatus();
+
+    const interval = setInterval(checkAuthStatus, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -111,11 +114,10 @@ useEffect(() => {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        isScrolled
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${isScrolled
           ? "bg-white shadow-md py-2"
           : "bg-[#f6f7f9] py-4"
-      }`}
+        }`}
     >
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between">
@@ -136,7 +138,7 @@ useEffect(() => {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            {isAuthenticated ? (
+            {isAuthenticated && isAllowed ? (
               /* Usuario autenticado - Mostrar dropdown de perfil */
               <div className="relative user-dropdown">
                 <button
@@ -147,10 +149,10 @@ useEffect(() => {
                     {getUserInitials()}
                   </div>
                   <span>Mi Cuenta</span>
-                  <svg 
+                  <svg
                     className={`w-4 h-4 transition-transform ${userDropdownOpen ? 'rotate-180' : ''}`}
-                    fill="none" 
-                    stroke="currentColor" 
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -267,9 +269,8 @@ useEffect(() => {
 
       {/* Mobile Navigation Menu */}
       <div
-        className={`md:hidden bg-white border-t border-gray-200 transition-all duration-300 overflow-hidden ${
-          mobileMenuOpen ? "max-h-96" : "max-h-0"
-        }`}
+        className={`md:hidden bg-white border-t border-gray-200 transition-all duration-300 overflow-hidden ${mobileMenuOpen ? "max-h-96" : "max-h-0"
+          }`}
       >
         <div className="container mx-auto px-4 py-3 space-y-2">
           {navLinks.map((link) => (
@@ -282,10 +283,10 @@ useEffect(() => {
               {link.label}
             </Link>
           ))}
-          
+
           {/* Mobile Auth Section */}
           <div className="pt-3 border-t border-gray-100 mt-3">
-            {isAuthenticated ? (
+            {isAuthenticated && isAllowed ? (
               /* Usuario autenticado en móvil */
               <div className="space-y-2">
                 <Link

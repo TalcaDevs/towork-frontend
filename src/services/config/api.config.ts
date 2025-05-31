@@ -4,7 +4,8 @@ export const API_CONFIG = {
   RETRY_ATTEMPTS: 3,
   TOKENS: {
     ACCESS: "access",
-    REFRESH: "refresh"
+    REFRESH: "refresh",
+    IS_ALLOWED: "isAllowed"
   }
 } as const;
 

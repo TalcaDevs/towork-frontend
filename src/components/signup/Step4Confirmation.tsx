@@ -53,6 +53,8 @@ const Step4Confirmation: React.FC<Step4Props> = ({
 
         console.log('✅ Respuesta del backend:', response);
         setSubmissionCompleted(true);
+
+        
         
       } catch (error) {
         console.error('❌ Error al enviar perfil:', error);

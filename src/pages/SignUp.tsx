@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import FeatureShowcase from "../components/sections/ShowcaseSection";
@@ -11,6 +11,7 @@ import Step2FillInfo from "../components/signup/Step2FillInfo";
 import Step3ChooseTemplate from "../components/signup/Step3ChooseTemplate";
 import Step4Confirmation from "../components/signup/Step4Confirmation";
 import StepsIndicator from "../components/signup/steps/StepsIndicator";
+import { TokenService } from "../services";
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -50,6 +51,12 @@ const SignUp: React.FC = () => {
       ...data
     }));
   };
+
+  useEffect(() => {
+  if (TokenService.getTokens()) {
+    TokenService.clearTokens();
+  }
+}, []);
 
   const nextStep = () => {
     if (currentStep < 4) {

@@ -1,6 +1,7 @@
 export interface AuthTokens {
   access: string;
   refresh: string;
+  isAllowed?: boolean;
 }
 
 export interface SignInCredentials {
@@ -11,5 +12,6 @@ export interface SignInCredentials {
 export interface AuthResponse {
   access?: string;
   refresh?: string;
+  isAllowed?: boolean;
   message: string;
 }

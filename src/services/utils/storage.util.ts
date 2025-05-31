@@ -10,7 +10,19 @@ export class StorageUtil {
       return null;
     }
   }
+  static getBooleanItem(key: string): boolean | null {
+    const value = this.getItem(key);
+    if (value === null) return null;
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return null;
+  }
 
+  static setItemFlexible(key: string, value: string | boolean): boolean {
+    const stringValue = typeof value === 'boolean' ? value.toString() : value;
+    return this.setItem(key, stringValue);
+  }
+  
   static setItem(key: string, value: string): boolean {
     if (!this.isClient) return false;
     try {

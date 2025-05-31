@@ -5,7 +5,7 @@ import DateInput from '../../common/DateInput';
 import { EducationErrors, EducationFormProps, EducationItem } from '../../../interfaces/signup.interface';
 import Title from '../../Title';
 
-const EducationForm: React.FC<EducationFormProps> = ({ 
+const EducationForm: React.FC<EducationFormProps> = ({
   educationItems = [],
   updateEducation,
   error,
@@ -16,18 +16,18 @@ const EducationForm: React.FC<EducationFormProps> = ({
     start_date: '',
     end_date: ''
   });
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [errors, setErrors] = useState<EducationErrors>({});
-  
+
   const handleEducationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewEducation({
       ...newEducation,
       [name]: value
     });
-    
+
     if (errors[name as keyof EducationErrors]) {
       setErrors({
         ...errors,
@@ -35,51 +35,58 @@ const EducationForm: React.FC<EducationFormProps> = ({
       });
     }
   };
-  
+
   // Validar el formulario
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!newEducation.institution.trim()) {
       newErrors.institution = 'La institución es requerida';
     }
-    
+
     if (!newEducation.degree.trim()) {
       newErrors.degree = 'El título es requerido';
     }
-    
+
     if (!newEducation.start_date) {
       newErrors.start_date = 'La fecha de inicio es requerida';
     } else if (!/^\d{4}-\d{2}-\d{2}$/.test(newEducation.start_date)) {
       newErrors.start_date = 'El formato debe ser YYYY-MM-DD';
     }
-    
+
     if (newEducation.end_date && !/^\d{4}-\d{2}-\d{2}$/.test(newEducation.end_date)) {
       newErrors.end_date = 'El formato debe ser YYYY-MM-DD';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
+
   const addEducation = () => {
     if (!validateForm()) return;
-    
+
     if (isEditing && editIndex !== null) {
       const updatedItems = [...educationItems];
       updatedItems[editIndex] = newEducation;
       updateEducation(updatedItems);
-      
+
       setIsEditing(false);
       setEditIndex(null);
     } else {
-      // Añadir un nuevo ítem
-      if (newEducation.institution && newEducation.degree) {
-        const updatedEducation = [...educationItems, newEducation];
-        updateEducation(updatedEducation);
-      }
+      const alreadyExists = educationItems.some(
+        (item) =>
+          item.institution === newEducation.institution &&
+          item.degree === newEducation.degree &&
+          item.start_date === newEducation.start_date &&
+          item.end_date === newEducation.end_date
+      );
+
+      if (alreadyExists) return;
+
+      const updatedEducation = [...educationItems, newEducation];
+      updateEducation(updatedEducation);
     }
-    
+
     setNewEducation({
       institution: '',
       degree: '',
@@ -87,7 +94,7 @@ const EducationForm: React.FC<EducationFormProps> = ({
       end_date: ''
     });
   };
-  
+
   const editEducation = (index: number) => {
     setNewEducation({
       ...educationItems[index],
@@ -96,7 +103,7 @@ const EducationForm: React.FC<EducationFormProps> = ({
     setIsEditing(true);
     setEditIndex(index);
   };
-  
+
   const cancelEdit = () => {
     setNewEducation({
       institution: '',
@@ -108,20 +115,20 @@ const EducationForm: React.FC<EducationFormProps> = ({
     setEditIndex(null);
     setErrors({});
   };
-  
+
   const removeEducation = (index: number) => {
     const updatedEducation = educationItems.filter((_, i) => i !== index);
     updateEducation(updatedEducation);
   };
-  
+
   return (
     <div className="border-b border-gray-200 pb-6">
 
-      <Title title="Educación" size="xs" weight="semibold" textAlign='left' margin='sm' color='secondary'/>
+      <Title title="Educación" size="xs" weight="semibold" textAlign='left' margin='sm' color='secondary' />
       {error && (
         <p className="mb-4 text-sm text-red-500">{error}</p>
       )}
-      
+
       {educationItems.length > 0 && (
         <div className="mb-4 space-y-3">
           {educationItems.map((edu, index) => (
@@ -159,12 +166,12 @@ const EducationForm: React.FC<EducationFormProps> = ({
           ))}
         </div>
       )}
-      
+
       <div className="space-y-3 bg-gray-50 p-4 rounded-lg">
         <h4 className="text-sm font-medium text-gray-700">
           {isEditing ? 'Editar Educación' : 'Agregar Nueva Educación'}
         </h4>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <Input
             id="institution"
@@ -177,7 +184,7 @@ const EducationForm: React.FC<EducationFormProps> = ({
             error={errors.institution}
             required={true}
           />
-          
+
           <Input
             id="degree"
             name="degree"
@@ -190,7 +197,7 @@ const EducationForm: React.FC<EducationFormProps> = ({
             required={true}
           />
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <DateInput
             id="start_date"
@@ -202,7 +209,7 @@ const EducationForm: React.FC<EducationFormProps> = ({
             required
             error={errors.start_date}
           />
-          
+
           <DateInput
             id="end_date"
             name="end_date"
@@ -213,7 +220,7 @@ const EducationForm: React.FC<EducationFormProps> = ({
             error={errors.end_date}
           />
         </div>
-        
+
         <div className="flex justify-end space-x-3">
           {isEditing && (
             <Button

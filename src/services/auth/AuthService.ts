@@ -9,6 +9,7 @@ import { successMessages } from '../../data/successMessages';
 export class AuthService {
   
   static async signIn(credentials: SignInCredentials): Promise<ExtendedAuthResponse> {
+    TokenService.clearTokens();
     try {
       const response = await fetch(`${API_CONFIG.BASE_URL}${API_ENDPOINTS.AUTH.SIGN_IN}`, {
         method: 'POST',
@@ -36,14 +37,28 @@ export class AuthService {
   }
 
   private static handleSuccessfulSignIn(data: any): ExtendedAuthResponse {
-    if (data.access && data.refresh) {
-      const tokensSet = TokenService.setTokens({ access: data.access, refresh: data.refresh });
-      if (tokensSet) {
-        return { message: successMessages.loginSuccess, access: data.access, refresh: data.refresh };
-      }
+  const isAllowed = !!(data.access && data.refresh); // login exitoso => true
+
+  if (isAllowed) {
+    const tokensSet = TokenService.setTokens({
+      access: data.access,
+      refresh: data.refresh,
+      isAllowed,
+    });
+
+    if (tokensSet) {
+      return {
+        message: successMessages.loginSuccess,
+        access: data.access,
+        refresh: data.refresh,
+        isAllowed,
+      };
     }
-    return { message: errorMessages.errorAuthentication };
   }
+
+  return { message: errorMessages.errorAuthentication };
+}
+
 
   static async signUp(userData: {
     first_name: string;

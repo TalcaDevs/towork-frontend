@@ -24,6 +24,7 @@ const SignInForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [ isAllowed, setIsAllowed ] = useState<boolean>(true);
 
   const from = location.state?.from?.pathname || "/profile";
 
@@ -40,20 +41,16 @@ const SignInForm: React.FC = () => {
 
     try {
       const response: ExtendedAuthResponse = await AuthService.signIn(formState);
-
+      
       if (response.access && response.refresh) {
         setSuccess(response.message || successMessages.loginSuccess);
-        
-        // Los tokens ya se guardan automáticamente en AuthService.signIn()
-        // No necesitas llamar a setTokens() manualmente
-        
+        setIsAllowed(true);
         setTimeout(() => navigate(from, { replace: true }), 1000);
       } else {
-        // Manejar diferentes tipos de error
         if (response.status === 'pending') {
           setError(response.message || successMessages.profileReviews);
         } else {
-          setError(response.message || errorMessages.verifyCredentials);
+          setError(response.message);
         }
       }
     } catch (err) {
@@ -155,7 +152,10 @@ const SignInForm: React.FC = () => {
         >
           <div className="flex items-center">
             <ErrorIcon />
-            {errorMessages.verifyCredentials}
+            {error.includes('pendiente') 
+              ? error 
+              : errorMessages.verifyCredentials
+            }
           </div>
         </motion.div>
       )}
