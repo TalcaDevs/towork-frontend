@@ -3,6 +3,7 @@ export interface UserRegistrationData {
   last_name: string;
   email: string;
   password: string;
+  terms_accepted: boolean;
   
   profile_photo?: string;    
   description?: string;      
@@ -18,7 +19,6 @@ export interface UserRegistrationData {
   skills: string[];            
   languages: LanguageItem[];     
   
-  // Decidir: usar 'template' para coincidir con el endpoint
   template: number;            
 }
 
@@ -84,6 +84,7 @@ export interface RegistrationFormErrors {
   email?: string;
   password?: string;
   password_confirm?: string;
+  terms_accepted?: string;
 }
 
 export interface BasicProfileErrors {
@@ -94,7 +95,6 @@ export interface BasicProfileErrors {
   portfolio_url?: string;  
 }
 
-// Props para los steps
 export interface Step1Props extends BaseStepProps {}
 
 export interface Step2Props extends BaseStepProps {
@@ -110,7 +110,6 @@ export interface Step4Props {
   success: string | null;
 }
 
-// Props para los formularios
 export interface BasicInfoFormProps {
   userData: {
     description: string;
@@ -170,7 +169,6 @@ export interface SkillsFormProps {
   error?: string;
 }
 
-// Interface para errores de validación del perfil completo
 export interface ProfileFormErrors extends BasicProfileErrors {
   education?: string;
   experience?: string;

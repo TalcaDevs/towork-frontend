@@ -21,6 +21,7 @@ const SignUp: React.FC = () => {
     last_name: "",
     email: "",
     password: "",
+    terms_accepted: false,
     
     profile_photo: "" ,
     description: ""  ,

@@ -81,6 +81,7 @@ export interface RegistrationFormErrors {
   email?: string;
   password?: string;
   password_confirm?: string;
+  terms_accepted?: string;
 }
 
 export const validateRegistrationForm = (
@@ -88,7 +89,8 @@ export const validateRegistrationForm = (
   lastName: string,
   email: string,
   password: string, 
-  passwordConfirm: string
+  passwordConfirm: string,
+  terms_accepted?: boolean
 ): { isValid: boolean; errors: RegistrationFormErrors } => {
   let isValid = true;
   const errors: RegistrationFormErrors = {};

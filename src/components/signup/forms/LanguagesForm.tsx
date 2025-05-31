@@ -17,12 +17,10 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
     level: ''
   });
   
-  // Estado para manejar la edición
   const [isEditing, setIsEditing] = useState(false);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   
-  // Manejadores
   const handleLanguageChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
@@ -40,7 +38,6 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
       });
     }
     
-    // Limpiar errores cuando el usuario corrige
     if (errors[name]) {
       setErrors(prev => {
         const newErrors = { ...prev };
@@ -50,7 +47,6 @@ const LanguagesForm: React.FC<LanguagesFormProps> = ({
     }
   };
   
-  // Validar el formulario
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
     

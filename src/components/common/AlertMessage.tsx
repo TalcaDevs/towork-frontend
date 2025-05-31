@@ -1,14 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { errorVariants } from '../../utils/animation';
-
-type AlertType = 'success' | 'error' | 'warning' | 'info';
-
-interface AlertMessageProps {
-  type: AlertType;
-  message: string;
-  className?: string;
-}
+import { AlertMessageProps } from '../../interfaces/common.interface';
 
 const AlertMessage: React.FC<AlertMessageProps> = ({
   type,

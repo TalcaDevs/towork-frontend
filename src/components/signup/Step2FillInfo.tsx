@@ -114,7 +114,6 @@ const handleSubmit = async (e: React.FormEvent) => {
   setError(null);
   setFormErrors({});
   
-  // Validar SIEMPRE los campos requeridos, independientemente de si hay cambios
   const validation = validateProfileForm(userData);
   
   if (!validation.isValid) {
@@ -125,7 +124,6 @@ const handleSubmit = async (e: React.FormEvent) => {
     return;
   }
   
-  // Solo guardar localmente y continuar al siguiente paso
   setSuccess('Información guardada localmente. Continúa al siguiente paso.');
   nextStep();
 };

@@ -10,7 +10,6 @@ export class ProfileService {
     try {
       return await HttpClient.post<ApiResponse>(API_ENDPOINTS.PROFILE.SAVE, profileData, true);
     } catch (error) {
-      console.error('SaveProfile error:', error);
       throw new Error(errorMessages.errorSaveProfile);
     }
   }
@@ -19,7 +18,6 @@ export class ProfileService {
     try {
       return await HttpClient.get<ProfileServiceResponse>(API_ENDPOINTS.PROFILE.GET, true);
     } catch (error) {
-      console.error('GetCurrentUser error:', error);
       return null;
     }
   }

@@ -9,6 +9,18 @@ export const mockProfileData = {
         period: "Sin especificar",
       },
     ],
+    languages: [
+      {
+        id: 1,
+        name: "Español",
+        level: "Nativo",
+      },
+      {
+        id: 2,
+        name: "Inglés",
+        level: "Intermedio",
+      },
+    ],
     certifications: [
       {
         id: 1,

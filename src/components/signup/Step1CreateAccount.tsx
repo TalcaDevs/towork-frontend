@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { motion } from "framer-motion";
 import Input from "../Input";
 import Button from "../Button";
@@ -17,6 +17,8 @@ import { successMessages } from "../../data/successMessages";
 import { errorMessages } from "../../data/errorMessages";
 import EmailIcon from "../../assets/icons/EmailIcon";
 import LockIcon from "../../assets/icons/LockIcon";
+import ErrorIcon from "../../assets/icons/ErrorIcon";
+import CorrectIcon from "../../assets/icons/CorrectIcon";
 
 const Step1CreateAccount: React.FC<Step1Props> = ({
   userData,
@@ -29,7 +31,6 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
   setSuccess,
 }) => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
-
   const [formErrors, setFormErrors] = useState<RegistrationFormErrors>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +59,18 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
     }
   };
 
+  const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    updateUserData({ terms_accepted: isChecked });
+
+    if (formErrors.terms_accepted) {
+      setFormErrors({
+        ...formErrors,
+        terms_accepted: undefined,
+      });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -68,7 +81,8 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
       userData.last_name,
       userData.email,
       userData.password,
-      passwordConfirm
+      passwordConfirm,
+      userData.terms_accepted
     );
 
     if (!validation.isValid) {
@@ -84,23 +98,18 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
         last_name: userData.last_name,
         email: userData.email,
         password: userData.password,
+        terms_accepted: userData.terms_accepted,
       });
 
       if (response.access && response.refresh) {
         setSuccess(response.message || successMessages.accountCreated);
-
         nextStep();
       } else {
-        setError(
-          response.message ||
-            errorMessages.emailUsed
-        );
+        setError(response.message || errorMessages.emailUsed);
       }
     } catch (error) {
       console.error("Signup error:", error);
-      setError(
-        errorMessages.serverError
-      );
+      setError(errorMessages.serverError);
     } finally {
       setLoading(false);
     }
@@ -161,7 +170,7 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
             error={formErrors.email}
             icon={
               <div className="flex items-center border-r border-blue-500 pr-2 mr-2">
-                <EmailIcon/>
+                <EmailIcon />
               </div>
             }
           />
@@ -206,6 +215,60 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
             }
           />
         </motion.div>
+
+        {/* Nueva sección de términos y condiciones */}
+        <motion.div variants={itemVariants} className="mt-6">
+          <div className="flex items-start space-x-3">
+            <div className="flex items-center h-5">
+              <input
+                id="terms_accepted"
+                name="terms_accepted"
+                type="checkbox"
+                checked={userData.terms_accepted || false}
+                onChange={handleTermsChange}
+                className={`w-4 h-4 rounded border-2 text-blue-600 focus:ring-blue-500 focus:ring-2 transition-colors ${
+                  formErrors.terms_accepted
+                    ? "border-red-500 bg-red-50"
+                    : "border-gray-300"
+                }`}
+              />
+            </div>
+            <div className="text-sm">
+              <label htmlFor="terms_accepted" className="text-gray-700">
+                Acepto los{" "}
+                <a
+                  href="/terms-of-service"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 underline font-medium"
+                >
+                  términos de servicio
+                </a>{" "}
+                y la{" "}
+                <a
+                  href="/privacy-policy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 underline font-medium"
+                >
+                  política de privacidad
+                </a>
+              </label>
+            </div>
+          </div>
+
+          {formErrors.terms_accepted && (
+            <motion.div
+              className="mt-2 flex items-center text-red-600 text-sm"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ErrorIcon />
+              <span className="ml-1">{formErrors.terms_accepted}</span>
+            </motion.div>
+          )}
+        </motion.div>
       </div>
 
       {error && (
@@ -214,7 +277,8 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
           {...errorVariants}
         >
           <div className="flex items-center">
-            {error}
+            <ErrorIcon />
+            {errorMessages.termsNotAccepted}
           </div>
         </motion.div>
       )}
@@ -227,26 +291,7 @@ const Step1CreateAccount: React.FC<Step1Props> = ({
         >
           {loading ? (
             <div className="flex items-center justify-center">
-              <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
+              <CorrectIcon />
               Creando cuenta...
             </div>
           ) : (

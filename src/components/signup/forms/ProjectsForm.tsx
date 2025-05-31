@@ -3,12 +3,12 @@ import { motion } from 'framer-motion';
 import Input from '../../Input';
 import Button from '../../Button';
 import { ProjectItem, ProjectsFormProps } from '../../../interfaces/signup.interface';
+import { itemVariants } from '../../../utils/animation';
 
 const ProjectsForm: React.FC<ProjectsFormProps> = ({ 
   projects = [],
   updateProjects
 }) => {
-  // Estado local para el nuevo proyecto
   const [newProject, setNewProject] = useState<ProjectItem>({
     title: '',
     description: '',
@@ -21,11 +21,6 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   
-  // Animación
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
   
   const handleProjectChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -43,7 +38,6 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
     }
   };
   
-  // Validar el formulario
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
     
@@ -55,7 +49,6 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
       newErrors.description = 'La descripción es requerida';
     }
     
-    // Validar que las URLs tengan un formato correcto si se proporcionan
     if (newProject.project_url && 
         !/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(newProject.project_url)) {
       newErrors.project_url = 'Ingrese una URL válida';
@@ -81,14 +74,12 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({
       setIsEditing(false);
       setEditIndex(null);
     } else {
-      // Añadir un nuevo ítem
       if (newProject.title && newProject.description) {
         const updatedProjects = [...projects, newProject];
         updateProjects(updatedProjects);
       }
     }
     
-    // Reset form
     setNewProject({
       title: '',
       description: '',

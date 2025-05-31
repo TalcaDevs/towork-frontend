@@ -1,7 +1,7 @@
 import React from "react";
 import { IconProps } from "../../interfaces/icons.interface";
 
-const CurrencyDollarIcon: React.FC<IconProps> = ({
+const LockIcon: React.FC<IconProps> = ({
   size = 20,
 }) => {
   return (
@@ -24,5 +24,5 @@ const CurrencyDollarIcon: React.FC<IconProps> = ({
   );
 };
 
-export default CurrencyDollarIcon;
+export default LockIcon;
 

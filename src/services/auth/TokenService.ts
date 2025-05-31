@@ -28,10 +28,15 @@ export class TokenService {
   }
 
   static isAuthenticated(): boolean {
-    const tokens = this.getTokens();
-    if (!tokens) return false;
-    return this.isTokenValid(tokens.access);
+  const tokens = this.getTokens();
+  
+  if (!tokens) {
+    return false;
   }
+  
+  const isValid = this.isTokenValid(tokens.access);
+  return isValid;
+}
 
   private static isTokenValid(token: string): boolean {
     try {
@@ -62,7 +67,6 @@ export class TokenService {
       }
       return false;
     } catch (error) {
-      console.error('Token refresh failed:', error);
       this.clearTokens();
       return false;
     }

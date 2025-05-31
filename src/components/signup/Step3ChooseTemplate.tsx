@@ -5,6 +5,8 @@ import { Step3Props } from '../../interfaces/signup.interface';
 import { containerVariants, itemVariants, errorVariants } from '../../utils/animation';
 import { templateOptions } from "../../data/template"
 import TemplateCard from './steps/TemplateCard';
+import { errorMessages } from '../../data/errorMessages';
+import { successMessages } from '../../data/successMessages';
 
 const Step3ChooseTemplate: React.FC<Step3Props> = ({ 
   userData, 
@@ -17,7 +19,6 @@ const Step3ChooseTemplate: React.FC<Step3Props> = ({
   setError, 
   setSuccess 
 }) => {
-  // Usar number en lugar de string, y valor por defecto 0 en lugar de string vacío
   const [selectedTemplate, setSelectedTemplate] = useState<number>(userData.template || 0);
   
   const handleSelectTemplate = (templateId: number) => {
@@ -27,10 +28,10 @@ const Step3ChooseTemplate: React.FC<Step3Props> = ({
   
   const handleContinue = () => {
     if (selectedTemplate && selectedTemplate > 0) {
-      setSuccess('Plantilla seleccionada con éxito');
+      setSuccess(successMessages.templateSelected);
       nextStep();
     } else {
-      setError('Por favor selecciona una plantilla para continuar');
+      setError(errorMessages.selectTemplate);
     }
   };
   

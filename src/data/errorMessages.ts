@@ -8,4 +8,6 @@ export const errorMessages = {
   errorAuthentication: "Error de autenticación, por favor intente de nuevo",
   errorUnknown: "Error desconocido, por favor intente de nuevo",
   completeAllFields: "Por favor completa todos los campos requeridos antes de continuar",
-};
+  selectTemplate: "Por favor selecciona una plantilla para continuar",
+  termsNotAccepted: "Debes aceptar los términos y condiciones para continuar",
+};  

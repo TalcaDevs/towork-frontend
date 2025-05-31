@@ -31,7 +31,6 @@ export class AuthService {
         message: data.message || errorMessages.serverError
       })))();
     } catch (error) {
-      console.error('SignIn error:', error);
       return { message: errorMessages.serverError };
     }
   }
@@ -51,6 +50,7 @@ export class AuthService {
     last_name: string;
     email: string;
     password: string;
+    terms_accepted?: boolean;
   }): Promise<AuthResponse> {
     try {
       const response = await HttpClient.post<AuthResponse>(API_ENDPOINTS.AUTH.SIGN_UP, userData);
@@ -61,7 +61,6 @@ export class AuthService {
       
       return response;
     } catch (error) {
-      console.error('SignUp error:', error);
       return { message: errorMessages.serverError };
     }
   }
@@ -72,7 +71,6 @@ export class AuthService {
         await HttpClient.post(API_ENDPOINTS.AUTH.LOGOUT, {}, true);
       }
     } catch (error) {
-      console.error('SignOut error:', error);
     } finally {
       TokenService.clearTokens();
     }
