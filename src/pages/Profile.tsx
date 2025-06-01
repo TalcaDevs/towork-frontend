@@ -1,43 +1,24 @@
 import { useEffect, useState } from "react";
 import { AuthService, ProfileService } from "../services";
 import { useNavigate } from "react-router-dom";
-import {
-  EducationItem,
-  ExperienceItem,
-  CertificationItem,
-  ProjectItem,
-  LanguageItem,
-} from "../interfaces/signup.interface";
 import { mockProfileData } from "../data/profileData";
 import { errorMessages } from "../data/errorMessages";
-import { successMessages } from "../data/successMessages";
-import ModernTemplate from "../pages/templates/modernTemplate"; // Ajusta la ruta
+import { ProfileData } from "../interfaces/profileData.interface";
+import EditProfile from "./EditProfile";
 
-interface ProfileData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: string;
-  location?: string;
-  phone?: string;
-  description?: string;
-  profilePhoto: string;
-  linkedin?: string;
-  portfolio?: string;
-  github?: string;
-  website?: string;
-  stats: {
-    applications: number;
-    profileViews: number;
-    offers: number;
-  };
-  skills: string[];
-  experience: ExperienceItem[];
-  education: EducationItem[];
-  projects: ProjectItem[];
-  certifications: CertificationItem[];
-  languages: LanguageItem[];
+interface Skill {
+  name: string;
 }
+
+interface SkillWrapper {
+  skill: Skill;
+}
+
+interface DirectSkill {
+  name: string;
+}
+
+type SkillItem = string | SkillWrapper | DirectSkill;
 
 const Profile = () => {
   const [userData, setUserData] = useState<ProfileData>({
@@ -72,28 +53,25 @@ const Profile = () => {
         window.scrollTo(0, 0);
 
         const response = await ProfileService.getCurrentUser();
-
         if (response) {
-          console.log("Datos del usuario obtenidos:", response);
-
           const apiData = response.data || response;
 
-          const skills =
+          // Transformo el array de skills a un array de strings
+          const skills: string[] =
             apiData?.skills
-              ?.map((skillItem: any) => {
+              ?.map((skillItem: SkillItem): string | null => {
                 if (typeof skillItem === "string") {
                   return skillItem;
                 }
-                if (skillItem?.skill?.name) {
+                if ("skill" in skillItem && typeof skillItem.skill.name === "string") {
                   return skillItem.skill.name;
                 }
-                if (skillItem?.name) {
+                if ("name" in skillItem) {
                   return skillItem.name;
                 }
                 return null;
               })
-              .filter((skill: any) => skill !== null) || [];
-
+              ?.filter((s: string | null): s is string => s !== null) ?? [];
 
           setUserData({
             firstName: apiData?.first_name || "Usuario",
@@ -165,7 +143,7 @@ const Profile = () => {
 
   return (
     <div>
-      <ModernTemplate
+      <EditProfile
         userData={userData}
         onLogout={handleLogout}
         loading={loading}

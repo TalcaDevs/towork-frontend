@@ -63,6 +63,10 @@ export class HttpClient {
     return this.request<T>(endpoint, { method: 'GET', requireAuth });
   }
 
+  static getPublic<T>(endpoint: string): Promise<T> {
+    return this.request<T>(endpoint, { method: 'GET' });
+  }
+
   static post<T>(endpoint: string, body?: any, requireAuth = false): Promise<T> {
     return this.request<T>(endpoint, { method: 'POST', body, requireAuth });
   }
