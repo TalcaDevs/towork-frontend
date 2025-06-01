@@ -7,7 +7,7 @@ import {
 } from '../../interfaces/signup.interface';
 
 export interface ProfileServiceResponse {
-  data: ProfileInfo | ProfileInfo[]; 
+  data: ProfileInfo | ProfileInfo[] | PublicProfileInfo; 
   message: string;
   success?: boolean;
   error?: string;
@@ -111,6 +111,15 @@ export interface ProfileStats {
   offers_received: number;
   profile_completion: number;
   last_updated: string;
+}
+
+export interface PublicProfileInfo extends ProfileInfo {
+  original_user_id?: number;
+  published_at?: string;
+  last_updated?: string;
+  terms_accepted?: boolean;
+  terms_accepted_date?: string;
+  template_name?: 'modern' | 'creative' | 'professional';
 }
 
 export default ProfileInfo;

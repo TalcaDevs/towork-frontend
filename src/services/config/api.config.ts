@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
   PROFILE: {
     SAVE: "/users/save-profile/",
     GET: "/users/get-profile/",
-    UPDATE: "/users/profile/"
+    UPDATE: "/users/profile/",
+    PUBLIC: "/public/get-profile/"
   }
 } as const;

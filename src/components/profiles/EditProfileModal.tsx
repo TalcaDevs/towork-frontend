@@ -11,7 +11,6 @@ import { LanguagesSection } from "./LanguagesSection";
 import { SkillsSection } from "./SkillsSection";
 import { CancelButton } from "../buttons/CancelButton";
 import { SaveButton } from "../buttons/SaveButton";
-import { processSkills } from "../../utils/skills";
 import { FormDataType } from "../../interfaces/types";
 import { mapUserDataToFormData } from "../../utils/mapUserData";
 
@@ -34,14 +33,11 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }: any) => {
     languages: [],
   });
   const [loading, setLoading] = useState(false);
-
-  // Estado para notificaciones
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
-  // Función para mostrar notificaciones
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
-    setTimeout(() => setToast(null), 4000); // Auto-close después de 4 segundos
+    setTimeout(() => setToast(null), 4000);
   };
 
   useEffect(() => {
@@ -56,7 +52,6 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }: any) => {
     }
   };
 
-  // Función para cerrar modal y resetear cambios
   const handleCancel = () => {
     resetFormData(); // Resetea todos los cambios
     onClose(); // Cierra el modal

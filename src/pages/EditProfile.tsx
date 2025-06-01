@@ -1,60 +1,22 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  EducationItem,
-  ExperienceItem,
-  CertificationItem,
-  ProjectItem,
-  LanguageItem,
-} from "../../interfaces/signup.interface";
-import DownLoadIcon from "../../assets/icons/DownLoadIcon";
-import EditIcon from "../../assets/icons/EditIcon";
-import { containerVariants, itemVariants } from "../../utils/animation";
-import EditProfileModal from "../../components/profiles/EditProfileModal";
-import { ProfileService } from "../../services/profile/ProfileService";
-import Button from "../../components/Button";
-import ArrowRightIcon from "../../assets/icons/ArrowRightIcon";
+import DownLoadIcon from "../assets/icons/DownLoadIcon";
+import { containerVariants, itemVariants } from "../utils/animation";
+import EditProfileModal from "../components/profiles/EditProfileModal";
+import { ProfileService } from "../services/profile/ProfileService";
+import Button from "../components/Button";
+import ArrowRightIcon from "../assets/icons/ArrowRightIcon";
+import { EditProfileProps } from "../interfaces/editProfile.interface";
 
-interface ModernTemplateProps {
-  userData: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    role: string;
-    location?: string;
-    phone?: string;
-    description?: string;
-    profilePhoto: string;
-    linkedin?: string;
-    portfolio?: string;
-    github?: string;
-    website?: string;
-    stats: {
-      applications: number;
-      profileViews: number;
-      offers: number;
-    };
-    skills: string[];
-    experience: ExperienceItem[];
-    education: EducationItem[];
-    projects: ProjectItem[];
-    certifications: CertificationItem[];
-    languages: LanguageItem[];
-  };
-  onLogout: () => void;
-  loading?: boolean;
-  error?: string | null;
-}
 
-const ModernTemplate: React.FC<ModernTemplateProps> = ({
+
+const EditProfile: React.FC<EditProfileProps> = ({
   userData,
-  onLogout,
   loading = false,
-  error = null,
+  error = null
 }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
-  const handleSaveProfile = async (updatedData: any) => {
+  const handleSaveProfile = async (updatedData: EditProfileProps["userData"]) => {
     try {
       await ProfileService.saveProfile(updatedData);
       alert("Perfil actualizado correctamente");
@@ -609,4 +571,4 @@ const ModernTemplate: React.FC<ModernTemplateProps> = ({
   );
 };
 
-export default ModernTemplate;
+export default EditProfile;
