@@ -8,6 +8,7 @@ import {
 
 export interface EditProfileProps {
   userData: {
+    id: number;
     firstName: string;
     lastName: string;
     email: string;

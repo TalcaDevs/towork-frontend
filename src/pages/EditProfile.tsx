@@ -7,6 +7,7 @@ import { ProfileService } from "../services/profile/ProfileService";
 import Button from "../components/Button";
 import ArrowRightIcon from "../assets/icons/ArrowRightIcon";
 import { EditProfileProps } from "../interfaces/editProfile.interface";
+import ShareProfileButton from "../components/ShareButton";
 
 const EditProfile: React.FC<EditProfileProps> = ({
   userData,
@@ -92,6 +93,7 @@ const EditProfile: React.FC<EditProfileProps> = ({
                   >
                     {userData.email}
                   </motion.p>
+                  <ShareProfileButton />
                 </div>
 
                 {/* Información de contacto y profesional */}
