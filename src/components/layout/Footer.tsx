@@ -8,7 +8,7 @@ import ArrowRightIcon from "../../assets/icons/ArrowRightIcon";
 const Footer: React.FC = () => {
   return (
     <footer className="mt-auto">
-      <div className="bg-slate-900 text-white pt-16 pb-12 mx-4 sm:mx-8 lg:mx-12 mt-8 rounded-t-2xl shadow-lg">
+      <div className="bg-slate-900 text-white pt-16 pb-12 mt-8 shadow-lg">
         <div className="container mx-auto px-4 mb-12">
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-between gap-6 mb-10">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">Contáctanos</h2>
