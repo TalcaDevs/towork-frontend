@@ -7,6 +7,7 @@ import {
 } from "../interfaces/signup.interface";
 
 export interface ProfileData {
+  id: number;
   firstName: string;
   lastName: string;
   email: string;

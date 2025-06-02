@@ -22,6 +22,7 @@ type SkillItem = string | SkillWrapper | DirectSkill;
 
 const Profile = () => {
   const [userData, setUserData] = useState<ProfileData>({
+    id: 0,
     firstName: "Cargando...",
     lastName: "",
     email: "Cargando...",
@@ -76,6 +77,7 @@ const Profile = () => {
 
               console.log(apiData.template)
           setUserData({
+            id: apiData?.id || 0,
             firstName: apiData?.first_name || "Usuario",
             lastName: apiData?.last_name || "",
             email: apiData?.email || "usuario@ejemplo.com",

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ModernProps } from '../../interfaces/publicProfileData.interface'
+import ShareProfileButton from '../../components/ShareButton';
 
 const Creative: React.FC<ModernProps> = ({ userData }) => {
   const formatDate = (dateString: string) => {
@@ -93,6 +94,8 @@ const Creative: React.FC<ModernProps> = ({ userData }) => {
                     LinkedIn
                   </a>
                 )}
+
+                <ShareProfileButton />
                 
                 {userData.portfolio_url && (
                   <a href={userData.portfolio_url} target="_blank" rel="noopener noreferrer"

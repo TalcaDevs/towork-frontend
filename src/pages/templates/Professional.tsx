@@ -1,5 +1,6 @@
 import React from 'react';
 import { ModernProps } from '../../interfaces/publicProfileData.interface'
+import ShareProfileButton from '../../components/ShareButton';
 
 const Professional: React.FC<ModernProps> = ({ userData }) => {
   const formatDate = (dateString: string) => {
@@ -115,6 +116,9 @@ const Professional: React.FC<ModernProps> = ({ userData }) => {
                     </a>
                   </div>
                 )}
+
+                <ShareProfileButton />
+                
                 {userData.email && (
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 bg-gray-400 rounded flex items-center justify-center">
@@ -285,6 +289,7 @@ const Professional: React.FC<ModernProps> = ({ userData }) => {
           </div>
         </div>
       </div>
+      
     </div>
   );
 };
