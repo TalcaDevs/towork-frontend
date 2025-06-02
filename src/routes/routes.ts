@@ -6,6 +6,7 @@ import SignIn from "../pages/SignIn";
 import AuthGuard from "../middlewares/AuthGuard";
 import NotFound from "../pages/404";
 import TemplateLoader from "../pages/templates/TemplateLoader";
+import TermsAndConditions from "../pages/TermsAndConditions";
 
 // Public routes accessible to all users
 export const routes: RouteObject[] = [
@@ -21,8 +22,10 @@ export const routes: RouteObject[] = [
     path: "/signin",
     element: React.createElement(SignIn),
   },
-
-  // Protected route with AuthGuard
+  {
+    path: "/terminos-y-condiciones",
+    element: React.createElement(TermsAndConditions),
+  },
   {
     path: "/profile",
     element: React.createElement(
