@@ -1,9 +1,5 @@
 import React from "react";
-
-interface IconProps {
-  className?: string;
-  size?: number;
-}
+import { IconProps } from "../../interfaces/icons.interface";
 
 const MapPinIcon: React.FC<IconProps> = ({ className = "", size = 20 }) => {
   return (

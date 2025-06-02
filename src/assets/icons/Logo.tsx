@@ -1,10 +1,7 @@
 import React from 'react';
+import { IconProps } from '../../interfaces/icons.interface';
 
-interface LogoProps {
-  className?: string;
-}
-
-const Logo: React.FC<LogoProps> = ({ className = '' }) => {
+const Logo: React.FC<IconProps> = ({ className = '' }) => {
   return (
     <div className={`bg-blue-500 rounded-lg flex items-center justify-center ${className}`}>
       <svg 

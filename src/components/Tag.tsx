@@ -1,10 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { TagProps } from "../interfaces/tag.interface";
-
-interface AnimatedTagProps extends TagProps {
-  delay?: number;
-}
+import { AnimatedTagProps } from "../interfaces/tag.interface";
 
 const Tag: React.FC<AnimatedTagProps> = ({ label, delay = 0 }) => {
   return (
@@ -18,7 +14,7 @@ const Tag: React.FC<AnimatedTagProps> = ({ label, delay = 0 }) => {
       }}
       whileHover={{ 
         scale: 1.05, 
-        backgroundColor: "#DBEAFE", // lighter blue on hover
+        backgroundColor: "#DBEAFE",
         transition: { duration: 0.2 } 
       }}
       whileTap={{ scale: 0.95 }}

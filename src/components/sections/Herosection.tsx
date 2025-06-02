@@ -3,39 +3,10 @@ import { motion } from "framer-motion";
 import SearchInput from "../SearchInput";
 import StarPurple from "../../assets/icons/StarPurpleIcon";
 import StarBlue from "../../assets/icons/StarBlueIcon";
-
-interface PopularJobCategoryProps {
-  label: string;
-  index: number;
-}
-
-const PopularJobCategory: React.FC<PopularJobCategoryProps> = ({ label, index }) => {
-  return (
-    <motion.div 
-      className="bg-blue-100 rounded-full border-2 border-blue-200 text-black px-4 py-2 text-sm font-medium hover:bg-blue-200 transition-colors cursor-pointer"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ 
-        duration: 0.4, 
-        delay: 0.8 + (index * 0.1),
-        ease: "easeOut" 
-      }}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      {label}
-    </motion.div>
-  );
-};
+import { categories } from "../../data/constant";
+import { PopularJobCategory } from "../../components/sections/PopularJobCategory";
 
 const HeroSection: React.FC = () => {
-  const categories = [
-    "Tecnología", 
-    "Comercio Electrónico", 
-    "Salud y Bienestar", 
-    "Desarrollo"
-  ];
-
   return (
     <section className="bg-[#f6f7f9] py-12 md:py-16 lg:py-20 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
@@ -184,7 +155,6 @@ const HeroSection: React.FC = () => {
                   />
                 </motion.div>
 
-                {/* Floating icons with animation */}
                 <motion.div 
                   className="absolute top-10 right-10 hidden md:block"
                   initial={{ opacity: 0, y: -20 }}

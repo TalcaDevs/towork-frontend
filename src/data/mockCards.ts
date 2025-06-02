@@ -7,7 +7,7 @@ export const mockCards: CardProps[] = [
     tags: ["react", "frontend", "javascript"],
     hoursAgo: 3,
     description: "Aprende los conceptos básicos de React y cómo crear tu primera aplicación.",
-    imageUrl: "#",
+    imageUrl: "public/images/react.jpg",
     author: "Juan Pérez",
     likes: 42
   },
@@ -17,7 +17,7 @@ export const mockCards: CardProps[] = [
     tags: ["typescript", "javascript", "desarrollo"],
     hoursAgo: 5,
     description: "Una guía completa para empezar con TypeScript en tus proyectos.",
-    imageUrl: "#",
+    imageUrl: "public/images/typescript.png",
     author: "María García",
     likes: 28
   },
@@ -27,7 +27,7 @@ export const mockCards: CardProps[] = [
     tags: ["vite", "react", "configuración"],
     hoursAgo: 24,
     description: "Aprende cómo configurar un proyecto React con Vite para un desarrollo más rápido.",
-    imageUrl: "#",
+    imageUrl: "public/images/vite-react.png",
     likes: 15
   },
   {
@@ -36,7 +36,7 @@ export const mockCards: CardProps[] = [
     tags: ["react", "componentes", "frontend"],
     hoursAgo: 48,
     description: "Cómo crear componentes reutilizables en React para mejorar tu flujo de trabajo.",
-    imageUrl: "#",
+    imageUrl: "public/images/react-component.jpg",
     author: "Carlos Rodríguez",
     likes: 33
   }

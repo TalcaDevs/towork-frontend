@@ -1,58 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { itemVariants, containerVariants } from '../../utils/animation';
+import { features } from '../../data/featureShowCase';
+
 
 const FeatureShowcase: React.FC = () => {
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { 
-        staggerChildren: 0.1,
-        delayChildren: 0.3
-      }
-    }
-  };
-  
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-
-  // Features to showcase
-  const features = [
-    {
-      title: "Encuentra tu trabajo ideal",
-      description: "Miles de oportunidades laborales actualizadas diariamente",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      )
-    },
-    {
-      title: "Conexión directa con empresas",
-      description: "Comunícate directamente con los reclutadores sin intermediarios",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-        </svg>
-      )
-    },
-    {
-      title: "Perfil profesional destacado",
-      description: "Destaca tus habilidades y experiencia para atraer a los mejores empleadores",
-      icon: (
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
-      )
-    }
-  ];
-
   return (
     <div className="h-full w-full bg-gradient-to-br from-slate-800 to-slate-900 relative p-8 md:p-12 flex flex-col justify-between overflow-hidden">
-      {/* Background image with overlay */}
       <div className="absolute inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1565328240088-1cdad16d123a?q=80&w=1000&auto=format&fit=crop" 
@@ -62,9 +16,7 @@ const FeatureShowcase: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-slate-800/80 to-slate-900/90"></div>
       </div>
 
-      {/* Content */}
       <div className="relative z-10 flex flex-col justify-between h-full">
-        {/* Header */}
         <motion.div 
           className="mb-12"
           initial={{ opacity: 0, y: -20 }}
@@ -89,7 +41,6 @@ const FeatureShowcase: React.FC = () => {
           </motion.p>
         </motion.div>
 
-        {/* Features list */}
         <motion.ul 
           className="space-y-6 mb-8"
           variants={containerVariants}
@@ -116,7 +67,6 @@ const FeatureShowcase: React.FC = () => {
           ))}
         </motion.ul>
 
-        {/* Testimonial */}
         <motion.div 
           className="bg-slate-700/50 rounded-lg p-4 border border-slate-600"
           initial={{ opacity: 0, y: 20 }}
@@ -139,7 +89,6 @@ const FeatureShowcase: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Decorative elements */}
         <motion.div 
           className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32"
           animate={{ 

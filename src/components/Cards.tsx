@@ -1,13 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { CardProps } from "../interfaces/cards.interface";
+import { ExtendedCardProps } from "../interfaces/cards.interface";
 import ClockIcon from "../assets/icons/ClockIcon";
 import Tag from "./Tag";
 import LikesIcon from "../assets/icons/LikesIcon";
-
-interface ExtendedCardProps extends CardProps {
-  className?: string;
-}
+import { imageVariants, contentVariants } from "../utils/animation";
 
 const Cards: React.FC<ExtendedCardProps> = ({
   id,
@@ -21,22 +18,6 @@ const Cards: React.FC<ExtendedCardProps> = ({
   className = "",
 }) => {
   const placeholderImageUrl = "https://placehold.co/600x400/e2e8f0/1e293b?text=ToWork";
-
-  // Animation variants for image hover effect
-  const imageVariants = {
-    hover: {
-      scale: 1.05,
-      transition: { duration: 0.3 }
-    }
-  };
-
-  // Animation variants for content
-  const contentVariants = {
-    hover: {
-      y: -5,
-      transition: { duration: 0.2 }
-    }
-  };
 
   return (
     <motion.div

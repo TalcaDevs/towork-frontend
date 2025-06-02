@@ -1,11 +1,6 @@
-import React, { InputHTMLAttributes, useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
-  label?: string;
-  icon?: React.ReactNode;
-}
+import { InputProps } from '../interfaces/input.interface';
 
 const Input: React.FC<InputProps> = ({ 
   error, 
@@ -17,13 +12,12 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
-  // Instead of using motion.input directly, we'll wrap a regular input with motion.div
   return (
     <div className="w-full">
       {label && (
         <label htmlFor={props.id} className="block text-sm font-medium text-gray-700 mb-1">
           {label}
-          {required && <span className="text-blue-500 ml-1">*</span>}
+          {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
       
@@ -64,7 +58,6 @@ const Input: React.FC<InputProps> = ({
               viewBox="0 0 20 20" 
               fill="currentColor"
               initial={{ scale: 0 }}
-              animate={{ scale: 1, rotate: [0, 15, 0] }}
               transition={{ type: "spring", stiffness: 260, damping: 20 }}
             >
               <path 
