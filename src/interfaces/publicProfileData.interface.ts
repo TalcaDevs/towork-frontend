@@ -1,12 +1,12 @@
-// Definimos primero las interfaces para las estructuras anidadas:
+
 
 interface EducationItem {
   id: number;
   institution: string;
   degree: string;
-  start_date: string; // formato "YYYY-MM-DD"
-  end_date: string; // formato "YYYY-MM-DD"
-  created_at: string; // ISO date
+  start_date: string;
+  end_date: string;
+  created_at: string;
 }
 
 interface WorkExperienceItem {
@@ -14,18 +14,18 @@ interface WorkExperienceItem {
   company: string;
   position: string;
   description: string;
-  start_date: string; // formato "YYYY-MM-DD"
-  end_date: string; // formato "YYYY-MM-DD"
-  created_at: string; // ISO date
+  start_date: string;
+  end_date: string;
+  created_at: string;
 }
 
 interface CertificationItem {
   id: number;
   name: string;
   institution: string;
-  date_obtained: string; // formato "YYYY-MM-DD"
+  date_obtained: string;
   certificate_url: string;
-  created_at: string; // ISO date
+  created_at: string;
 }
 
 interface ProjectItem {
@@ -35,7 +35,7 @@ interface ProjectItem {
   tools_used: string;
   project_url: string;
   project_image: string;
-  created_at: string; // ISO date
+  created_at: string;
 }
 
 interface SkillNested {
@@ -57,7 +57,6 @@ interface LanguageItem {
   level: string;
 }
 
-// Ahora definimos la interfaz principal para userData:
 
 interface UserData {
   id: number;
@@ -75,7 +74,7 @@ interface UserData {
   role: string;
   template_name: string;
   terms_accepted: boolean;
-  terms_accepted_date: string; // ISO date
+  terms_accepted_date: string;
 
   education: EducationItem[];
   work_experience: WorkExperienceItem[];
@@ -84,11 +83,9 @@ interface UserData {
   skills: SkillItem[];
   languages: LanguageItem[];
 
-  published_at: string; // ISO date
-  last_updated: string; // ISO date
+  published_at: string;
+  last_updated: string;
 }
-
-// Finalmente, el tipo de props que usaría tu componente:
 
 export interface ModernProps {
   userData: UserData;

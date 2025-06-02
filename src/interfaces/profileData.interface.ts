@@ -30,4 +30,5 @@ export interface ProfileData {
   projects: ProjectItem[];
   certifications: CertificationItem[];
   languages: LanguageItem[];
+  template: number;
 }

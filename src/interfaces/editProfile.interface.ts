@@ -31,6 +31,7 @@ export interface EditProfileProps {
     projects: ProjectItem[];
     certifications: CertificationItem[];
     languages: LanguageItem[];
+    template: number;
   };
   loading?: boolean;
   error?: string | null;

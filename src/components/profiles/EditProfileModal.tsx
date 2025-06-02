@@ -31,6 +31,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }: any) => {
     certifications: [],
     skills: [],
     languages: [],
+    template: 1,
   });
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -121,7 +122,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }: any) => {
         projects: formData.projects,
         skills: cleanSkills,
         languages: formData.languages,
-        template: 1,
+        template: formData.template || 1, 
       };
 
       console.log("Datos a enviar al API:", apiData);

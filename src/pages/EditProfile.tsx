@@ -8,15 +8,15 @@ import Button from "../components/Button";
 import ArrowRightIcon from "../assets/icons/ArrowRightIcon";
 import { EditProfileProps } from "../interfaces/editProfile.interface";
 
-
-
 const EditProfile: React.FC<EditProfileProps> = ({
   userData,
   loading = false,
-  error = null
+  error = null,
 }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const handleSaveProfile = async (updatedData: EditProfileProps["userData"]) => {
+  const handleSaveProfile = async (
+    updatedData: EditProfileProps["userData"]
+  ) => {
     try {
       await ProfileService.saveProfile(updatedData);
       alert("Perfil actualizado correctamente");
@@ -553,14 +553,6 @@ const EditProfile: React.FC<EditProfileProps> = ({
               userData={userData}
               onSave={handleSaveProfile}
             />
-            <motion.button
-              className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-xl font-semibold flex items-center justify-center gap-3"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <DownLoadIcon />
-              Descargar CV
-            </motion.button>
           </motion.div>
         </motion.div>
       </div>

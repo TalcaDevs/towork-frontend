@@ -19,4 +19,5 @@ export type FormDataType = {
   certifications: any[];
   skills: string[];
   languages: any[];
+  template: number;
 };  

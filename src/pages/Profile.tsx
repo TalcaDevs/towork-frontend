@@ -39,6 +39,7 @@ const Profile = () => {
     projects: [],
     certifications: [],
     languages: [],
+    template: 1,
   });
 
   const [loading, setLoading] = useState(true);
@@ -73,6 +74,7 @@ const Profile = () => {
               })
               ?.filter((s: string | null): s is string => s !== null) ?? [];
 
+              console.log(apiData.template)
           setUserData({
             firstName: apiData?.first_name || "Usuario",
             lastName: apiData?.last_name || "",
@@ -97,6 +99,7 @@ const Profile = () => {
             projects: apiData?.projects || [],
             certifications: apiData?.certifications || [],
             languages: apiData?.languages || [],
+            template: apiData?.template || 1,
           });
         } else {
           console.error("No se recibieron datos del usuario");
@@ -131,6 +134,8 @@ const Profile = () => {
 
     fetchUserData();
   }, [navigate]);
+
+  console.log("Datos del usuario:", userData);
 
   const handleLogout = async () => {
     try {

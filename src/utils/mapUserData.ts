@@ -16,5 +16,6 @@ export function mapUserDataToFormData(userData: any) {
     certifications: userData.certifications || [],
     skills: processSkills(userData.skills || []),
     languages: userData.languages || [],
+    template: userData.template || 1,
   };
 }
