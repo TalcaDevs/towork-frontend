@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Button from "../Button";
+import Button from "../buttons/Button";
 import { Step4Props } from "../../interfaces/signup.interface";
 import {
   containerVariants,

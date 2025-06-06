@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Input from '../../Input';
 import { itemVariants } from '../../../utils/animation';
 import { SkillsFormProps } from '../../../interfaces/signup.interface';
-import Button from '../../Button';
+import Button from "../../buttons/Button";
 
 const SkillsForm: React.FC<SkillsFormProps> = ({ skills = [], updateSkills, error }) => {
   const [skillInput, setSkillInput] = useState('');

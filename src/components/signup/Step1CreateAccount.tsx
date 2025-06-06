@@ -1,7 +1,7 @@
 import React, { use, useState } from "react";
 import { motion } from "framer-motion";
 import Input from "../Input";
-import Button from "../Button";
+import Button from "../buttons/Button";
 import { AuthService } from "../../services";
 import {
   Step1Props,

@@ -1,8 +1,18 @@
 import React from 'react'
-import { TitleProps } from '../interfaces/title.interface'
+import { TitleProps } from '../../interfaces/title.interface'
 
-const Title: React.FC<TitleProps> = ({ title, size = 'lg', weight = 'bold', textAlign = 'left', margin = 'md', color = 'primary' }) => {
+const Title: React.FC<TitleProps> = ({ 
+  children, 
+  size = 'lg', 
+  weight = 'bold', 
+  textAlign = 'left', 
+  margin = 'md', 
+  color = 'primary',
+  as: Component = 'h2',
+  className = ''
+}) => {
   const sizeClasses = {
+    xxs: 'text-xs',
     xs: 'text-xl',
     sm: 'text-2xl',
     md: 'text-4xl',
@@ -18,7 +28,7 @@ const Title: React.FC<TitleProps> = ({ title, size = 'lg', weight = 'bold', text
     semibold: 'font-semibold',
     bold: 'font-bold',
     extrabold: 'font-extrabold',
-    black: 'font-black'
+    black: 'font-black',
   };
 
   const textAlignClasses = {
@@ -37,22 +47,27 @@ const Title: React.FC<TitleProps> = ({ title, size = 'lg', weight = 'bold', text
   }
 
   const colorClasses = {
-    primary: 'text-blue-600',
+    primary: 'text-gray-900',
     secondary: 'text-gray-600',
     success: 'text-green-600',
     danger: 'text-red-600',
     warning: 'text-yellow-600',
-    info: 'text-teal-600'
+    info: 'text-teal-600',
   };
 
-  const sizeClass = sizeClasses[size] || sizeClasses.lg;
-  const weightClass = weightClasses[weight] || weightClasses.bold;
-  const textAlignClass = textAlignClasses[textAlign] || textAlignClasses.left;
-  const marginClass = marginClasses[margin] || marginClasses.md;
-  const colorClass = colorClasses[color] || colorClasses.primary;
+  const combinedClasses = [
+    sizeClasses[size],
+    weightClasses[weight],
+    textAlignClasses[textAlign],
+    marginClasses[margin],
+    colorClasses[color],
+    className
+  ].filter(Boolean).join(' ');
 
   return (
-    <h2 className={`${sizeClass} ${weightClass} ${textAlignClass} ${marginClass} ${colorClass}`}>{title}</h2>
+    <Component className={combinedClasses}>
+      {children}
+    </Component>
   )
 }
 

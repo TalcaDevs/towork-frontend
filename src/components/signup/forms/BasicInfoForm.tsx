@@ -3,12 +3,14 @@
   import Input from '../../Input';
   import { itemVariants } from '../../../utils/animation';
   import { BasicInfoFormProps } from '../../../interfaces/signup.interface';
-  import Title from '../../Title';
+  import Title from '../../ui/Title';
 
   const BasicInfoForm: React.FC<BasicInfoFormProps> = ({ userData, handleChange, errors = {} }) => {
     return (
       <motion.div variants={itemVariants} className="border-b border-gray-200 pb-6">
-        <Title title="Información Básica" size="xs" weight="semibold" textAlign='left' margin='sm' color='secondary'/>
+        <Title size="xs" weight="semibold" textAlign='left' margin='sm' color='secondary'>
+          Información Básica
+        </Title>
         <div className="space-y-4">
           <div>
             <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">

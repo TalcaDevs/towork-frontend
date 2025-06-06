@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Input from '../../Input';
-import Button from '../../Button';
+import Button from '../../buttons/Button';
 import DateInput from '../../common/DateInput';
 import { EducationErrors, EducationFormProps, EducationItem } from '../../../interfaces/signup.interface';
-import Title from '../../Title';
+import Title from '../../ui/Title';
 
 const EducationForm: React.FC<EducationFormProps> = ({
   educationItems = [],
@@ -124,7 +124,7 @@ const EducationForm: React.FC<EducationFormProps> = ({
   return (
     <div className="border-b border-gray-200 pb-6">
 
-      <Title title="Educación" size="xs" weight="semibold" textAlign='left' margin='sm' color='secondary' />
+      <Title size="xs" weight="semibold" textAlign='left' margin='sm' color='secondary'>Educación</Title>
       {error && (
         <p className="mb-4 text-sm text-red-500">{error}</p>
       )}

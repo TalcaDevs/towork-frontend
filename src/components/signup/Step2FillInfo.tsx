@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import Button from '../Button';
+import Button from '../buttons/Button';
 import { Step2Props, LanguageItem } from '../../interfaces/signup.interface';
 import { containerVariants, itemVariants } from '../../utils/animation';
 import BasicInfoForm from './forms/BasicInfoForm';

@@ -1,10 +1,8 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { ExtendedCardProps } from "../interfaces/cards.interface";
 import ClockIcon from "../assets/icons/ClockIcon";
 import Tag from "./Tag";
 import LikesIcon from "../assets/icons/LikesIcon";
-import { imageVariants, contentVariants } from "../utils/animation";
 
 const Cards: React.FC<ExtendedCardProps> = ({
   id,
@@ -20,67 +18,47 @@ const Cards: React.FC<ExtendedCardProps> = ({
   const placeholderImageUrl = "https://placehold.co/600x400/e2e8f0/1e293b?text=ToWork";
 
   return (
-    <motion.div
-      className={`bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 ${className}`}
-      whileHover="hover"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+    <div
+      className={`bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md ${className}`}
     >
+      {/* Imagen */}
       {imageUrl && (
-        <motion.div className="h-48 w-full overflow-hidden">
-          <motion.img
+        <div className="h-48 w-full overflow-hidden">
+          <img
             src={imageUrl !== "#" ? imageUrl : placeholderImageUrl}
             alt={title}
-            className="w-full h-full object-cover"
-            variants={imageVariants}
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
           />
-        </motion.div>
+        </div>
       )}
-      <motion.div 
-        className="p-5"
-        variants={contentVariants}
-      >
-        <motion.h3 
-          className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.1, duration: 0.3 }}
-        >
+
+      {/* Contenido */}
+      <div className="p-5">
+        {/* Título */}
+        <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
           {title}
-        </motion.h3>
+        </h3>
         
+        {/* Descripción */}
         {description && (
-          <motion.p 
-            className="mt-2 text-gray-600 text-sm md:text-base line-clamp-3 mb-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.3 }}
-          >
+          <p className="mt-2 text-gray-600 text-sm md:text-base line-clamp-3 mb-3">
             {description}
-          </motion.p>
+          </p>
         )}
         
-        <motion.div 
-          className="flex flex-wrap gap-2 mb-4"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.3 }}
-        >
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mb-4">
           {tags.slice(0, 3).map((tag, index) => (
             <Tag 
               key={`${id}-tag-${index}`} 
               label={tag} 
             />
           ))}
-        </motion.div>
+        </div>
         
-        <motion.div 
-          className="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between text-gray-500 text-sm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.3 }}
-        >
+        {/* Footer con metadata */}
+        <div className="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between text-gray-500 text-sm">
+          {/* Tiempo */}
           <div className="flex items-center gap-1">
             <ClockIcon className="w-4 h-4 text-gray-400" />
             <span>
@@ -88,6 +66,7 @@ const Cards: React.FC<ExtendedCardProps> = ({
             </span>
           </div>
           
+          {/* Autor y Likes */}
           <div className="flex items-center gap-4">
             {author && (
               <div className="text-gray-600 font-medium">
@@ -96,30 +75,15 @@ const Cards: React.FC<ExtendedCardProps> = ({
             )}
             
             {likes !== undefined && (
-              <motion.div 
-                className="flex items-center gap-1"
-                whileHover={{ scale: 1.1 }}
-              >
+              <div className="flex items-center gap-1 hover:scale-105 transition-transform cursor-pointer">
                 <span>{likes}</span>
-                <motion.div 
-                  whileHover={{ scale: 1.2 }}
-                  animate={{ 
-                    scale: [1, 1.1, 1],
-                  }}
-                  transition={{ 
-                    repeat: Infinity, 
-                    repeatType: "reverse", 
-                    duration: 1.5 
-                  }}
-                >
-                  <LikesIcon />
-                </motion.div>
-              </motion.div>
+                <LikesIcon />
+              </div>
             )}
           </div>
-        </motion.div>
-      </motion.div>
-    </motion.div>
+        </div>
+      </div>
+    </div>
   );
 };
 

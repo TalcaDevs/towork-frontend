@@ -210,9 +210,9 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      <div className="bg-white py-4 text-center">
+      <div className="bg-slate-800 py-4 text-center">
         <div className="container mx-auto px-4">
-          <p className="text-gray-600">
+          <p className="text-white">
             Copyright © {new Date().getFullYear()} Todos los Derechos Reservados por{" "}
             <a 
               href="https://talcadevs.vercel.app/" 

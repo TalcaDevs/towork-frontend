@@ -3,11 +3,10 @@ import { motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import Input from "../components/Input";
-import Button from "../components/Button";
+import Button from "./buttons/Button";
 import { AuthService } from "../services";
 import { ExtendedAuthResponse } from "../services/interface/api.interface";
 import { successMessages } from "../data/successMessages";
-import { errorMessages } from "../data/errorMessages";
 import EmailIcon from "../assets/icons/EmailIcon";
 import LockIcon from "../assets/icons/LockIcon";
 import CorrectIcon from "../assets/icons/CorrectIcon";

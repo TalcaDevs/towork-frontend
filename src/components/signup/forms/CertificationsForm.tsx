@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Input from '../../Input';
-import Button from '../../Button';
+import Button from '../../buttons/Button';
 import DateInput from '../../common/DateInput';
 import { CertificationItem, CertificationsFormProps } from '../../../interfaces/signup.interface';
 import { itemVariants } from '../../../utils/animation';
-import Title from '../../Title';
+import Title from '../../ui/Title';
 
 const CertificationsForm: React.FC<CertificationsFormProps> = ({ 
   certifications = [],
@@ -123,7 +123,7 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({
   
   return (
     <motion.div variants={itemVariants} className="border-b border-gray-200 pb-6">
-      <Title title="Certificaciones" size="xs" weight="semibold" textAlign='left' margin='sm' color='secondary'/>
+      <Title size="xs" weight="semibold" textAlign='left' margin='sm' color='secondary'>Certificaciones</Title>
       
       {/* Lista de certificaciones */}
       {certifications.length > 0 && (

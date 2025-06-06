@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { CardSectionProps } from "../../interfaces/cards.interface";
 import Cards from "../Cards";
-import Title from "../Title";
+import Title from "../ui/Title";
 
 const CardSection: React.FC<CardSectionProps> = ({ title, cards }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,7 +27,7 @@ const CardSection: React.FC<CardSectionProps> = ({ title, cards }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Title title={title} size="md" weight="bold" />
+          <Title size="md" weight="bold">{title}</Title>
         </motion.div>
 
         <div className="relative">
