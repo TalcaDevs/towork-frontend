@@ -11,24 +11,10 @@ import LinkedInIcon from "../assets/icons/LinkedInIcon";
 import GitHubIcon from "../assets/icons/GitHubIcon";
 import ProfileIconText from "../components/ProfileIconText";
 import BentoWhiteBox from "../components/ui/BentoWhiteBox";
-import { useNavigate } from "react-router-dom";
-import { AuthService, useCurrentUser } from "../services";
+import { useCurrentUser } from "../services";
 
 const Profile: React.FC<EditProfileProps> = ({}) => {
-  const navigate = useNavigate();
-  const { userData, loading, error, refetch } = useCurrentUser();
-  void refetch;
-
-  console.log("Datos del usuario:", userData);
-
-  const handleLogout = async () => {
-    try {
-      await AuthService.signOut();
-      navigate("/signin");
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-    }
-  };
+  const { userData, loading, error } = useCurrentUser();
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const handleSaveProfile = async (
