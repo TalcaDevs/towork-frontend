@@ -36,8 +36,9 @@ const Profile: React.FC<EditProfileProps> = ({}) => {
   ) => {
     try {
       await ProfileService.saveProfile(updatedData);
+      await refetch();
       alert("Perfil actualizado correctamente");
-      window.location.reload(); // Para recargar los datos
+      setIsEditModalOpen(false);
     } catch (error) {
       console.error("Error:", error);
       alert("Error al guardar");
