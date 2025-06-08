@@ -17,7 +17,7 @@ export const languageLevels = [
   export const navLinks = [
     { to: "/", label: "Inicio" },
     { to: "/encontrar-trabajos", label: "Encontrar Trabajos" },
-    { to: "/encontrar-candidatos", label: "Encontrar Candidatos" },
+    { to: "/talentos", label: "Encontrar Candidatos" },
     { to: "/paginas", label: "Páginas" },
     { to: "/blog", label: "Blog" },
     { to: "/contacto", label: "Contacto" },
