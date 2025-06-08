@@ -33,6 +33,8 @@ export class ProfileService {
 
   static async getPublicProfiles(): Promise<PublicProfileInfo[] | []> {
     try {
+      const response = await HttpClient.getPublic<any>(API_ENDPOINTS.PROFILE.PUBLIC_LIST);
+      const data = response?.results || response?.data;
       const response = await HttpClient.getPublic<ProfileServiceResponse>(API_ENDPOINTS.PROFILE.PUBLIC_LIST);
       const data = (response as any).data;
       return Array.isArray(data) ? data : [];
