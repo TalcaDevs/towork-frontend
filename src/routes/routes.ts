@@ -3,6 +3,7 @@ import React from "react";
 import Home from "../pages/Home";
 import SignUp from "../pages/SignUp";
 import SignInPage from "../pages/SignIn";
+import FindApplicants from "../pages/FindApplicants";
 import AuthGuard from "../middlewares/AuthGuard";
 import NotFound from "../pages/404";
 import TemplateLoader from "../pages/templates/TemplateLoader";
@@ -25,6 +26,10 @@ export const routes: RouteObject[] = [
   {
     path: "/terminos-y-condiciones",
     element: React.createElement(TermsAndConditions),
+  },
+  {
+    path: "/talentos",
+    element: React.createElement(FindApplicants),
   },
   {
     path: "/profile",
