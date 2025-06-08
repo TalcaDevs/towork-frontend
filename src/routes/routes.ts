@@ -2,7 +2,7 @@ import { RouteObject } from "react-router-dom";
 import React from "react";
 import Home from "../pages/Home";
 import SignUp from "../pages/SignUp";
-import SignIn from "../pages/SignIn";
+import SignInPage from "../pages/SignIn";
 import AuthGuard from "../middlewares/AuthGuard";
 import NotFound from "../pages/404";
 import TemplateLoader from "../pages/templates/TemplateLoader";
@@ -20,7 +20,7 @@ export const routes: RouteObject[] = [
   },
   {
     path: "/signin",
-    element: React.createElement(SignIn),
+    element: React.createElement(SignInPage),
   },
   {
     path: "/terminos-y-condiciones",
