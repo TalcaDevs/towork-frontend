@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import EditProfileModal from "../components/profiles/EditProfileModal";
 import { ProfileService } from "../services/profile/ProfileService";
 import Button from "../components/buttons/Button";
-import ArrowRightIcon from "../assets/icons/ArrowRightIcon";
 import { EditProfileProps } from "../interfaces/editProfile.interface";
 import ShareProfileButton from "../components/ShareButton";
 import Title from "../components/ui/Title";
 import Paragraph from "../components/ui/Paragraph";
-import LinkedInIcon from "../assets/icons/LinkedInIcon";
-import GitHubIcon from "../assets/icons/GitHubIcon";
+import SocialLinks from "../components/profiles/SocialLinks";
 import ProfileIconText from "../components/ProfileIconText";
 import BentoWhiteBox from "../components/ui/BentoWhiteBox";
 import ProfileSection from "../components/profiles/ProfileSection";
@@ -20,22 +18,10 @@ import { ProjectsList } from "../components/profiles/ProjectsList";
 import { CertificationsList } from "../components/profiles/CertificationsList";
 import { useNavigate } from "react-router-dom";
 import { AuthService, useCurrentUser } from "../services";
+import { useCurrentUser } from "../services";
 
 const Profile: React.FC<EditProfileProps> = ({}) => {
-  const navigate = useNavigate();
-  const { userData, loading, error, refetch } = useCurrentUser();
-  void refetch;
-
-  console.log("Datos del usuario:", userData);
-
-  const handleLogout = async () => {
-    try {
-      await AuthService.signOut();
-      navigate("/signin");
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-    }
-  };
+  const { userData, loading, error } = useCurrentUser();
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const handleSaveProfile = async (
@@ -43,8 +29,9 @@ const Profile: React.FC<EditProfileProps> = ({}) => {
   ) => {
     try {
       await ProfileService.saveProfile(updatedData);
+      await refetch();
       alert("Perfil actualizado correctamente");
-      window.location.reload(); // Para recargar los datos
+      setIsEditModalOpen(false);
     } catch (error) {
       console.error("Error:", error);
       alert("Error al guardar");
@@ -145,69 +132,12 @@ const Profile: React.FC<EditProfileProps> = ({}) => {
                     >
                       Enlaces
                     </Title>
-                    <div className="space-y-2">
-                      {userData.linkedin && (
-                        <a
-                          href={userData.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
-                        >
-                          <LinkedInIcon />
-                          LinkedIn
-                        </a>
-                      )}
-
-                      {userData.portfolio && (
-                        <a
-                          href={userData.portfolio}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-green-600 hover:text-green-700 transition-colors"
-                        >
-                          <ArrowRightIcon />
-                          Portfolio
-                        </a>
-                      )}
-
-                      {/* PENDIENTE */}
-                      {userData.github && (
-                        <a
-                          href={userData.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-gray-600 hover:text-gray-700 transition-colors"
-                        >
-                          <GitHubIcon />
-                          GitHub
-                        </a>
-                      )}
-
-                      {/* PENDIENTE */}
-                      {userData.website && (
-                        <a
-                          href={userData.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-purple-600 hover:text-purple-700 transition-colors"
-                        >
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                            />
-                          </svg>
-                          Website
-                        </a>
-                      )}
-                    </div>
+                    <SocialLinks
+                      linkedin={userData.linkedin}
+                      portfolio={userData.portfolio}
+                      github={userData.github}
+                      website={userData.website}
+                    />
                   </div>
                 </div>
 
@@ -223,8 +153,6 @@ const Profile: React.FC<EditProfileProps> = ({}) => {
               </div>
             </div>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             <div className="space-y-8">
               <ProfileSection title="Habilidades">
