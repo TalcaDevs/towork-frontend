@@ -9,6 +9,15 @@ import Paragraph from "../components/ui/Paragraph";
 import SocialLinks from "../components/profiles/SocialLinks";
 import ProfileIconText from "../components/ProfileIconText";
 import BentoWhiteBox from "../components/ui/BentoWhiteBox";
+import ProfileSection from "../components/profiles/ProfileSection";
+import { SkillsList } from "../components/profiles/SkillsList";
+import { EducationList } from "../components/profiles/EducationList";
+import { LanguagesList } from "../components/profiles/LanguagesList";
+import { ExperienceList } from "../components/profiles/ExperienceList";
+import { ProjectsList } from "../components/profiles/ProjectsList";
+import { CertificationsList } from "../components/profiles/CertificationsList";
+import { useNavigate } from "react-router-dom";
+import { AuthService, useCurrentUser } from "../services";
 import { useCurrentUser } from "../services";
 
 const Profile: React.FC<EditProfileProps> = ({}) => {
@@ -146,231 +155,40 @@ const Profile: React.FC<EditProfileProps> = ({}) => {
           </div>
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             <div className="space-y-8">
-              <BentoWhiteBox>
-                <Title
-                  size="xs"
-                  weight="semibold"
-                  color="primary"
-                  margin="sm"
-                  textAlign="left"
-                >
-                  Habilidades
-                </Title>
-
-                <div className="flex flex-wrap gap-2">
-                  {userData.skills.length > 0 &&
-                  userData.skills[0] !== "No hay habilidades registradas" ? (
-                    userData.skills.map((skill, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors"
-                      >
-                        {skill}
-                      </span>
-                    ))
-                  ) : (
-                    <p className="text-gray-500 text-sm">
-                      No hay habilidades registradas
-                    </p>
-                  )}
-                </div>
-              </BentoWhiteBox>
+              <ProfileSection title="Habilidades">
+                <SkillsList skills={userData.skills} />
+              </ProfileSection>
 
               {userData.education.length > 0 && (
-                <BentoWhiteBox>
-                  <Title
-                    size="xs"
-                    weight="semibold"
-                    color="primary"
-                    margin="sm"
-                    textAlign="left"
-                  >
-                    Educación
-                  </Title>
-                  <div className="space-y-4">
-                    {userData.education.map((edu, index) => (
-                      <div
-                        key={index}
-                        className="border-l-4 border-green-500 pl-4 py-2"
-                      >
-                        <h4 className="font-semibold text-gray-900">
-                          {edu.degree}
-                        </h4>
-                        <p className="text-gray-600">{edu.institution}</p>
-                        <p className="text-sm text-gray-500">
-                          {edu.start_date} - {edu.end_date || "Presente"}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </BentoWhiteBox>
+                <ProfileSection title="Educación">
+                  <EducationList education={userData.education} />
+                </ProfileSection>
               )}
 
               {userData.languages.length > 0 && (
-                <BentoWhiteBox>
-                  <Title
-                    size="xs"
-                    weight="semibold"
-                    color="primary"
-                    margin="sm"
-                    textAlign="left"
-                  >
-                    Idiomas
-                  </Title>
-                  <div className="space-y-2">
-                    {userData.languages.map((lang, index) => (
-                      <div
-                        key={index}
-                        className="flex justify-between items-center p-2 bg-gray-50 rounded"
-                      >
-                        <span className="font-medium">
-                          {lang.language?.name || "Idioma"}
-                        </span>
-                        <span className="text-sm text-gray-600 capitalize">
-                          {lang.level}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </BentoWhiteBox>
+                <ProfileSection title="Idiomas">
+                  <LanguagesList languages={userData.languages} />
+                </ProfileSection>
               )}
             </div>
 
             <div className="xl:col-span-2 space-y-8">
-              <BentoWhiteBox>
-                <Title
-                  size="xs"
-                  weight="semibold"
-                  color="primary"
-                  margin="sm"
-                  textAlign="left"
-                >
-                  Experiencia profesional
-                </Title>
-                <div className="space-y-6">
-                  {userData.experience.length > 0 ? (
-                    userData.experience.map((exp, index) => (
-                      <div
-                        key={index}
-                        className="border-l-4 border-purple-500 pl-6 py-4 bg-gray-50 rounded-r-lg"
-                      >
-                        <h4 className="text-lg font-semibold text-gray-900">
-                          {exp.position}
-                        </h4>
-                        <p className="text-purple-600 font-medium">
-                          {exp.company}
-                        </p>
-                        <p className="text-sm text-gray-500 mb-2">
-                          {exp.start_date} - {exp.end_date || "Presente"}
-                        </p>
-                        {exp.description && (
-                          <p className="text-gray-700">{exp.description}</p>
-                        )}
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-gray-500">
-                      No hay experiencia registrada
-                    </p>
-                  )}
-                </div>
-              </BentoWhiteBox>
+              <ProfileSection title="Experiencia profesional">
+                <ExperienceList experience={userData.experience} />
+              </ProfileSection>
 
-              {/* Proyectos */}
               {userData.projects.length > 0 && (
-                <BentoWhiteBox>
-                  <Title
-                    size="xs"
-                    weight="semibold"
-                    color="primary"
-                    margin="sm"
-                    textAlign="left"
-                  >
-                    Proyectos destacados
-                  </Title>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {userData.projects.map((project, index) => (
-                      <div
-                        key={index}
-                        className="border border-gray-200 rounded-lg p-5 hover:shadow-md transition-shadow bg-gradient-to-br from-white to-gray-50"
-                      >
-                        <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                          {project.title}
-                        </h4>
-                        <p className="text-gray-600 text-sm mb-3">
-                          {project.description}
-                        </p>
-                        <p className="text-orange-600 text-sm font-medium mb-3">
-                          {project.tools_used}
-                        </p>
-                        {project.project_url && (
-                          <a
-                            href={project.project_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium"
-                          >
-                            Ver proyecto
-                            <svg
-                              className="w-4 h-4"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                              />
-                            </svg>
-                          </a>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </BentoWhiteBox>
+                <ProfileSection title="Proyectos destacados">
+                  <ProjectsList projects={userData.projects} />
+                </ProfileSection>
               )}
 
-              {/* Certificaciones */}
               {userData.certifications.length > 0 && (
-                <BentoWhiteBox>
-                  <Title
-                    size="xs"
-                    weight="semibold"
-                    color="primary"
-                    margin="sm"
-                    textAlign="left"
-                  >
-                    Certificaciones
-                  </Title>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                    {userData.certifications.map((cert, index) => (
-                      <div
-                        key={index}
-                        className="border-l-4 border-red-500 pl-4 py-2"
-                      >
-                        <h4 className="font-medium text-gray-800">
-                          {cert.name}
-                        </h4>
-                        <p className="text-gray-600">{cert.institution}</p>
-                        <p className="text-sm text-gray-500">
-                          {cert.date_obtained}
-                        </p>
-                        {cert.certificate_url && (
-                          <a
-                            href={cert.certificate_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-500 hover:text-blue-700 text-sm"
-                          >
-                            Ver certificado →
-                          </a>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </BentoWhiteBox>
+                <ProfileSection title="Certificaciones">
+                  <CertificationsList
+                    certifications={userData.certifications}
+                  />
+                </ProfileSection>
               )}
             </div>
           </div>
