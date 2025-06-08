@@ -30,4 +30,14 @@ export class ProfileService {
       return null;
     }
   }
+
+  static async getPublicProfiles(): Promise<PublicProfileInfo[] | []> {
+    try {
+      const response = await HttpClient.getPublic<any>(API_ENDPOINTS.PROFILE.PUBLIC_LIST);
+      const data = response?.results || response?.data;
+      return Array.isArray(data) ? data : [];
+    } catch (error) {
+      return [];
+    }
+  }
 }
