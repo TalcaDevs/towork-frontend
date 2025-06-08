@@ -30,6 +30,9 @@ const ApplicantCard: React.FC<ApplicantCardProps> = ({ profile }) => {
           <h3 className="text-lg font-semibold text-gray-800">
             {profile.first_name} {profile.last_name}
           </h3>
+          {profile.role && (
+            <p className="text-sm text-gray-500">{profile.role}</p>
+          )}
           {profile.location && (
             <p className="text-sm text-gray-500">{profile.location}</p>
           )}
