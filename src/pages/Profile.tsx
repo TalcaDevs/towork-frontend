@@ -8,7 +8,6 @@ import Title from "../components/ui/Title";
 import Paragraph from "../components/ui/Paragraph";
 import SocialLinks from "../components/profiles/SocialLinks";
 import ProfileIconText from "../components/ProfileIconText";
-import BentoWhiteBox from "../components/ui/BentoWhiteBox";
 import ProfileSection from "../components/profiles/ProfileSection";
 import { SkillsList } from "../components/profiles/SkillsList";
 import { EducationList } from "../components/profiles/EducationList";
@@ -16,11 +15,9 @@ import { LanguagesList } from "../components/profiles/LanguagesList";
 import { ExperienceList } from "../components/profiles/ExperienceList";
 import { ProjectsList } from "../components/profiles/ProjectsList";
 import { CertificationsList } from "../components/profiles/CertificationsList";
-import { useNavigate } from "react-router-dom";
-import { AuthService, useCurrentUser } from "../services";
 import { useCurrentUser } from "../services";
 
-const Profile: React.FC<EditProfileProps> = ({}) => {
+const Profile: React.FC<EditProfileProps> = () => {
   const { userData, loading, error } = useCurrentUser();
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -29,7 +26,6 @@ const Profile: React.FC<EditProfileProps> = ({}) => {
   ) => {
     try {
       await ProfileService.saveProfile(updatedData);
-      await refetch();
       alert("Perfil actualizado correctamente");
       setIsEditModalOpen(false);
     } catch (error) {
